@@ -23,9 +23,9 @@
 * Complete Assigned Tasks
   * Those assigned tasks will complete them in a timely manner (i.e. by or before the date due) and will clearly communicate with team members in the instance that a task will take longer than the prospective due date.
 * Celebrate Each Other's Victories: 
-  * Given the completion of tasks, we team members celebrate each other's victories with much revelry and drinking and compliments. HAZAAAAHHHHH. "Teams who celebrate their team members' successes have the greatest success" -Marty
-  * "Don't Be a Dick" -Marty
-   "Roger that" -Team Pot.
+  * Given the completion of tasks, team members will celebrate each other's victories with much revelry, drinking and compliments. HAZAAAAHHHHH. "Teams who celebrate their team members' successes have the greatest success." -Marty B.
+    * "Basically, don't Be a Dick" -Marty B.
+      * "Roger that" -Team Pot Trackers.
 
 Daily Stand-Ups (TBD)
 
