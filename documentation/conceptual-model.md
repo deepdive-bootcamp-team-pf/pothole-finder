@@ -28,8 +28,8 @@
 * photoCloudinaryId
 
 ### Pothole Verification
-* potholeVerificationProfileID (foreign key)
-* potholeVerificationPotholeID (foreign key)
+* potholeVerificationProfileId (foreign key)
+* potholeVerificationPotholeId (foreign key)
 * potholeVerificationPhoto
 * potholeVerificationDateTime
 
