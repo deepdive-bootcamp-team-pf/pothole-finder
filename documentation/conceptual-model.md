@@ -1,45 +1,40 @@
 ## Entities
 ### Profile
-* profileID (primary key)
-* autenticationToken
+* profileId (primary key)
+* profileAuthenticationToken
 * profileEmail
-* firstName
-* lastName
-* username
-* password
+* profileFirstName
+* profileLastName
+* profileUsername
+* profileHash
 
-### Pothole Post
-* potholePostID (primary key)
-* postUserID (foreign key)
-* latitude
-* longitude
-* severity
-* postDateTime
-* photo
-* description
+### Pothole
+* potholeId (primary key)
+* potholeProfileId (foreign key)
+* potholeLat
+* potholeLng
+* potholeSeverity
+* potholeDateTime
+* potholeDescription
 
 ### Photo
-* photoID (primary key)
-* name
-* description
-* uploadDateTime
+* photoId (primary key)
+* photoProfileId (foreign key)
+* photoPotholeId (foreign key)
+* photoName
+* photoDescription
+* photoDateTime
+* photoURL
+* photoCloudinaryId
 
 ### Pothole Verification
-* potholeVerificationID (primary key)
-* potholeVerificationProfileID (foreign key)
-* potholeVerificationPotholeID (foreign key)
-* potholeVerificationTimestamp
-
-### Report Ticket
-* reportTicketID (primary key)
-* reportTicketProfileID (foreign key)
-* subject
-* description
-* reportDateTime
+* potholeVerificationProfileId (foreign key)
+* potholeVerificationPotholeId (foreign key)
+* potholeVerificationPhoto
+* potholeVerificationDateTime
 
 ## Multiplicity
-- One to many profiles can have many posts
-- One to many profiles can submit many report tickets
+- One to many profiles can have many potholes
 - One to many profiles can verify pothole posts
 - One to many pothole posts can have many photos
 - One to many pothole posts can have many pothole verifications
