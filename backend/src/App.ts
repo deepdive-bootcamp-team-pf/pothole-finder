@@ -1,4 +1,5 @@
 import express, { Application } from 'express'
+import helmet from "helmet";
 import morgan from 'morgan'
 // Routes
 import { indexRoute } from './apis/index.route'
@@ -8,7 +9,7 @@ export class App {
   app: Application;
 
   constructor (
-    private port?: number | string
+      private port?: number | string
   ) {
     this.app = express()
     this.settings()
@@ -25,6 +26,7 @@ export class App {
   private middlewares () :void {
     this.app.use(morgan('dev'))
     this.app.use(express.json())
+    this.app.use(helmet())
   }
 
   // private method for setting up routes in their basic sense (ie. any route that performs an action on profiles starts with /profiles)
