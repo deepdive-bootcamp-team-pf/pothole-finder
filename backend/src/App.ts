@@ -3,6 +3,7 @@ import helmet from "helmet";
 import morgan from 'morgan'
 // Routes
 import { indexRoute } from './apis/index.route'
+import { photoRoute } from './apis/photo/photo.route'
 
 // The following class creates the app and instantiates the server
 export class App {
@@ -33,6 +34,7 @@ export class App {
   private routes () :void {
     // TODO add "/apis"
     this.app.use('/apis', indexRoute)
+    this.app.use('/apis/photo', photoRoute)
   }
 
   // starts the server and tells the terminal to post a message that the server is running and on what port
