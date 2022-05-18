@@ -1,9 +1,9 @@
 import express, { Application } from 'express'
-import helmet from "helmet";
+import helmet from 'helmet'
 import morgan from 'morgan'
 // Routes
-import { indexRoute } from './apis/index.route'
-import { photoRoute } from './apis/photo/photo.route'
+import { indexRoute } from '../apis/index.route'
+import { photoRoute } from '../apis/photo/photo.route'
 
 // The following class creates the app and instantiates the server
 export class App {
