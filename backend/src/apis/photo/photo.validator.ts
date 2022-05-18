@@ -25,11 +25,17 @@ export const photoValidator: Schema = {
             options: {min: 1, max: 512}
         },
         trim: true,
-        escape: true
+        escape: true,
+        optional: {
+            options: {
+                nullable: true
+            }
+        }
     },
     photoName: {
         isLength: {
-            errorMessage: 'Name must be '
+            errorMessage: 'Name must be between 1 and 32 characters.',
+            options: {min: 1, max: 32}
         }
     },
     photoURL: {
