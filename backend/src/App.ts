@@ -1,5 +1,5 @@
 import express, { Application } from 'express'
-import helmet from "helmet";
+import helmet from "helmet"
 import morgan from 'morgan'
 // Routes
 import { indexRoute } from './apis/index.route'
