@@ -9,4 +9,4 @@ export async function getPotholeByPrimaryKey(potholeId: string) : Promise<Pothol
     const pothole: Pothole[] = result[0] as Pothole[]
     await mysqlConnection.release()
     return pothole.length === 1 ? {...pothole[0]} : null
-}
+} 
