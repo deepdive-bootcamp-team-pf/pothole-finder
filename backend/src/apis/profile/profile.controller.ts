@@ -3,7 +3,7 @@ import { Profile } from '../../utils/interfaces/Profile'
 import { insertProfile } from '../../utils/profile/insertProfile'
 import { removeProfile } from '../../utils/profile/removeProfile'
 import { selectAllProfile } from '../../utils/profile/selectAllProfile'
-import { selectProfileByPrimaryKey } from '../../utils/profile/selectProfileByPrimaryKey'
+import { selectProfileByProfileId } from '../../utils/profile/selectProfileByProfileId'
 import { updateProfile } from '../../utils/profile/updateProfile'
 
 export async function postProfileController(request: Request, response: Response): Promise<Response> {
@@ -62,7 +62,7 @@ export async function getAllProfileController(request: Request, response: Respon
 export async function getProfileByProfileIdController(request: Request, response: Response): Promise<Response> {
     try {
         const { profileId } = request.params
-        const data = await selectProfileByPrimaryKey(profileId)
+        const data = await selectProfileByProfileId(profileId)
         return response.json({status: 200, message: null, data})
     } catch (e) {
         return response.json({

@@ -6,5 +6,5 @@ export async function removeProfile(profile: Profile) : Promise<string> {
     const mysqlQuery = 'DELETE FROM profile WHERE profileId = UUID_TO_BIN(:profileId)'
     await mysqlConnection.execute(mysqlQuery, profile)
     await mysqlConnection.release()
-    return 'Profile delete.'
+    return 'Profile deleted.'
 }
