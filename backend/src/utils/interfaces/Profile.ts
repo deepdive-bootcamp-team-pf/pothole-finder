@@ -3,7 +3,7 @@ export interface Profile {
     profileAuthenticationToken: string | null,
     profileEmail: string,
     profileFirstName: string,
-    profileHash: string | null,
+    profileHash: string,
     profileLastName: string,
     profileUsername: string
 }
