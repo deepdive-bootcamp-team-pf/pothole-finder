@@ -1,5 +1,11 @@
 import { Router } from 'express'
-import {getAllPhotosCController, getPhotoByPhotoIdController, postPhotoController} from './photo.controller'
+import {
+    deletePhotoController,
+    getAllPhotosCController,
+    getPhotoByPhotoIdController,
+    getPhotoByPhotoProfileIdController,
+    postPhotoController
+} from './photo.controller'
 import {asyncValidatorController} from "../../utils/controllers/asyncValidator.controller";
 import {check, checkSchema} from "express-validator";
 import {photoValidator} from "./photo.validator";
@@ -10,8 +16,12 @@ photoRoute.route('/')
     .post(asyncValidatorController(checkSchema(photoValidator)), postPhotoController)
 
 photoRoute.route('/:photoId')
+    .get(asyncValidatorController([check('photoId', 'Please provide a valid UUID').isUUID()]), getPhotoByPhotoIdController)
+    .delete(asyncValidatorController([check('photoId', 'Please provide a valid photoId').isUUID()]), deletePhotoController)
+
+photoRoute.route('/:photoProfileId')
     .get(
         asyncValidatorController(
-            [check('photoId', 'Please provide a valid UUID').isUUID()]
-        ), getPhotoByPhotoIdController
+            [check('photoProfileId', 'Please provide a valid UUID')]
+        ), getPhotoByPhotoProfileIdController
     )

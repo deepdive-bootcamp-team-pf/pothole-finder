@@ -11,6 +11,7 @@ export const photoValidator: Schema = {
             errorMessage: 'Please provide a valid photoPotholeId.'
         }
     },
+
     photoProfileId: {
         isUUID: {
             errorMessage: 'Please provide a valid photoProfileId.'
@@ -19,6 +20,7 @@ export const photoValidator: Schema = {
     photoDate: {
         toDate: true
     },
+
     photoDescription: {
         isLength: {
             errorMessage: 'A description must be between 1 and 512 characters.',
@@ -32,12 +34,14 @@ export const photoValidator: Schema = {
             }
         }
     },
+
     photoName: {
         isLength: {
             errorMessage: 'Name must be between 1 and 32 characters.',
             options: {min: 1, max: 32}
         }
     },
+
     photoURL: {
         isURL: {
             errorMessage: 'Photo is malformed. Please upload a new photo.'
