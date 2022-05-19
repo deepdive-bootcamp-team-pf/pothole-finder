@@ -19,22 +19,51 @@ export const potholeValidator: Schema = {
         }
     },
     potholeDescription: {
-        isString: true,
-        is {
-            errorMessage: "Please add a description."
+        isLength: {
+            errorMessage: "Please add a description.",
+            options: {
+                min: 1,
+                max: 255
+            }
+        },
+        trim: true,
+        escape: true,
+        optional: {
+            options: {
+                nullable: true
+            }
         }
     },
 
+
     potholeLat: {
-        isString: true,
+        isDecimal: {
+            options: {
+                force_decimal: true,
+            },
             errorMessage: "Please add a latitude."
+        }
     },
+
+
+
     potholeLng: {
-        isString: true,
-            errorMessage: "Please add a longitude."
+        isDecimal: {
+            options: {
+                force_decimal: true,
+            },
+            errorMessage: "Please add a latitude."
+        }
     },
     potholeSeverity: {
-        isString: true,
-            errorMessage: "Please indicate a severity"
+        isLength: {
+            errorMessage: "Please add a severity.",
+            options: {
+                min: 1,
+                max: 255
+            }
+        },
+        trim: true,
+        escape: true
     }
 }
