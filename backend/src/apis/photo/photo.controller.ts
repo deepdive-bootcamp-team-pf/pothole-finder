@@ -1,9 +1,9 @@
 import { Request, Response} from 'express'
 import {selectAllPhotos} from '../../utils/photo/selectAllPhotos'
 import {selectPhotoByPhotoId} from '../../utils/photo/selectPhotoByPhotoId'
-import {insertPhoto} from "../../utils/photo/insertPhoto";
-import {photoValidator} from "./photo.validator";
-import {Photo} from "../../utils/interfaces/Photo";
+import {insertPhoto} from '../../utils/photo/insertPhoto'
+import {photoValidator} from './photo.validator'
+import {Photo} from '../../utils/interfaces/Photo'
 
 export async function getAllPhotosCController(request: Request, response: Response) : Promise<Response> {
     try {
