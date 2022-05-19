@@ -5,6 +5,7 @@ import morgan from 'morgan'
 import { indexRoute } from './apis/index.route'
 import { profileRoute } from "./apis/profile/profile.route"
 import { potholeVerificationRoute } from "./apis/pothole-verification/pothole-verification.route";
+import { signUpRoute } from './apis/sign-up/sign-up.route'
 
 // The following class creates the app and instantiates the server
 export class App {
@@ -37,6 +38,7 @@ export class App {
     this.app.use('/apis', indexRoute)
     this.app.use('/apis/profile', profileRoute)
     this.app.use('/apis/pothole-verification', potholeVerificationRoute)
+    this.app.use('/apis/sign-up', signUpRoute)
   }
 
   // starts the server and tells the terminal to post a message that the server is running and on what port

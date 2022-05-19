@@ -6,11 +6,6 @@ export const profileValidator: Schema = {
             errorMessage: 'Not a valid profile ID.'
         }
     },
-    profileAuthenticationToken: {
-        isUUID: {
-            errorMessage: 'Not a valid profile authentication token.'
-        }
-    },
     profileEmail: {
         isEmail: {
             errorMessage: 'Not a valid email address.'
@@ -21,12 +16,6 @@ export const profileValidator: Schema = {
         trim: true,
         notEmpty: {
             errorMessage: 'First name cannot be empty.'
-        }
-    },
-    profileHash: {
-        escape: true,
-        isLength: {
-            errorMessage: 'Hash must be 97 characters long.'
         }
     },
     profileLastName: {
