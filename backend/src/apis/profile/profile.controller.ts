@@ -1,5 +1,5 @@
 import { Request, Response } from 'express'
-import { Profile } from '../../utils/interfaces/Profile'
+import { PartialProfile, Profile } from '../../utils/interfaces/Profile'
 import { removeProfile } from '../../utils/profile/removeProfile'
 import { selectAllProfiles } from '../../utils/profile/selectAllProfiles'
 import { selectProfileByProfileId } from '../../utils/profile/selectProfileByProfileId'
@@ -9,7 +9,17 @@ import {setHash} from "../../utils/auth.utils";
 
 export async function deleteProfileController(request: Request, response: Response): Promise<Response> {
     try {
-        const profile = request.body
+        const { profileEmail } = request.body
+
+        const profile: Profile = {
+            profileId: 'f21400c6-d800-11ec-ba38-0242ac1a0002',
+            profileAuthenticationToken: null,
+            profileEmail,
+            profileFirstName: '',
+            profileHash: '',
+            profileLastName: '',
+            profileUsername: ''
+        }
 
         const result = await removeProfile(profile)
         return response.json({status: 200, data: null, result})
@@ -66,25 +76,45 @@ export async function getProfileByProfileEmailController(request: Request, respo
 
 export async function putProfileController(request: Request, response: Response): Promise<Response> {
     try {
-        const {profileEmail, profileFirstName, profileLastName, profilePassword, profileUsername} = request.body
-
+        // const { profileId } = request.params
+        const { profileEmail, profileFirstName, profileLastName, profilePassword, profileUsername } = request.body
         const profileHash = await setHash(profilePassword)
 
         const profile: Profile = {
-            profileId: null,
+            profileId: 'f21400c6-d800-11ec-ba38-0242ac1a0002',
             profileAuthenticationToken: null,
             profileEmail,
             profileFirstName,
-            profileHash,
             profileLastName,
+            profileHash,
             profileUsername
         }
+
         const result = await updateProfile(profile)
         return response.json({status: 200, data: null, result})
+
+
+        // const profile = request.body.profile as Profile
+        // const profileIdFromSession = profile.profileId as string
+
+        // const performUpdate = async (partialProfile: PartialProfile): Promise<Response> => {
+        //     const previousProfile: Profile = await selectProfileByProfileId(partialProfile.profileId as string) as Profile
+        //     const newProfile: Profile = {...previousProfile, ...partialProfile}
+        //     const result = await updateProfile(newProfile)
+        //     return response.json({status: 200, data: null, result})
+        // }
+        //
+        // const updateFailed = (message: string): Response => {
+        //     return response.json({status: 400, data: null, message})
+        // }
+        //
+        // return profileId === profileIdFromSession ?
+        //     await performUpdate({profileId, profileEmail, profileFirstName, profileLastName, profileHash, profileUsername}) :
+        //     updateFailed('Cannot perform profile update.')
     } catch (e) {
         return response.json({
             status: 500,
-            message: 'Server error creating profile, try again later.',
+            message: 'Server cannot reach profile, try again later.',
             data: null
         })
     }

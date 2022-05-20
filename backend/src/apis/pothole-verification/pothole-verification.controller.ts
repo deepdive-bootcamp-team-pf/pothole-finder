@@ -34,20 +34,24 @@ import { selectPotholeVerificationsByPotholeVerificationProfileId } from '../../
 //     }
 // }
 
-export async function deletePotholeVerificationController(request: Request, response: Response): Promise<Response> {
-    try {
-        const potholeVerification = request.body
-
-        const result = await removePotholeVerification(potholeVerification)
-        return response.json({status: 200, data: null, result})
-    } catch (e) {
-        return response.json({
-            status: 500,
-            message: 'Server error verifying pothole, try again later.',
-            data: null
-        })
-    }
-}
+// export async function deletePotholeVerificationController(request: Request, response: Response): Promise<Response> {
+//     try {
+//         const profile: Profile = request.session.profile
+//         const { potholeVerificationProfileId } = request.params
+//
+//         if (profile.profileId === potholeVerificationProfileId) {
+//             const potholeVerification = request.body
+//             const result = await removePotholeVerification(potholeVerification)
+//         }
+//         return response.json({status: 200, data: null, result})
+//     } catch (e) {
+//         return response.json({
+//             status: 500,
+//             message: 'Server error verifying pothole, try again later.',
+//             data: null
+//         })
+//     }
+// }
 
 export async function getAllPotholeVerificationController(request: Request, response: Response): Promise<Response> {
     try {
