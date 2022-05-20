@@ -3,9 +3,9 @@ import { PotholeVerification } from '../../utils/interfaces/PotholeVerification'
 import { Profile } from "../../utils/interfaces/Profile";
 import { insertPotholeVerification } from '../../utils/potholeVerification/insertPotholeVerification'
 import { removePotholeVerification } from '../../utils/potholeVerification/removePotholeVerification'
-import { selectAllPotholeVerification } from '../../utils/potholeVerification/selectAllPotholeVerification'
-import { selectPotholeVerificationByPotholeVerificationPotholeId } from '../../utils/potholeVerification/selectPotholeVerificationByPotholeVerificationPotholeId'
-import { selectPotholeVerificationByPotholeVerificationProfileId } from '../../utils/potholeVerification/selectPotholeVerificationByPotholeVerificationProfileId'
+import { selectAllPotholeVerifications } from '../../utils/potholeVerification/selectAllPotholeVerifications'
+import { selectPotholeVerificationsByPotholeVerificationPotholeId } from '../../utils/potholeVerification/selectPotholeVerificationsByPotholeVerificationPotholeId'
+import { selectPotholeVerificationsByPotholeVerificationProfileId } from '../../utils/potholeVerification/selectPotholeVerificationsByPotholeVerificationProfileId'
 
 // will test post function after project is synced with Pothole entity and associated navigable routes
 
@@ -51,7 +51,7 @@ export async function deletePotholeVerificationController(request: Request, resp
 
 export async function getAllPotholeVerificationController(request: Request, response: Response): Promise<Response> {
     try {
-        const data = await selectAllPotholeVerification()
+        const data = await selectAllPotholeVerifications()
 
         return response.json({status: 200, message: null, data})
     } catch (e) {
@@ -66,7 +66,7 @@ export async function getAllPotholeVerificationController(request: Request, resp
 export async function getPotholeVerificationByPotholeVerificationPotholeIdController(request: Request, response: Response): Promise<Response> {
     try {
         const { potholeVerificationPotholeId } = request.params
-        const data = await selectPotholeVerificationByPotholeVerificationPotholeId(potholeVerificationPotholeId)
+        const data = await selectPotholeVerificationsByPotholeVerificationPotholeId(potholeVerificationPotholeId)
         return response.json({status: 200, message: null, data})
     } catch (e) {
         return response.json({
@@ -80,7 +80,7 @@ export async function getPotholeVerificationByPotholeVerificationPotholeIdContro
 export async function getPotholeVerificationByPotholeVerificationProfileIdController(request: Request, response: Response): Promise<Response> {
     try {
         const { potholeVerificationProfileId } = request.params
-        const data = await selectPotholeVerificationByPotholeVerificationProfileId(potholeVerificationProfileId)
+        const data = await selectPotholeVerificationsByPotholeVerificationProfileId(potholeVerificationProfileId)
         return response.json({status: 200, message: null, data})
     } catch (e) {
         return response.json({

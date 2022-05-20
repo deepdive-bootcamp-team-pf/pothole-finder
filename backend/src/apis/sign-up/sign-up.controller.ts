@@ -25,7 +25,7 @@ export async function signupProfileController(request: Request, response: Respon
         const mailgunMessage = {
             from: `Mailgun Sandbox <postmaster@${process.env.MAILGUN_DOMAIN as string}>`,
             to: profileEmail,
-            subject: 'Which side do you stand with? Join the good fight today.',
+            subject: 'Which side do you stand with? Join the fight today.',
             html: message
         }
 
@@ -51,4 +51,3 @@ export async function signupProfileController(request: Request, response: Respon
         })
     }
 }
-

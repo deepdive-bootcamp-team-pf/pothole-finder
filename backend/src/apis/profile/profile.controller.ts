@@ -1,34 +1,11 @@
 import { Request, Response } from 'express'
 import { Profile } from '../../utils/interfaces/Profile'
-import { insertProfile } from '../../utils/profile/insertProfile'
 import { removeProfile } from '../../utils/profile/removeProfile'
-import { selectAllProfile } from '../../utils/profile/selectAllProfile'
+import { selectAllProfiles } from '../../utils/profile/selectAllProfiles'
 import { selectProfileByProfileId } from '../../utils/profile/selectProfileByProfileId'
+import { selectProfileByProfileEmail} from '../../utils/profile/selectProfileByProfileEmail'
 import { updateProfile } from '../../utils/profile/updateProfile'
-
-export async function postProfileController(request: Request, response: Response): Promise<Response> {
-    try {
-        const {profileEmail, profileFirstName, profileHash, profileLastName, profileUsername} = request.body
-
-        const profile: Profile = {
-            profileId: null,
-            profileAuthenticationToken: null,
-            profileEmail,
-            profileFirstName,
-            profileHash,
-            profileLastName,
-            profileUsername
-        }
-        const result = await insertProfile(profile)
-        return response.json({status: 200, data: null, result})
-    } catch (e) {
-        return response.json({
-            status: 500,
-            message: 'Server error creating profile, try again later.',
-            data: null
-        })
-    }
-}
+import {setHash} from "../../utils/auth.utils";
 
 export async function deleteProfileController(request: Request, response: Response): Promise<Response> {
     try {
@@ -47,7 +24,7 @@ export async function deleteProfileController(request: Request, response: Respon
 
 export async function getAllProfileController(request: Request, response: Response) : Promise<Response> {
     try {
-        const data = await selectAllProfile()
+        const data = await selectAllProfiles()
 
         return response.json({status: 200, message: null, data})
     } catch (e) {
@@ -73,9 +50,25 @@ export async function getProfileByProfileIdController(request: Request, response
     }
 }
 
+export async function getProfileByProfileEmailController(request: Request, response: Response): Promise<Response> {
+    try {
+        const { profileEmail } = request.params
+        const data = await selectProfileByProfileEmail(profileEmail)
+        return response.json({status: 200, message: null, data})
+    } catch (e) {
+        return response.json({
+            status: 500,
+            message: '',
+            data: []
+        })
+    }
+}
+
 export async function putProfileController(request: Request, response: Response): Promise<Response> {
     try {
-        const {profileEmail, profileFirstName, profileHash, profileLastName, profileUsername} = request.body
+        const {profileEmail, profileFirstName, profileLastName, profilePassword, profileUsername} = request.body
+
+        const profileHash = await setHash(profilePassword)
 
         const profile: Profile = {
             profileId: null,

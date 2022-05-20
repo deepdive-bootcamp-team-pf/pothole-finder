@@ -15,10 +15,10 @@ potholeVerificationRoute.route('/')
     .get(getAllPotholeVerificationController)
     // .post(asyncValidatorController(checkSchema(potholeVerificationValidator)), postPotholeVerificationController)
 
-potholeVerificationRoute.route('/:potholeVerificationPotholeId')
+potholeVerificationRoute.route('/pv-potholeId/:potholeVerificationPotholeId')
     .get(asyncValidatorController([check('potholeVerificationPotholeId', 'Enter a valid pothole ID for the pothole verification.').isUUID()]), getPotholeVerificationByPotholeVerificationPotholeIdController)
     .delete(asyncValidatorController([check('potholeVerificationPotholeId', 'Enter a valid pothole ID for the pothole verification.').isUUID()]), deletePotholeVerificationController)
 
-potholeVerificationRoute.route('/:potholeVerificationProfileId')
+potholeVerificationRoute.route('/pv-profileId/:potholeVerificationProfileId')
     .get(asyncValidatorController([check('potholeVerificationProfileId', 'Enter a valid profile ID for the pothole verification.').isUUID()]), getPotholeVerificationByPotholeVerificationProfileIdController)
     .delete(asyncValidatorController([check('potholeVerificationProfileId', 'Enter a valid profile ID for the pothole verification.').isUUID()]), deletePotholeVerificationController)

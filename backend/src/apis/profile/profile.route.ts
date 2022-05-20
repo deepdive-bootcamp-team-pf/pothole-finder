@@ -1,6 +1,5 @@
 import { Router } from 'express'
-import { postProfileController,
-        deleteProfileController,
+import { deleteProfileController,
         getAllProfileController,
         getProfileByProfileIdController,
         putProfileController } from './profile.controller'
@@ -12,9 +11,8 @@ export const profileRoute = Router()
 
 profileRoute.route('/')
     .get(getAllProfileController)
-    .post(asyncValidatorController(checkSchema(profileValidator)), postProfileController)
 
 profileRoute.route('/:profileId')
     .get(asyncValidatorController([check('profileId', 'Enter a valid profile ID').isUUID()]), getProfileByProfileIdController)
-    .put(asyncValidatorController([check('profileId', 'Enter a valid profile ID').isUUID()]), putProfileController)
     .delete(asyncValidatorController([check('profileId', 'Enter a valid profile').isUUID()]), deleteProfileController)
+    .put(asyncValidatorController(checkSchema(profileValidator)), putProfileController)
