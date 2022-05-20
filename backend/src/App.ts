@@ -1,6 +1,9 @@
 import express, { Application } from 'express'
 // import helmet from "helmet"
 import morgan from 'morgan'
+import session from 'express-session'
+import createMemoryStore from 'memorystore'
+const MemoryStore = createMemoryStore(session)
 
 //Routes
 import {photoRoute} from "./apis/photo/photo.route"
@@ -30,8 +33,19 @@ export class App {
 
   // private method to setting up the middleware to handle json responses, one for dev and one for prod
   private middlewares () :void {
+    const sessionConfig = {
+      store: new MemoryStore({
+        checkPeriod: 100800
+      }),
+      secret: 'secret',
+      saveUninitialized: true,
+      resave: true,
+      maxAge: '3h'
+    }
+
     this.app.use(morgan('dev'))
     this.app.use(express.json())
+    this.app.use(session(sessionConfig))
     // this.app.use(helmet())
   }
 

@@ -23,11 +23,10 @@ function signInFailed (response: Response): Response {
 }
 
 function signInSuccessful (request: Request, response: Response, profile: Profile): Response {
-    const { profileId, profileAuthenticationToken, profileEmail, profileFirstName, profileLastName, profileUsername } = profile
+    const { profileId, profileEmail, profileFirstName, profileLastName, profileUsername } = profile
     const signature: string = uuid()
     const authorization: string = generateJwt({
         profileId,
-        profileAuthenticationToken,
         profileEmail,
         profileFirstName,
         profileLastName,
