@@ -15,13 +15,15 @@ photoRoute.route('/')
     .get(getAllPhotosCController)
     .post(asyncValidatorController(checkSchema(photoValidator)), postPhotoController)
 
-photoRoute.route('/:photoId')
-    .get(asyncValidatorController([check('photoId', 'Please provide a valid UUID').isUUID()]), getPhotoByPhotoIdController)
-    .delete(asyncValidatorController([check('photoId', 'Please provide a valid photoId').isUUID()]), deletePhotoController)
-
-photoRoute.route('/:photoProfileId')
+photoRoute.route('/photoProfileId/:photoProfileId')
     .get(
         asyncValidatorController(
             [check('photoProfileId', 'Please provide a valid UUID')]
         ), getPhotoByPhotoProfileIdController
     )
+
+photoRoute.route('/:photoId')
+    .get(asyncValidatorController([check('photoId', 'Please provide a valid UUID').isUUID()]), getPhotoByPhotoIdController)
+    .delete(asyncValidatorController([check('photoId', 'Please provide a valid photoId').isUUID()]), deletePhotoController)
+
+

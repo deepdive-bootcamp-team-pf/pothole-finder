@@ -3,7 +3,7 @@ import {selectAllPhotos} from '../../utils/photo/selectAllPhotos'
 import {selectPhotoByPhotoId} from '../../utils/photo/selectPhotoByPhotoId'
 import {insertPhoto} from '../../utils/photo/insertPhoto'
 import {Photo} from '../../utils/interfaces/Photo'
-import {selectPhotoByPhotoProfileId} from "../../utils/photo/selectPhotoByPhotoProfileId";
+import {selectPhotosByPhotoProfileId} from "../../utils/photo/selectPhotosByPhotoProfileId";
 import {removePhoto} from "../../utils/photo/removePhoto";
 
 export async function getAllPhotosCController(request: Request, response: Response) : Promise<Response> {
@@ -28,7 +28,7 @@ export async function getPhotoByPhotoIdController(request: Request, response: Re
 export async function getPhotoByPhotoProfileIdController(request: Request, response: Response) : Promise<Response> {
     try {
         const {photoProfileId } = request.params
-        const data = await selectPhotoByPhotoProfileId(photoProfileId)
+        const data = await selectPhotosByPhotoProfileId(photoProfileId)
         return response.json({status: 200, message: null, data})
     } catch(error) {
         return response.json({status: 500, message: '', data: []})
