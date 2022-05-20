@@ -1,9 +1,9 @@
 export interface Pothole {
     potholeId: string | null,
     potholeProfileId: string | null,
-    potholeDate: string,
+    potholeDate: Date | null,
     potholeDescription: string | null,
-    potholeLat: string,
-    potholeLng: string,
+    potholeLat: string | undefined,
+    potholeLng: string | undefined,
     potholeSeverity: string
 }

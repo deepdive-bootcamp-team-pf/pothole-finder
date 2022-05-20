@@ -1,40 +1,66 @@
-import express, { Application } from 'express'
-import helmet from 'helmet'
-import morgan from 'morgan'
 
-import {indexRoute} from './pothole.route'
-import { potholeRoute} from './pothole.route';
-//create class that creates app and instantiates the server
-export class App {
-    app: Application;
+import { Request, Response} from 'express'
+import {selectAllPotholes} from '../../utils/pothole/selectAllPotholes'
+import {selectPotholeByPotholeId} from '../../utils/pothole/selectPotholeByPotholeId'
+import {insertPothole} from '../../utils/pothole/insertPothole'
+import {Pothole} from '../../utils/interfaces/Pothole'
+import {selectPotholesByPotholeProfileId} from "../../utils/pothole/selectPotholesByPotholeProfileId";
+import {removePothole} from "../../utils/pothole/removePothole";
 
-    constructor (
-        private port?: number | string
-    ) {
-        this.app = express()
-        this.settings()
-        this.middlewares()
-        this.routes()
+export async function getAllPotholesController(request: Request, response: Response) : Promise<Response> {
+    try {
+        const data = await selectAllPotholes()
+        return response.json({status:200, data, message:null})
+    } catch (error) {
+        return response.json({status:500, data:null, message: 'Server error. Please try again.'})
     }
-    //private method that sets the port to the server
-    public settings () : void {
-        this.app.set('port', this.port || process.env.PORT || 4200)
-    }
-    //private method for setting up middleware to handle json responses
-    private middlewares () :void {
-        this.app.use(morgan('dev'))
-        this.app.use(express.json())
-        this.app.use(helmet())
-    }
-    //private method for setting up routes that perform actions on pothole
-    private routes () :void {
-        this.app.use('/apis', indexRoute)
-        this.app.use('/apis/pothole', potholeRoute)
-    }
-    //starts the server and tells the terminal to post a message of servers port and status
-    public async listen (): Promise<void> {
-        await this.app.listen(this.app.get('port'))
-        console.log('Express app built successfully')
+}
 
-    }}
+export async function getPotholesByPotholeIdController(request: Request, response: Response) : Promise<Response> {
+    try {
+        const {potholeId} = request.params
+        const data = await selectPotholeByPotholeId(potholeId)
+        return response.json({status: 200, message: null, data})
+    } catch (error) {
+        return response.json({status: 500, data: null, message: 'Server error. Please try again.'})
+    }
+}
 
+export async function getPotholeByPotholeProfileIdController(request: Request, response: Response) : Promise<Response> {
+    try {
+        const {potholeProfileId } = request.params
+        const data = await selectPotholesByPotholeProfileId(potholeProfileId)
+        return response.json({status: 200, message: null, data})
+    } catch(error) {
+        return response.json({status: 500, message: '', data: []})
+    }
+}
+
+export async function postPotholeController(request: Request, response: Response) : Promise<Response> {
+    try {
+        const {potholeDescription, potholeSeverity} = request.body
+        const pothole: Pothole = {
+            potholeId: null,
+            potholeProfileId: null,
+            potholeDescription,
+            potholeDate: null,
+            potholeLng: undefined,
+            potholeLat: undefined,
+            potholeSeverity
+        }
+        const message = await insertPothole(pothole)
+        return response.json({status: 200, data: null, message})
+    } catch (error) {
+        return response.json({pothole: 500, data: null, message: 'Server error. Please try again.'})
+    }
+}
+
+export async function deletePotholeController(request: Request, response: Response) : Promise<Response>  {
+    try {
+        const pothole = request.body
+        const result = await removePothole(pothole)
+        return response.json({status: 200, data: null, result})
+    } catch (error) {
+        return response.json({pothole: 500, data: null, message: 'Server error deleting pothole. Please try again.'})
+    }
+}
