@@ -1,9 +1,12 @@
 import express, { Application } from 'express'
-//import helmet from "helmet"
 import morgan from 'morgan'
 // Routes
 import { indexRoute } from './apis/index.route'
-import { potholeRoute} from "./apis/pothole/pothole.route";
+import { profileRoute } from "./apis/profile/profile.route"
+import { potholeRoute} from "./apis/pothole/pothole.route"
+import { potholeVerificationRoute } from "./apis/pothole-verification/pothole-verification.route"
+import { signUpRoute } from './apis/sign-up/sign-up.route'
+
 
 // The following class creates the app and instantiates the server
 export class App {
@@ -28,6 +31,8 @@ export class App {
     this.app.use(morgan('dev'))
     this.app.use(express.json())
  //   this.app.use(helmet())
+
+
   }
 
   // private method for setting up routes in their basic sense (ie. any route that performs an action on profiles starts with /profiles)
@@ -35,6 +40,10 @@ export class App {
     // TODO add "/apis"
     this.app.use('/apis', indexRoute)
     this.app.use('/apis/pothole', potholeRoute)
+    this.app.use('/apis/profile', profileRoute)
+    this.app.use('/apis/pothole-verification', potholeVerificationRoute)
+    this.app.use('/apis/sign-up', signUpRoute)
+
   }
 
   // starts the server and tells the terminal to post a message that the server is running and on what port
