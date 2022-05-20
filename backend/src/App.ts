@@ -1,12 +1,14 @@
 import express, { Application } from 'express'
-// import helmet from 'helmet'
+// import helmet from "helmet"
 import morgan from 'morgan'
-// Routes
 
+//Routes
 import {photoRoute} from "./apis/photo/photo.route"
-import {indexRoute} from "./apis/index.route"
-import {logInRouter} from "../../../backend-challenge-StephenAWade/backend/src/log-in/log-in.route";
-
+import { indexRoute } from './apis/index.route'
+import { logInRoute} from "./log-in/log-in.route"
+import { profileRoute } from "./apis/profile/profile.route"
+import { potholeVerificationRoute } from "./apis/pothole-verification/pothole-verification.route"
+import { signUpRoute } from './apis/sign-up/sign-up.route'
 
 // The following class creates the app and instantiates the server
 export class App {
@@ -37,8 +39,12 @@ export class App {
   private routes () :void {
     // TODO add "/apis"
     // this.app.use('/apis/log-in', logInRouter)
-    this.app.use('/apis', indexRoute)
     this.app.use('/apis/photo', photoRoute)
+    this.app.use('/apis', indexRoute)
+    this.app.use('/apis/login', logInRoute)
+    this.app.use('/apis/profile', profileRoute)
+    this.app.use('/apis/pothole-verification', potholeVerificationRoute)
+    this.app.use('/apis/sign-up', signUpRoute)
   }
 
   // starts the server and tells the terminal to post a message that the server is running and on what port
