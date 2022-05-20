@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import {asyncValidatorController} from '../../utils/controllers/asyncValidator.controller'
+import {asyncValidatorController} from '../utils/controllers/asyncValidator.controller'
 import  {logInValidator} from './log-in.validator'
 import {logInController} from './log-in.controller'
 import {checkSchema} from 'express-validator'
