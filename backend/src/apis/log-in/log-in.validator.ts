@@ -11,7 +11,7 @@ export const logInValidator: Schema = {
     },
     profileEmail: {
         isEmail: {
-            errorMessage: 'Please rovide a valid email'
+            errorMessage: 'Please provide a valid email'
         },
         trim:true
     }
