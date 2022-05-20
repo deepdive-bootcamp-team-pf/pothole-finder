@@ -2,9 +2,9 @@ import { Router } from 'express'
 import {
     postPotholeController,
     deletePotholeController,
-    getAllPotholeController,
+    getAllPotholesController,
     getPotholeByPotholeIdController,
-    getPotholeByPotholeProfileIdController
+    getPotholesByPotholeProfileIdController
 } from './pothole.controller'
 
 import { asyncValidatorController } from '../../utils/controllers/asyncValidator.controller'
@@ -14,11 +14,11 @@ import { potholeValidator } from './pothole.validator'
 export const potholeRoute = Router()
 
 potholeRoute.route('/')
-    .get(getAllPotholeController)
+    .get(getAllPotholesController)
     .post(asyncValidatorController(checkSchema(potholeValidator)), postPotholeController)
 
 potholeRoute.route('/potholeProfileId/:potholeProfileId')
-    .get(asyncValidatorController([check('potholeProfileId','Enter a valid profile ID for pothole').isUUID()]), getPotholeByPotholeProfileIdController)
+    .get(asyncValidatorController([check('potholeProfileId','Enter a valid profile ID for pothole').isUUID()]), getPotholesByPotholeProfileIdController)
     .delete(asyncValidatorController([check('potholeProfileId', 'Enter a valid profile ID for pothole').isUUID()]), deletePotholeController)
 
 potholeRoute.route('/:potholeId')

@@ -16,7 +16,7 @@ export async function getAllPotholesController(request: Request, response: Respo
     }
 }
 
-export async function getPotholesByPotholeIdController(request: Request, response: Response) : Promise<Response> {
+export async function getPotholeByPotholeIdController(request: Request, response: Response) : Promise<Response> {
     try {
         const {potholeId} = request.params
         const data = await selectPotholeByPotholeId(potholeId)
@@ -26,7 +26,7 @@ export async function getPotholesByPotholeIdController(request: Request, respons
     }
 }
 
-export async function getPotholeByPotholeProfileIdController(request: Request, response: Response) : Promise<Response> {
+export async function getPotholesByPotholeProfileIdController(request: Request, response: Response) : Promise<Response> {
     try {
         const {potholeProfileId } = request.params
         const data = await selectPotholesByPotholeProfileId(potholeProfileId)
