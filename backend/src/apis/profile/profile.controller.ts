@@ -5,7 +5,8 @@ import { selectAllProfiles } from '../../utils/profile/selectAllProfiles'
 import { selectProfileByProfileId } from '../../utils/profile/selectProfileByProfileId'
 import { selectProfileByProfileEmail} from '../../utils/profile/selectProfileByProfileEmail'
 import { updateProfile } from '../../utils/profile/updateProfile'
-import {setHash} from "../../utils/auth.utils";
+import {setHash} from "../../utils/auth.utils"
+import { Status} from "../../utils/interfaces/Status";
 
 export async function deleteProfileController(request: Request, response: Response): Promise<Response> {
     try {
