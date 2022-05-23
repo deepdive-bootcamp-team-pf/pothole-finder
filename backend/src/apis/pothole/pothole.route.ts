@@ -10,6 +10,7 @@ import {
 import { asyncValidatorController } from '../../utils/controllers/asyncValidator.controller'
 import { check, checkSchema } from 'express-validator'
 import { potholeValidator } from './pothole.validator'
+import {isLoggedIn} from "../../utils/controllers/isLoggedIn.controller";
 
 export const potholeRoute = Router()
 
@@ -29,4 +30,5 @@ potholeRoute.route('/potholeProfileId/:potholeProfileId')
 
 potholeRoute.route('/')
     .get(asyncValidatorController([check('')]))
-    .post(asyncValidatorController(checkSchema(potholeValidator)), )
+    .post(isLoggedIn, asyncValidatorController(checkSchema(potholeValidator)), postPotholeController )
+
