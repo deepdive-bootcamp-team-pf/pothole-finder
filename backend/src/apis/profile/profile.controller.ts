@@ -6,15 +6,16 @@ import {selectAllProfiles} from '../../utils/profile/selectAllProfiles'
 import {selectProfileByProfileId} from '../../utils/profile/selectProfileByProfileId'
 import {selectProfileByProfileEmail} from '../../utils/profile/selectProfileByProfileEmail'
 import {updateProfile} from '../../utils/profile/updateProfile'
-import {setHash, validatePassword} from '../../utils/auth.utils'
+import {setHash} from '../../utils/auth.utils'
+import { profile } from 'console'
 
 export async function deleteProfileController(request: Request, response: Response): Promise<Response> {
     try {
         const {profileId} = request.params
-        const {profileEmail, profilePassword} = request.body
+        const {profileEmail} = request.body
         const loggedInProfile = await selectProfileByProfileEmail(profileEmail)
 
-        return (loggedInProfile !== null) && loggedInProfile.profileId === profileId && loggedInProfile.profileEmail == profileEmail && await validatePassword(loggedInProfile.profileHash, profilePassword) ? deleteSucceeded(response, loggedInProfile) : deleteFailed(response)
+        return (loggedInProfile !== null) && loggedInProfile.profileId === profileId ? deleteSucceeded(response, loggedInProfile) : deleteFailed(response)
     } catch (e) {
         return response.json({
             status: 500,
@@ -72,35 +73,26 @@ export async function getProfileByProfileIdController(request: Request, response
 
 export async function putProfileController(request: Request, response: Response): Promise<Response> {
     try {
-        // @ts-ignore
-        const {profileId} = request.session.profileId
+        const {profileId} = request.params
         const {profileEmail, profileFirstName, profileLastName, profilePassword, profileUsername} = request.body
         const profileHash = await setHash(profilePassword)
+        // @ts-ignore
+        const profileIdFromSession = request.session.profile.profileId as string
 
-        const profile = request.body.profile as Profile
-        const profileIdFromSession = profile.profileId as string
-
-        const performUpdate = async (partialProfile: PartialProfile): Promise<Response> => {
-            const previousProfile: Profile = await selectProfileByProfileId(partialProfile.profileId as string) as Profile
-            const newProfile: Profile = {...previousProfile, ...partialProfile}
-            const result = await updateProfile(newProfile)
-            return response.json({status: 200, data: null, result})
+        const performUpdate = async (profile: Profile): Promise<Response> => {
+            // @ts-ignore
+            const previousProfile: Profile = await selectProfileByProfileId(profileIdFromSession)
+            const newProfile: Profile = {...previousProfile, ...profile}
+            await updateProfile(newProfile)
+            return response.json({status: 200, message: 'Profile updated.', data: null})
         }
 
         const updateFailed = (message: string): Response => {
-            return response.json({status: 400, data: null, message})
+            return response.json({ status: 400, data: null, message })
         }
 
-        return profileId === profileIdFromSession ?
-            await performUpdate({
-                profileId,
-                profileEmail,
-                profileFirstName,
-                profileLastName,
-                profileHash,
-                profileUsername
-            }) :
-            updateFailed('Cannot perform profile update.')
+        // @ts-ignore
+        return profileId === profileIdFromSession ? await performUpdate({profileEmail, profileAuthenticationToken: null, profileFirstName, profileLastName, profileHash, profileUsername}) : updateFailed('Please login to update profile.')
     } catch (e) {
         return response.json({
             status: 500,
