@@ -38,37 +38,37 @@ export async function getPotholesByPotholeProfileIdController(request: Request, 
     }
 }
 
-export async function postPotholeController(request: Request, response: Response) : Promise<Response> {
-    try {
-        const {potholeDescription, potholeSeverity} = request.body
-        const profile: Profile = request.session.profile as Profile
-        const potholeProfileId: string = profile.profileId as string
+// export async function postPotholeController(request: Request, response: Response) : Promise<Response<string>> {
+//     try {
+//         const { insertPothole } = request.body
+//         const profile: Profile = request.session.profile as Profile
+//         const potholeProfileId: string = profile.profileId as string
 
-        const pothole: Pothole = {
-            potholeId: null,
-            potholeProfileId,
-            potholeDescription,
-            potholeDate: null,
-            potholeLng: undefined,
-            potholeLat: undefined,
-            potholeSeverity
-        }
-
-        const result = await insertPothole(pothole)
-        const status: Status = {
-            status: 200,
-            message: result,
-            data: null
-        }
-        return response.json(status)
-    } catch (error) {
-        return response.json({
-            status: 500,
-            message: 'Error creating pothole. Please try again.',
-            data: null
-        })
-    }
-}
+//         const pothole: Pothole = {
+//             potholeId: null,
+//             potholeProfileId,
+//             potholeDescription,
+//             potholeDate: null,
+//             potholeLng: undefined,
+//             potholeLat: undefined,
+//             potholeSeverity
+//         }
+//
+//         const result = await insertPothole(pothole)
+//         const status: Status = {
+//             status: 200,
+//             message: result,
+//             data: null
+//         }
+//         return response.json(status)
+//     } catch (error) {
+//         return response.json({
+//             status: 500,
+//             message: 'Error creating pothole. Please try again.',
+//             data: null
+//         })
+//     }
+// }
 
 export async function deletePotholeController(request: Request, response: Response) : Promise<Response>  {
     try {

@@ -17,14 +17,16 @@ potholeRoute.route('/')
     .get(getAllPotholesController)
     .post(asyncValidatorController(checkSchema(potholeValidator)), postPotholeController)
 
-potholeRoute.route('/potholeProfileId/:potholeProfileId')
-    .get(asyncValidatorController([check('potholeProfileId','Enter a valid profile ID for pothole').isUUID()]), getPotholesByPotholeProfileIdController)
-    .delete(asyncValidatorController([check('potholeProfileId', 'Enter a valid profile ID for pothole').isUUID()]), deletePotholeController)
-
 potholeRoute.route('/:potholeId')
     .get(asyncValidatorController([check('potholeId','Enter a valid pothole ID').isUUID()]), getPotholeByPotholeIdController)
     .delete(asyncValidatorController([check('potholeId', 'Enter a valid pothole ID').isUUID()]), deletePotholeController)
 
+
+potholeRoute.route('/potholeProfileId/:potholeProfileId')
+    .get(asyncValidatorController([check('potholeProfileId','Enter a valid profile ID for pothole').isUUID()]), getPotholesByPotholeProfileIdController)
+    .delete(asyncValidatorController([check('potholeProfileId', 'Enter a valid profile ID for pothole').isUUID()]), deletePotholeController)
+
+
 potholeRoute.route('/')
-    .get(getAllPotholesController)
-    .post(postPotholeController)
+    .get(asyncValidatorController([check('')]))
+    .post(asyncValidatorController(checkSchema(potholeValidator)), )
