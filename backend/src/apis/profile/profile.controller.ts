@@ -1,28 +1,21 @@
-import { Request, Response } from 'express'
-import { PartialProfile, Profile } from '../../utils/interfaces/Profile'
-import { removeProfile } from '../../utils/profile/removeProfile'
-import { selectAllProfiles } from '../../utils/profile/selectAllProfiles'
-import { selectProfileByProfileId } from '../../utils/profile/selectProfileByProfileId'
-import { selectProfileByProfileEmail} from '../../utils/profile/selectProfileByProfileEmail'
-import { updateProfile } from '../../utils/profile/updateProfile'
-import {setHash} from "../../utils/auth.utils";
+import {Request, Response} from 'express'
+import 'express-session'
+import {PartialProfile, Profile} from '../../utils/interfaces/Profile'
+import {removeProfile} from '../../utils/profile/removeProfile'
+import {selectAllProfiles} from '../../utils/profile/selectAllProfiles'
+import {selectProfileByProfileId} from '../../utils/profile/selectProfileByProfileId'
+import {selectProfileByProfileEmail} from '../../utils/profile/selectProfileByProfileEmail'
+import {updateProfile} from '../../utils/profile/updateProfile'
+import {setHash} from '../../utils/auth.utils'
+import { profile } from 'console'
 
 export async function deleteProfileController(request: Request, response: Response): Promise<Response> {
     try {
-        const { profileEmail } = request.body
+        const {profileId} = request.params
+        const {profileEmail} = request.body
+        const loggedInProfile = await selectProfileByProfileEmail(profileEmail)
 
-        const profile: Profile = {
-            profileId: 'f21400c6-d800-11ec-ba38-0242ac1a0002',
-            profileAuthenticationToken: null,
-            profileEmail,
-            profileFirstName: '',
-            profileHash: '',
-            profileLastName: '',
-            profileUsername: ''
-        }
-
-        const result = await removeProfile(profile)
-        return response.json({status: 200, data: null, result})
+        return (loggedInProfile !== null) && loggedInProfile.profileId === profileId ? deleteSucceeded(response, loggedInProfile) : deleteFailed(response)
     } catch (e) {
         return response.json({
             status: 500,
@@ -32,7 +25,25 @@ export async function deleteProfileController(request: Request, response: Respon
     }
 }
 
-export async function getAllProfileController(request: Request, response: Response) : Promise<Response> {
+function deleteFailed (response: Response): Response {
+    return response.json({status: 400, message: 'Input incorrect or you do not have permission to delete this profile.', data: null})
+}
+
+function deleteSucceeded (response: Response, profile: Profile): Response {
+    const {profileId, profileEmail, profileFirstName, profileHash, profileLastName, profileUsername} = profile
+    const loggedProfile: PartialProfile = {
+        profileId,
+        profileEmail,
+        profileFirstName,
+        profileHash,
+        profileLastName,
+        profileUsername
+    }
+    removeProfile(loggedProfile)
+    return response.json({status: 200, message: 'Profile deleted.', data: null})
+}
+
+export async function getAllProfileController(request: Request, response: Response): Promise<Response> {
     try {
         const data = await selectAllProfiles()
 
@@ -48,22 +59,8 @@ export async function getAllProfileController(request: Request, response: Respon
 
 export async function getProfileByProfileIdController(request: Request, response: Response): Promise<Response> {
     try {
-        const { profileId } = request.params
+        const {profileId} = request.params
         const data = await selectProfileByProfileId(profileId)
-        return response.json({status: 200, message: null, data})
-    } catch (e) {
-        return response.json({
-            status: 500,
-            message: '',
-            data: []
-        })
-    }
-}
-
-export async function getProfileByProfileEmailController(request: Request, response: Response): Promise<Response> {
-    try {
-        const { profileEmail } = request.params
-        const data = await selectProfileByProfileEmail(profileEmail)
         return response.json({status: 200, message: null, data})
     } catch (e) {
         return response.json({
@@ -76,41 +73,26 @@ export async function getProfileByProfileEmailController(request: Request, respo
 
 export async function putProfileController(request: Request, response: Response): Promise<Response> {
     try {
-        // const { profileId } = request.params
-        const { profileEmail, profileFirstName, profileLastName, profilePassword, profileUsername } = request.body
+        const {profileId} = request.params
+        const {profileEmail, profileFirstName, profileLastName, profilePassword, profileUsername} = request.body
         const profileHash = await setHash(profilePassword)
+        // @ts-ignore
+        const profileIdFromSession = request.session.profile.profileId as string
 
-        const profile: Profile = {
-            profileId: 'f21400c6-d800-11ec-ba38-0242ac1a0002',
-            profileAuthenticationToken: null,
-            profileEmail,
-            profileFirstName,
-            profileLastName,
-            profileHash,
-            profileUsername
+        const performUpdate = async (profile: Profile): Promise<Response> => {
+            // @ts-ignore
+            const previousProfile: Profile = await selectProfileByProfileId(profileIdFromSession)
+            const newProfile: Profile = {...previousProfile, ...profile}
+            await updateProfile(newProfile)
+            return response.json({status: 200, message: 'Profile updated.', data: null})
         }
 
-        const result = await updateProfile(profile)
-        return response.json({status: 200, data: null, result})
+        const updateFailed = (message: string): Response => {
+            return response.json({ status: 400, data: null, message })
+        }
 
-
-        // const profile = request.body.profile as Profile
-        // const profileIdFromSession = profile.profileId as string
-
-        // const performUpdate = async (partialProfile: PartialProfile): Promise<Response> => {
-        //     const previousProfile: Profile = await selectProfileByProfileId(partialProfile.profileId as string) as Profile
-        //     const newProfile: Profile = {...previousProfile, ...partialProfile}
-        //     const result = await updateProfile(newProfile)
-        //     return response.json({status: 200, data: null, result})
-        // }
-        //
-        // const updateFailed = (message: string): Response => {
-        //     return response.json({status: 400, data: null, message})
-        // }
-        //
-        // return profileId === profileIdFromSession ?
-        //     await performUpdate({profileId, profileEmail, profileFirstName, profileLastName, profileHash, profileUsername}) :
-        //     updateFailed('Cannot perform profile update.')
+        // @ts-ignore
+        return profileId === profileIdFromSession ? await performUpdate({profileEmail, profileAuthenticationToken: null, profileFirstName, profileLastName, profileHash, profileUsername}) : updateFailed('Please login to update profile.')
     } catch (e) {
         return response.json({
             status: 500,

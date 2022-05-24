@@ -5,6 +5,7 @@ import { insertProfile } from '../../utils/profile/insertProfile'
 import formData from 'form-data'
 import Mailgun from 'mailgun.js'
 import Client from 'mailgun.js/dist/lib/client'
+import {selectProfileByProfileEmail} from "../../utils/profile/selectProfileByProfileEmail";
 
 export async function signupProfileController(request: Request, response: Response): Promise<Response|undefined> {
     try {
@@ -29,20 +30,34 @@ export async function signupProfileController(request: Request, response: Respon
         //     html: message
         // }
 
-        const profile: Profile = {
-            profileId: null,
-            profileAuthenticationToken,
-            profileEmail,
-            profileFirstName,
-            profileHash,
-            profileLastName,
-            profileUsername
+        const checkForExistingProfile = await selectProfileByProfileEmail(profileEmail)
+
+        if (checkForExistingProfile === null) {
+            const profile: Profile = {
+                profileId: null,
+                profileAuthenticationToken,
+                profileEmail,
+                profileFirstName,
+                profileHash,
+                profileLastName,
+                profileUsername
+            }
+            await insertProfile(profile)
+
+            // await mailgunClient.messages.create(process.env.MAILGUN_DOMAIN as string, mailgunMessage)
+
+            return response.json({
+                status: 200,
+                message: 'Profile created, check your email for confirmation.',
+                data: null
+            })
+        } else {
+            return response.json({
+                status: 409,
+                message: 'A profile with the specified email address already exists. Use \'Forgot My Password\' link to recover your account access.',
+                data: null
+            })
         }
-        await insertProfile(profile)
-
-        // await mailgunClient.messages.create(process.env.MAILGUN_DOMAIN as string, mailgunMessage)
-
-        return response.json({status: 200, message: 'Profile created, check your email for confirmation.', data: null})
     } catch (e) {
         return response.json({
             status: 500,
