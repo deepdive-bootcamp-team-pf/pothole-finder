@@ -25,5 +25,3 @@ photoRoute.route('/photoProfileId/:photoProfileId')
 photoRoute.route('/:photoId')
     .get(asyncValidatorController([check('photoId', 'Please provide a valid UUID').isUUID()]), getPhotoByPhotoIdController)
     .delete(asyncValidatorController([check('photoId', 'Please provide a valid photoId').isUUID()]), deletePhotoController)
-
-
