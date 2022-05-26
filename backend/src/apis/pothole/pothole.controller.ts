@@ -150,7 +150,7 @@ export async function putPotholeController(request: Request, response: Response)
 
 
 
-
+//inspect
 // const result = await removePothole(pothole)
 // return response.json({status: 200, data: null, result})
 
