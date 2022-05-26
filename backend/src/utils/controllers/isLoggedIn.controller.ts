@@ -22,15 +22,6 @@ export function isLoggedIn (request: Request, response: Response, next: NextFunc
 
   const unverifiedJwtToken: string | undefined = getJwtTokenFromHeader(request.headers)
 
-  // const isJwtValid: boolean|void = unverifiedJwtToken
-  //   ? verify(
-  //         unverifiedJwtToken,
-  //         signature(request),
-  //         {maxAge: "3hr"},
-  //
-  //     )
-  //   : false;
-
   const isJwtValid = (unverifiedJwtToken: string | undefined): boolean => {
     if (unverifiedJwtToken === undefined) {
       return false
