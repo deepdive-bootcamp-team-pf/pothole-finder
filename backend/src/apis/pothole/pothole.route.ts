@@ -4,7 +4,8 @@ import {
     deletePotholeController,
     getAllPotholesController,
     getPotholeByPotholeIdController,
-    getPotholesByPotholeProfileIdController, putPotholeController
+    getPotholesByPotholeProfileIdController,
+    putPotholeController
 } from './pothole.controller'
 
 import { asyncValidatorController } from '../../utils/controllers/asyncValidator.controller'

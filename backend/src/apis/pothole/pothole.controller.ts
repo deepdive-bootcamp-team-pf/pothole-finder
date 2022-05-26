@@ -9,7 +9,7 @@ import {selectPotholesByPotholeProfileId} from "../../utils/pothole/selectPothol
 import {removePothole} from "../../utils/pothole/removePothole"
 import {Status} from "../../utils/interfaces/Status";
 import {updatePothole} from "../../utils/pothole/updatePothole";
-
+import {Profile} from '../../utils/interfaces/Profile'
 
 export async function getAllPotholesController(request: Request, response: Response) : Promise<Response> {
     try {
@@ -111,7 +111,10 @@ export async function putPotholeController(request: Request, response: Response)
         const {potholeSeverity, potholeDescription, potholeLat, potholeLng} = request.body
         const targetedPothole = await selectPotholeByPotholeId(potholeId)
         // @ts-ignore
-        const profileIdFromSession = request.session.profile.profileId as string
+        const profile = request.session.profile as Profile
+        const potholeProfileId = profile.profileId as string
+        console.log(potholeProfileId, 'got the ppid')
+        console.log(targetedPothole?.potholeProfileId, 'got the target')
 
         const performUpdate = async (pothole: Pothole): Promise<Response> => {
             // @ts-ignore
@@ -127,7 +130,7 @@ export async function putPotholeController(request: Request, response: Response)
         }
 
         // @ts-ignore
-        return(targetedPothole !== null) && targetedPothole.potholeProfileId === profileIdFromSession ? await performUpdate({potholeProfileId: null, potholeDescription, potholeLat, potholeLng}) : updateFailed('Please login to update pothole.')
+        return(targetedPothole !== null) && targetedPothole.potholeProfileId === potholeProfileId ? await performUpdate({potholeProfileId, potholeSeverity, potholeDescription, potholeLat, potholeLng}) : updateFailed('Please login to update pothole.')
     } catch (e) {
         return response.json({
             status: 500,
