@@ -2,12 +2,16 @@
 import {Schema} from 'express-validator'
 
 export const potholeValidator: Schema = {
-    //
-    // potholeProfileId: {
-    //     isUUID: {
-    //         errorMessage: "Not a valid pothole profile ID."
-    //     }
-    // },
+    potholeId: {
+        isUUID: {
+            errorMessage: "Not a valid potholeId."
+        }
+    },
+    potholeProfileId: {
+        isUUID: {
+            errorMessage: "Not a valid pothole profile ID."
+        }
+    },
     potholeDate: {
         toDate: true
     },
