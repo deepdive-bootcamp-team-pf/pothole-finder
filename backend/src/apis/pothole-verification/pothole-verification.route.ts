@@ -13,5 +13,5 @@ potholeVerificationRoute.route('/')
     .get(getAllPotholeVerificationController)
     .post(isLoggedIn, asyncValidatorController(checkSchema(potholeVerificationValidator)), togglePotholeVerificationController)
 
-potholeVerificationRoute.route('/pv-profileId/:potholeVerificationProfileId')
+potholeVerificationRoute.route('/:potholeVerificationProfileId')
     .get(asyncValidatorController([check('potholeVerificationProfileId', 'Enter a valid profile ID for the pothole verification.').isUUID()]), getPotholeVerificationByPotholeVerificationProfileIdController)
