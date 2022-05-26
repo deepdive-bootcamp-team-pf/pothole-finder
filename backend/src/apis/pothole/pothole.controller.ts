@@ -41,9 +41,11 @@ export async function getPotholesByPotholeProfileIdController(request: Request, 
 export async function postPotholeController (request: Request, response: Response): Promise<Response<Status>> {
     try {
         const { potholeSeverity, potholeDescription, potholeLat, potholeLng, } = request.body
-        const profile: Profile = request.session.profile as Profile
-        const potholeProfileId: string = profile.profileId as string
-
+        //const profile: Profile = request.session.profile as Profile
+        //const potholeProfileId: string = profile.profileId as string
+        // @ts-ignore
+        const potholeProfileId = request.session.profile.profileId as string
+console.log('arrived at line 46 of pothole controller')
         const pothole: Pothole = {
             potholeId: null,
             potholeProfileId,
