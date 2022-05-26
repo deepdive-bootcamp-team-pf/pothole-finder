@@ -1,6 +1,6 @@
 export interface PotholeVerification {
-    potholeVerificationPotholeId: null,
-    potholeVerificationProfileId: null,
+    potholeVerificationPotholeId: string | null,
+    potholeVerificationProfileId: string | null,
     potholeVerificationDate: Date | null,
     potholeVerificationPhotoURL: string
 }
