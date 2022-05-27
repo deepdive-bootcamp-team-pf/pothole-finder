@@ -1,11 +1,6 @@
 import { Schema } from 'express-validator'
 
 export const profileValidator: Schema = {
-    profileId: {
-        isUUID: {
-            errorMessage: 'Not a valid profile ID.'
-        }
-    },
     profileEmail: {
         isEmail: {
             errorMessage: 'Not a valid email address.'
