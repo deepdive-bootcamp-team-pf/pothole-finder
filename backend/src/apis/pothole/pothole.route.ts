@@ -7,7 +7,6 @@ import {
     getPotholesByPotholeProfileIdController,
     putPotholeController
 } from './pothole.controller'
-
 import { asyncValidatorController } from '../../utils/controllers/asyncValidator.controller'
 import { check, checkSchema } from 'express-validator'
 import { potholeValidator } from './pothole.validator'

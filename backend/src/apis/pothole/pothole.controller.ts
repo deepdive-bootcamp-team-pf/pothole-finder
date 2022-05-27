@@ -1,4 +1,3 @@
-
 import { Request, Response} from 'express'
 import 'express-session'
 import {selectAllPotholes} from '../../utils/pothole/selectAllPotholes'
@@ -42,12 +41,11 @@ export async function getPotholesByPotholeProfileIdController(request: Request, 
 
 export async function postPotholeController (request: Request, response: Response): Promise<Response<Status>> {
     try {
-        const { potholeSeverity, potholeDescription, potholeLat, potholeLng, } = request.body
-        //const profile: Profile = request.session.profile as Profile
-        //const potholeProfileId: string = profile.profileId as string
+        const { potholeSeverity, potholeDescription, potholeLat, potholeLng } = request.body
         // @ts-ignore
-        const potholeProfileId = request.session.profile.profileId as string
-//console.log('arrived at line 46 of pothole controller')
+        const profile = request.session.profile as Profile
+        const potholeProfileId = profile.profileId as string
+
         const pothole: Pothole = {
             potholeId: null,
             potholeProfileId,
@@ -57,13 +55,9 @@ export async function postPotholeController (request: Request, response: Respons
             potholeLat,
             potholeLng
         }
-        const result = await insertPothole(pothole)
-        const status: Status = {
-            status: 200,
-            message: result,
-            data: null
-        }
-        return response.json(status)
+        await insertPothole(pothole)
+
+        return response.json({status:200, message: 'Pothole created successfully.', data:null})
     } catch (error) {
         return response.json({
             status: 500,
@@ -113,13 +107,10 @@ export async function putPotholeController(request: Request, response: Response)
         // @ts-ignore
         const profile = request.session.profile as Profile
         const potholeProfileId = profile.profileId as string
-        console.log(potholeProfileId, 'got the ppid')
-        console.log(targetedPothole?.potholeProfileId, 'got the target')
 
         const performUpdate = async (pothole: Pothole): Promise<Response> => {
             // @ts-ignore
             const previousPothole: Pothole = await selectPotholeByPotholeId(potholeId)
-            console.log(previousPothole.potholeProfileId)
             const newPothole: Pothole = {...previousPothole, ...pothole}
             await updatePothole(newPothole)
             return response.json({status: 200, message: 'Pothole updated.', data: null})
@@ -130,7 +121,7 @@ export async function putPotholeController(request: Request, response: Response)
         }
 
         // @ts-ignore
-        return(targetedPothole !== null) && targetedPothole.potholeProfileId === potholeProfileId ? await performUpdate({potholeProfileId, potholeSeverity, potholeDescription, potholeLat, potholeLng}) : updateFailed('Please login to update pothole.')
+        return(targetedPothole !== null) && targetedPothole.potholeProfileId === potholeProfileId ? await performUpdate({potholeSeverity, potholeDate: null, potholeDescription, potholeLat, potholeLng}) : updateFailed('Please login to update pothole.')
     } catch (e) {
         return response.json({
             status: 500,
