@@ -54,7 +54,6 @@ export class App {
   // private method for setting up routes in their basic sense (ie. any route that performs an action on profiles starts with /profiles)
   private routes () :void {
     // TODO add "/apis"
-    // this.app.use('/apis/log-in', logInRouter)
     this.app.use('/apis/photo', photoRoute)
     this.app.use('/apis', indexRoute)
     this.app.use('/apis/login', logInRoute)

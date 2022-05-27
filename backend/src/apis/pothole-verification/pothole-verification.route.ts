@@ -1,10 +1,10 @@
 import { Router } from 'express'
-import {togglePotholeVerificationController,
+import { check, checkSchema } from 'express-validator'
+import { togglePotholeVerificationController,
         getAllPotholeVerificationController,
         getPotholeVerificationByPotholeVerificationProfileIdController } from './pothole-verification.controller'
 import { asyncValidatorController } from '../../utils/controllers/asyncValidator.controller'
-import {isLoggedIn} from '../../utils/controllers/isLoggedIn.controller'
-import { check, checkSchema } from 'express-validator'
+import { isLoggedIn } from '../../utils/controllers/isLoggedIn.controller'
 import { potholeVerificationValidator } from "./pothole-verification.validator"
 
 export const potholeVerificationRoute = Router()

@@ -1,14 +1,13 @@
 import { Request, Response} from 'express'
 import 'express-session'
-import {selectAllPotholes} from '../../utils/pothole/selectAllPotholes'
-import {selectPotholeByPotholeId} from '../../utils/pothole/selectPotholeByPotholeId'
-import {insertPothole} from '../../utils/pothole/insertPothole'
-import {Pothole} from '../../utils/interfaces/Pothole'
-import {selectPotholesByPotholeProfileId} from "../../utils/pothole/selectPotholesByPotholeProfileId"
-import {removePothole} from "../../utils/pothole/removePothole"
-import {Status} from "../../utils/interfaces/Status";
-import {updatePothole} from "../../utils/pothole/updatePothole";
-import {Profile} from '../../utils/interfaces/Profile'
+import { Pothole } from '../../utils/interfaces/Pothole'
+import { Profile } from '../../utils/interfaces/Profile'
+import { selectAllPotholes } from '../../utils/pothole/selectAllPotholes'
+import { selectPotholeByPotholeId } from '../../utils/pothole/selectPotholeByPotholeId'
+import { selectPotholesByPotholeProfileId } from "../../utils/pothole/selectPotholesByPotholeProfileId"
+import { insertPothole } from '../../utils/pothole/insertPothole'
+import { removePothole } from '../../utils/pothole/removePothole'
+import { updatePothole } from '../../utils/pothole/updatePothole'
 
 export async function getAllPotholesController(request: Request, response: Response) : Promise<Response> {
     try {
@@ -39,7 +38,7 @@ export async function getPotholesByPotholeProfileIdController(request: Request, 
     }
 }
 
-export async function postPotholeController (request: Request, response: Response): Promise<Response<Status>> {
+export async function postPotholeController (request: Request, response: Response): Promise<Response> {
     try {
         const { potholeSeverity, potholeDescription, potholeLat, potholeLng } = request.body
         // @ts-ignore
@@ -73,8 +72,7 @@ export async function deletePotholeController(request: Request, response: Respon
         // @ts-ignore
         const profileIdFromSession = request.session.profile.profileId as string
         const targetedPothole = await selectPotholeByPotholeId(potholeId)
-// console.log('targetedPotholeProfileId',targetedPothole?.potholeProfileId)
-//         console.log('this will be session profileId', profileIdFromSession)
+
         return (targetedPothole !== null) && targetedPothole.potholeProfileId as string === profileIdFromSession ? deleteSucceeded(response, targetedPothole): deleteFailed(response)
     }catch (error) {
         return response.json({photo: 500, data: null, message: 'Error deleting pothole. Please try again.'})
@@ -130,47 +128,3 @@ export async function putPotholeController(request: Request, response: Response)
         })
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//inspect
-// const result = await removePothole(pothole)
-// return response.json({status: 200, data: null, result})
-
-// export async function deleteProfileController(request: Request, response: Response): Promise<Response> {
-//     try {
-//         const {profileId} = request.params
-//         const {profileEmail} = request.body
-//         const loggedInProfile = await selectProfileByProfileEmail(profileEmail)
-//
-//         return (loggedInProfile !== null) && loggedInProfile.profileId === profileId ? deleteSucceeded(response, loggedInProfile) : deleteFailed(response)
-//     } catch (e) {
-//         return response.json({
-//             status: 500,
-//             message: 'Server error deleting profile. Sure you don\'t want to stay?',
-//             data: null
-//         })
-//     }
-// }
-
-// const pothole: Pothole = {
-//     potholeId,
-//     potholeProfileId,
-//     potholeDate: null,
-//     potholeDescription: "",
-//     potholeSeverity: "",
-//     potholeLng: "",
-//     potholeLat: ""
-// }
-//

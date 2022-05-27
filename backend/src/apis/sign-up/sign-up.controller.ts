@@ -1,11 +1,12 @@
 import { Request, Response } from 'express'
-import { Profile } from '../../utils/interfaces/Profile'
-import { setActivationToken, setHash } from '../../utils/auth.utils'
-import { insertProfile } from '../../utils/profile/insertProfile'
 import formData from 'form-data'
 import Mailgun from 'mailgun.js'
 import Client from 'mailgun.js/dist/lib/client'
-import {selectProfileByProfileEmail} from "../../utils/profile/selectProfileByProfileEmail";
+import { Profile } from '../../utils/interfaces/Profile'
+import { setActivationToken, setHash } from '../../utils/auth.utils'
+import { insertProfile } from '../../utils/profile/insertProfile'
+
+import { selectProfileByProfileEmail } from "../../utils/profile/selectProfileByProfileEmail";
 
 export async function signupProfileController(request: Request, response: Response): Promise<Response|undefined> {
     try {

@@ -1,6 +1,6 @@
-import { App } from './App'
-import {Profile} from "./utils/interfaces/Profile";
 import 'express-session'
+import { App } from './App'
+import { Profile } from './utils/interfaces/Profile'
 
 declare module 'express-session' {
   export interface SessionData {
