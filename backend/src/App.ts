@@ -62,7 +62,6 @@ export class App {
     this.app.use('/apis/profile', profileRoute)
     this.app.use('/apis/pothole-verification', potholeVerificationRoute)
     this.app.use('/apis/sign-up', signUpRoute)
-
   }
 
   // starts the server and tells the terminal to post a message that the server is running and on what port
