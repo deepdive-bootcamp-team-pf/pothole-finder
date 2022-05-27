@@ -7,7 +7,6 @@ import {selectProfileByProfileId} from '../../utils/profile/selectProfileByProfi
 import {selectProfileByProfileEmail} from '../../utils/profile/selectProfileByProfileEmail'
 import {updateProfile} from '../../utils/profile/updateProfile'
 import {setHash} from '../../utils/auth.utils'
-import { profile } from 'console'
 
 export async function deleteProfileController(request: Request, response: Response): Promise<Response> {
     try {

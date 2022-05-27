@@ -4,54 +4,8 @@ import { Profile } from "../../utils/interfaces/Profile";
 import { insertPotholeVerification } from '../../utils/potholeVerification/insertPotholeVerification'
 import { removePotholeVerification } from '../../utils/potholeVerification/removePotholeVerification'
 import { selectAllPotholeVerifications } from '../../utils/potholeVerification/selectAllPotholeVerifications'
-import { selectPotholeVerificationsByPotholeVerificationPotholeId } from '../../utils/potholeVerification/selectPotholeVerificationsByPotholeVerificationPotholeId'
+import { selectPotholeVerificationByPotholeVerificationId } from '../../utils/potholeVerification/selectPotholeVerificationByPotholeVerificationId'
 import { selectPotholeVerificationsByPotholeVerificationProfileId } from '../../utils/potholeVerification/selectPotholeVerificationsByPotholeVerificationProfileId'
-
-// will test post function after project is synced with Pothole entity and associated navigable routes
-
-// export async function postPotholeVerificationController(request: Request, response: Response): Promise<Response> {
-//     try {
-//         const {potholeVerificationPhotoURL} = request.body
-//         const pothole: Pothole = request.session.pothole as Pothole
-//         const potholeVerificationPotholeId: string = pothole.potholeId as string
-//         const profile: Profile = request.session.profile as Profile
-//         const potholeVerificationProfileId: string = profile.profileId as string
-//
-//         const potholeVerification: PotholeVerification = {
-//             potholeVerificationPotholeId,
-//             potholeVerificationProfileId,
-//             potholeVerificationDate: null,
-//             potholeVerificationPhotoURL
-//         }
-//         const result = await insertPotholeVerification(potholeVerification)
-//         return response.json({status: 200, data: null, result})
-//     } catch (e) {
-//         return response.json({
-//             status: 500,
-//             message: 'Server error verifying pothole, try again later.',
-//             data: null
-//         })
-//     }
-// }
-
-// export async function deletePotholeVerificationController(request: Request, response: Response): Promise<Response> {
-//     try {
-//         const profile: Profile = request.session.profile
-//         const { potholeVerificationProfileId } = request.params
-//
-//         if (profile.profileId === potholeVerificationProfileId) {
-//             const potholeVerification = request.body
-//             const result = await removePotholeVerification(potholeVerification)
-//         }
-//         return response.json({status: 200, data: null, result})
-//     } catch (e) {
-//         return response.json({
-//             status: 500,
-//             message: 'Server error verifying pothole, try again later.',
-//             data: null
-//         })
-//     }
-// }
 
 export async function getAllPotholeVerificationController(request: Request, response: Response): Promise<Response> {
     try {
@@ -67,10 +21,10 @@ export async function getAllPotholeVerificationController(request: Request, resp
     }
 }
 
-export async function getPotholeVerificationByPotholeVerificationPotholeIdController(request: Request, response: Response): Promise<Response> {
+export async function getPotholeVerificationByPotholeVerificationProfileIdController(request: Request, response: Response): Promise<Response> {
     try {
-        const { potholeVerificationPotholeId } = request.params
-        const data = await selectPotholeVerificationsByPotholeVerificationPotholeId(potholeVerificationPotholeId)
+        const { potholeVerificationProfileId } = request.params
+        const data = await selectPotholeVerificationsByPotholeVerificationProfileId(potholeVerificationProfileId)
         return response.json({status: 200, message: null, data})
     } catch (e) {
         return response.json({
@@ -81,11 +35,29 @@ export async function getPotholeVerificationByPotholeVerificationPotholeIdContro
     }
 }
 
-export async function getPotholeVerificationByPotholeVerificationProfileIdController(request: Request, response: Response): Promise<Response> {
+export async function togglePotholeVerificationController (request: Request, response: Response): Promise<Response<string>> {
     try {
-        const { potholeVerificationProfileId } = request.params
-        const data = await selectPotholeVerificationsByPotholeVerificationProfileId(potholeVerificationProfileId)
-        return response.json({status: 200, message: null, data})
+        const { potholeVerificationPotholeId, potholeVerificationPhotoURL } = request.body
+        // @ts-ignore
+        const profile = request.session.profile as Profile
+        const potholeVerificationProfileId = profile.profileId as string
+
+        const potholeVerification: PotholeVerification = {
+            potholeVerificationPotholeId,
+            potholeVerificationProfileId,
+            potholeVerificationDate: null,
+            potholeVerificationPhotoURL
+        }
+
+        let result
+
+        const selectedPotholeVerification: PotholeVerification|null = await selectPotholeVerificationByPotholeVerificationId(potholeVerification)
+        if (selectedPotholeVerification === null) {
+            result = await insertPotholeVerification(potholeVerification)
+        } else {
+            result = await removePotholeVerification(potholeVerification)
+        }
+        return response.json({status: 200, result, data: null})
     } catch (e) {
         return response.json({
             status: 500,

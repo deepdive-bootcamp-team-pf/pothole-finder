@@ -1,22 +1,8 @@
-
 import {Schema} from 'express-validator'
 
 export const potholeValidator: Schema = {
-    potholeId: {
-        isUUID: {
-            errorMessage: "Not a valid pothole ID."
-        }
-    },
-    potholeProfileId: {
-        isUUID: {
-            errorMessage: "Not a valid pothole profile ID."
-        }
-    },
     potholeDate: {
-        toDate: true,
-        isDate: {
-            errorMessage: "Not a valid pothole date."
-        }
+        toDate: true
     },
     potholeDescription: {
         isLength: {
@@ -34,8 +20,6 @@ export const potholeValidator: Schema = {
             }
         }
     },
-
-
     potholeLat: {
         isDecimal: {
             options: {
@@ -44,9 +28,6 @@ export const potholeValidator: Schema = {
             errorMessage: "Please add a latitude."
         }
     },
-
-
-
     potholeLng: {
         isDecimal: {
             options: {
