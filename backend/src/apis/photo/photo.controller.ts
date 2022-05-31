@@ -5,6 +5,7 @@ import {insertPhoto} from '../../utils/photo/insertPhoto'
 import {Photo} from '../../utils/interfaces/Photo'
 import {selectPhotosByPhotoProfileId} from "../../utils/photo/selectPhotosByPhotoProfileId";
 import {removePhoto} from "../../utils/photo/removePhoto";
+import {Profile} from "../../utils/interfaces/Profile";
 
 export async function getAllPhotosCController(request: Request, response: Response) : Promise<Response> {
     try {
@@ -37,10 +38,12 @@ export async function getPhotoByPhotoProfileIdController(request: Request, respo
 
 export async function postPhotoController(request: Request, response: Response) : Promise<Response> {
     try {
-        const {photoDescription, photoName, photoURL} = request.body
+        const {photoPotholeId, photoDescription, photoName, photoURL} = request.body
+        const profile: Profile = request.session.profile as Profile
+
         const photo: Photo = {
             photoId: null,
-            photoPotholeId: null,
+            photoPotholeId,
             photoProfileId: null,
             photoDate: null,
             photoDescription,
