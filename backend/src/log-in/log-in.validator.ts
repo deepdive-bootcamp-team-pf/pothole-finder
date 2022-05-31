@@ -1,4 +1,4 @@
-import {Schema} from "express-validator";
+import { Schema } from 'express-validator'
 
 export const logInValidator: Schema = {
     profilePassword: {

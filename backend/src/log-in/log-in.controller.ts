@@ -1,9 +1,9 @@
 import { Request, Response } from 'express'
 import 'express-session'
 import { v4 as uuid } from 'uuid'
-import {Profile} from '../utils/interfaces/Profile'
-import {selectProfileByProfileEmail} from "../utils/profile/selectProfileByProfileEmail";
-import {generateJwt, validatePassword} from "../utils/auth.utils";
+import { Profile } from '../utils/interfaces/Profile'
+import { selectProfileByProfileEmail } from '../utils/profile/selectProfileByProfileEmail'
+import { generateJwt, validatePassword } from '../utils/auth.utils'
 
 export async function logInController (request: Request, response: Response): Promise<Response> {
     try {

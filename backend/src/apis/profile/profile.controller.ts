@@ -1,12 +1,12 @@
-import {Request, Response} from 'express'
+import { Request, Response } from 'express'
 import 'express-session'
-import {PartialProfile, Profile} from '../../utils/interfaces/Profile'
-import {removeProfile} from '../../utils/profile/removeProfile'
-import {selectAllProfiles} from '../../utils/profile/selectAllProfiles'
-import {selectProfileByProfileId} from '../../utils/profile/selectProfileByProfileId'
-import {selectProfileByProfileEmail} from '../../utils/profile/selectProfileByProfileEmail'
-import {updateProfile} from '../../utils/profile/updateProfile'
-import {setHash} from '../../utils/auth.utils'
+import { PartialProfile, Profile } from '../../utils/interfaces/Profile'
+import { removeProfile } from '../../utils/profile/removeProfile'
+import { selectAllProfiles } from '../../utils/profile/selectAllProfiles'
+import { selectProfileByProfileId } from '../../utils/profile/selectProfileByProfileId'
+import { selectProfileByProfileEmail } from '../../utils/profile/selectProfileByProfileEmail'
+import { updateProfile } from '../../utils/profile/updateProfile'
+import { setHash } from '../../utils/auth.utils'
 
 export async function deleteProfileController(request: Request, response: Response): Promise<Response> {
     try {

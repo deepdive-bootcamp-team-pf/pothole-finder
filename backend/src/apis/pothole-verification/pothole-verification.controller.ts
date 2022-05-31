@@ -1,4 +1,5 @@
 import { Request, Response } from 'express'
+import 'express-session'
 import { PotholeVerification } from '../../utils/interfaces/PotholeVerification'
 import { Profile } from "../../utils/interfaces/Profile";
 import { insertPotholeVerification } from '../../utils/potholeVerification/insertPotholeVerification'

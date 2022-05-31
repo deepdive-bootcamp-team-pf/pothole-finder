@@ -1,9 +1,9 @@
 import { Router } from 'express'
+import { check, checkSchema } from 'express-validator'
 import { signupProfileController } from './sign-up.controller'
 import { asyncValidatorController} from '../../utils/controllers/asyncValidator.controller'
-import { check, checkSchema } from 'express-validator'
+import { activationController } from './activation.controller'
 import { signupValidator } from './sign-up.validator'
-import {activationController} from "./activation.controller";
 
 export const signUpRoute = Router()
 
