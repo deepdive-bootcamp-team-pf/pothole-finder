@@ -1,22 +1,7 @@
 import { Schema } from 'express-validator'
 
 export const photoValidator: Schema = {
-    photoId: {
-        isUUID: {
-            errorMessage: 'Please provide a valid photoId.'
-        }
-    },
-    photoPotholeId: {
-        isUUID: {
-            errorMessage: 'Please provide a valid photoPotholeId.'
-        }
-    },
 
-    photoProfileId: {
-        isUUID: {
-            errorMessage: 'Please provide a valid photoProfileId.'
-        }
-    },
     photoDate: {
         toDate: true
     },

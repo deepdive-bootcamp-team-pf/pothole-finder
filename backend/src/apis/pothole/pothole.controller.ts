@@ -80,6 +80,7 @@ export async function deletePotholeController(request: Request, response: Respon
         return response.json({photo: 500, data: null, message: 'Error deleting pothole. Please try again.'})
     }
 }
+
 function deleteFailed (response: Response): Response {
     return response.json({status: 400, message: 'Input incorrect or you do not have permission to delete this pothole.', data: null})
 }
