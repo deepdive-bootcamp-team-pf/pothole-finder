@@ -17,11 +17,6 @@ export function SeverityPhotoPage (){
             <button>Back </button>
             <button>Next </button>
 
-
-
-
-
-
         </>
     )
 }
