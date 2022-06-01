@@ -1,5 +1,5 @@
 import React from 'react'
-import {SignUpPopup} from "./SignUpPopup";
+import {SignUpPopup} from "./SignUp/SignUpPopup";
 
 
 export const Home = () => {

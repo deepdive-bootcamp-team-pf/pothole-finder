@@ -1,4 +1,4 @@
-import {Popup} from "./Components/Popup"
+import {Popup} from "./Popup"
 import React from "react"
 import {useState} from 'react'
 import {SignUpForm} from "./SignUpForm";
