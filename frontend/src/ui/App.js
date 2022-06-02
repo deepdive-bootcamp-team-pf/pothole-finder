@@ -10,14 +10,11 @@ import {SignUpPopup} from "./SignUp/SignUpPopup"
 export const App = () => (
     <>
         <BrowserRouter>
-            <Navigation/>
             <Routes>
-
                 <Route  path='/' element={<Home />} />
                 <Route path='*' element={<FourOhFour />} />
                 <Route exact path='/SeverityPhotoPage' component={<SeverityPhotoPage />} />
                 <Route path='/signup' element={<SignUpPopup/>}/>
-
             </Routes>
         </BrowserRouter>
     </>
