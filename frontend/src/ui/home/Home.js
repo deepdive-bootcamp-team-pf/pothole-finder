@@ -11,11 +11,11 @@ export function Home() {
             <Container fluid className={'home-nav position-absolute bg-transparent'}>
                 <Row className={'d-flex pt-3'}>
                     <Col className={'mr-auto'}>
-                        <Button className={'m-3'} size={'lg'}>Add Pothole</Button>
+                        <Button className={'large-button m-3'} size={'lg'}>Add Pothole</Button>
                     </Col>
                     <Col className={'d-flex justify-content-end'}>
                         <Dropdown>
-                            <Dropdown.Toggle variant="primary" id="dropdown-basic" size={'lg'} className={'background-primary mt-3'}>
+                            <Dropdown.Toggle variant="primary" id="dropdown-basic" size={'lg'} className={'large-button background-primary mt-3'}>
                                 Log In
                             </Dropdown.Toggle>
 
