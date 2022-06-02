@@ -1,8 +1,9 @@
 import React from 'react'
 import Map from './Map'
 import { SignUpPopup } from '../SignUp/SignUpPopup'
-import {Button, Col, Container, Row} from 'react-bootstrap'
+import {Button, Col, Container, Dropdown, Row} from 'react-bootstrap'
 import './HomeNav.css'
+import {LogInForm} from "./LogInForm";
 
 export function Home() {
     return (
@@ -13,7 +14,15 @@ export function Home() {
                         <Button className={'m-3'} size={'lg'}>Add Pothole</Button>
                     </Col>
                     <Col className={'d-flex justify-content-end'}>
-                        <Button className={'m-3'} size={'lg'}>Log In</Button>
+                        <Dropdown>
+                            <Dropdown.Toggle variant="primary" id="dropdown-basic" size={'lg'} className={'background-primary mt-3'}>
+                                Log In
+                            </Dropdown.Toggle>
+
+                            <Dropdown.Menu className={'dropdown-menu-css'}>
+                                <Container fluid><LogInForm/></Container>
+                            </Dropdown.Menu>
+                        </Dropdown>
                         <SignUpPopup/>
                     </Col>
                 </Row>

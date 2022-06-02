@@ -1,3 +1,9 @@
 .home-nav {
     z-index: 999;
 }
+
+.dropdown-menu-css {
+    width: 15rem;
+    right: auto;
+    left: 0;
+}
