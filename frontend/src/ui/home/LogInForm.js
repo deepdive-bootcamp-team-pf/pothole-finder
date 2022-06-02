@@ -30,7 +30,7 @@ export function LogInForm() {
                                     className="form-control"
                                     name="profilePassword"
                                     type="text"
-                                    placeholder="p@ssword1"
+                                    placeholder="P@ssword1"
                                 />
                             </InputGroup>
                         </Form.Group>
