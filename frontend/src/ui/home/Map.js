@@ -12,7 +12,7 @@ export default function Map(){
                 'severity': 3,
                 'properties': {
                     'message': 'Buzz Lightyear, Mission Log. I just downloaded this app after going through a near-death experience. Today was the day, folks. The Vonnegut has been officially decommissioned after colliding with this world-splitting fissure. Survivor\'s guilt plagues my heart as I reflect on the sacrifice my beloved car made in order for me to be here today. I vow to verify and repost this pothole daily, until it is repaired!',
-                    'iconSize': [50, 50]
+                    'iconSize': [35, 35]
                 },
                 'geometry': {
                     'type': 'Point',
@@ -24,7 +24,7 @@ export default function Map(){
                 'severity': 2,
                 'properties': {
                     'message': 'Thanks to this crater on Priceton Drive I\'ll be adding air to my tire later.',
-                    'iconSize': [50, 50]
+                    'iconSize': [35, 35]
                 },
                 'geometry': {
                     'type': 'Point',
@@ -36,7 +36,7 @@ export default function Map(){
                 'severity': 3,
                 'properties': {
                     'message': 'I thought it was just a puddle, now I get the pleasure of taking my car in for repairs. Awesome...',
-                    'iconSize': [50, 50]
+                    'iconSize': [35, 35]
                 },
                 'geometry': {
                     'type': 'Point',
@@ -48,7 +48,7 @@ export default function Map(){
                 'severity': 1,
                 'properties': {
                     'message': 'Ran over this little doozie on my way out of the Cantina. Wouldn\'t have expected that tiny thing to shake up the car like it did.',
-                    'iconSize': [50, 50]
+                    'iconSize': [35, 35]
                 },
                 'geometry': {
                     'type': 'Point',
