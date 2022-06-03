@@ -25,4 +25,22 @@ Button {
         font-size: 80%;
         line-height: 1;
     }
+
+    .dropdown-menu-css {
+        padding: .75rem;
+        font-size: 80%;
+        width: 8rem;
+    }
+
+    .login-form-container {
+        padding: 0;
+    }
+
+    .login-form input {
+        font-size: 100%;
+    }
+
+    .log-in-btn {
+        font-size: 110%;
+    }
 }
