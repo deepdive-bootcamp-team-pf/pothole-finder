@@ -11,10 +11,13 @@ export const App = () => (
     <>
         <BrowserRouter>
             <Routes>
-                <Route  path='/' element={<Home />} />
-                <Route path='*' element={<FourOhFour />} />
-                <Route exact path='/SeverityPhotoPage' component={<SeverityPhotoPage/>} />
+
+                <Route path='/' element={<Home/>}/>
+                <Route path='/404' element={<FourOhFour/>}/>
                 <Route path='/signup' element={<SignUpModal/>}/>
+                <Route path='/severity-photo-page' element={<SeverityPhotoPage/>}/>
+
+
             </Routes>
         </BrowserRouter>
     </>
