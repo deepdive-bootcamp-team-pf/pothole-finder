@@ -15,7 +15,7 @@ export const App = () => (
                 <Route path='/' element={<Home/>}/>
                 <Route path='/404' element={<FourOhFour/>}/>
                 <Route path='/signup' element={<SignUpPopup/>}/>
-                <Route path='/SeverityPhotoPage' element={<SeverityPhotoPage/>}/>
+                <Route path='/severity-photo-page' element={<SeverityPhotoPage/>}/>
             </Routes>
         </BrowserRouter>
     </>
