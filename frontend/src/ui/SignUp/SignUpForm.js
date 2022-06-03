@@ -4,7 +4,7 @@ import {Button, Col, Form, FormControl, InputGroup, Row} from "react-bootstrap";
 export function SignUpForm() {
     return (
         <>
-            <Form>
+            <Form className={'p-3'}>
                 <Row>
                     <Col md={6}>
                         <Form.Group className="mb-1" controlId="firstName">
