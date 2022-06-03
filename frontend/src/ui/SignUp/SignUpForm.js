@@ -7,7 +7,7 @@ export function SignUpForm() {
             <Form>
                 <Row>
                     <Col md={6}>
-                        <Form.Group className="mb-1" controlId="firstNamel">
+                        <Form.Group className="mb-1" controlId="firstName">
                             <Form.Label>First Name</Form.Label>
                             <InputGroup>
                                 <InputGroup.Text>

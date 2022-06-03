@@ -1,9 +1,9 @@
 import React from 'react'
 import Map from './Map'
-import { SignUpPopup } from '../SignUp/SignUpPopup'
 import {Button, Col, Container, Dropdown, Row} from 'react-bootstrap'
 import './HomeNav.css'
 import {LogInForm} from "./LogInForm";
+import {SignUp} from "../SignUp/SignUp";
 
 export function Home() {
     return (
@@ -23,7 +23,7 @@ export function Home() {
                                 <Container fluid className={'login-form-container'}><LogInForm/></Container>
                             </Dropdown.Menu>
                         </Dropdown>
-                        <SignUpPopup/>
+                        <SignUp/>
                     </Col>
                 </Row>
             </Container>
