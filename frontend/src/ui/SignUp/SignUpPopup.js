@@ -9,7 +9,7 @@ export function SignUpPopup() {
     const [buttonPopup, setButtonPopup] = useState(false);
     return (
         <>
-            <Button className={'m-3'} size={'lg'} onClick={() => setButtonPopup(true)}>Sign Up</Button>
+            <Button className={'sign-up-button m-3'} size={'lg'} onClick={() => setButtonPopup(true)}>Sign Up</Button>
             <Popup trigger={buttonPopup} setTrigger={setButtonPopup}>
                 <h2 className={'p-3 text-center'}>Sign Up</h2>
                 <p className={'m-0 p-0'}>Signing up is free and easy.</p>

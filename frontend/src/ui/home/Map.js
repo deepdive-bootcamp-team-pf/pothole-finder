@@ -19,7 +19,7 @@ export default function Map(){
             center: [lng, lat],
             zoom: zoom
         });
-        map.current.addControl(new maplibregl.NavigationControl(), 'top-right')
+        map.current.addControl(new maplibregl.NavigationControl(), 'bottom-left')
         new maplibregl.Marker({color: "#FF0000", draggable: true})
             .setLngLat([-106.6300, 35.1000])
             .addTo(map.current)
