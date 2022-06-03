@@ -9,3 +9,23 @@
     width: 100%;
     height: 100%;
 }
+
+.marker {
+    display: block;
+    border: none;
+    border-radius: 25%;
+    cursor: pointer;
+    padding: 0;
+}
+
+.face-palm {
+    background-image: url(icons/face-palm.png);
+}
+
+.crying {
+    background-image: url(icons/crying.png);
+}
+
+.bomb {
+    background-image: url(icons/bomb.png);
+}
