@@ -20,7 +20,7 @@ export function Home() {
                             </Dropdown.Toggle>
 
                             <Dropdown.Menu className={'dropdown-menu-css'}>
-                                <Container fluid><LogInForm/></Container>
+                                <Container fluid className={'login-form-container'}><LogInForm/></Container>
                             </Dropdown.Menu>
                         </Dropdown>
                         <SignUpPopup/>

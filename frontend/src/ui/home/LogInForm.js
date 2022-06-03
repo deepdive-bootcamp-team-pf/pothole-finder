@@ -4,7 +4,7 @@ import React from 'react';
 export function LogInForm() {
     return (
         <>
-            <Form>
+            <Form className={'login-form'}>
                 <Row>
                     <Col>
                         <Form.Group className="mb-2" controlId="userName">
@@ -36,7 +36,7 @@ export function LogInForm() {
                         </Form.Group>
 
                         <Form.Group className={"mt-3"}>
-                            <Button className="btn btn-primary" type="submit">Log In</Button>
+                            <Button className="log-in-btn btn btn-primary" type="submit">Log In</Button>
                         </Form.Group>
                     </Col>
                 </Row>
