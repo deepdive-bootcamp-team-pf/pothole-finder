@@ -5,7 +5,7 @@ import { FourOhFour } from './FourOhFour'
 import {SeverityPhotoPage} from "./SeverityPhotoPage"
 import { Navigation } from "./Navigation"
 import React from 'react'
-import {SignUpPopup} from "./SignUp/SignUpPopup"
+import {SignUpModal} from "./SignUp/SignUpModal"
 
 export const App = () => (
     <>
@@ -13,8 +13,8 @@ export const App = () => (
             <Routes>
                 <Route  path='/' element={<Home />} />
                 <Route path='*' element={<FourOhFour />} />
-                <Route exact path='/SeverityPhotoPage' component={<SeverityPhotoPage />} />
-                <Route path='/signup' element={<SignUpPopup/>}/>
+                <Route exact path='/SeverityPhotoPage' component={<SeverityPhotoPage/>} />
+                <Route path='/signup' element={<SignUpModal/>}/>
             </Routes>
         </BrowserRouter>
     </>
