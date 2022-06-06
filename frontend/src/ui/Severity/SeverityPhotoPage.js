@@ -5,20 +5,20 @@ import bomb from '../home/icons/bomb.png'
 import crying from '../home/icons/crying.png'
 import facepalm from '../home/icons/face-palm.png'
 
-export function SeverityPhotoPage () {
 
-  function handleClose () {
-  }
+export function SeverityPhotoPage () {
 
   const radios = [
     { name: 'Mild ', value: '1', img: facepalm },
     { name: 'Moderate ', value: '2', img: crying },
     { name: 'Severe ', value: '3', img: bomb },
   ]
-  const [checked, setChecked] = useState(false)
+
   const [radioValue, setRadioValue] = useState('1')
   return (
     <>
+
+
       <Container fluid className={'full-screen d-flex justify-content-center align-items-center'}>
         <Container id={'content'} className={'my-auto p-3'}>
           <Form>
@@ -37,7 +37,7 @@ export function SeverityPhotoPage () {
                 >
                   {radio.name}
 
-                  <Image src={radio.img} style={{ height: '35px', width: '35px' }}/>
+                  <Image src={radio.img} style={{ height: '25px', width: '25px' }}/>
                 </ToggleButton>
               ))}
             </ButtonGroup>
