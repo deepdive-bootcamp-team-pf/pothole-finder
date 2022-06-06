@@ -2,7 +2,7 @@ import {BrowserRouter, Route, Routes} from 'react-router-dom'
 import 'bootstrap/dist/css/bootstrap.css'
 import { Home } from './home/Home'
 import { FourOhFour } from './FourOhFour'
-import {SeverityPhotoPage} from "./home/SeverityPhotoPage"
+import {SeverityPhotoPage} from "./Severity/SeverityPhotoPage"
 import React from 'react'
 import {SignUpModal} from "./SignUp/SignUpModal"
 

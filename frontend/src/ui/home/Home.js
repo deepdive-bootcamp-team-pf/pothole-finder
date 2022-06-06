@@ -11,7 +11,7 @@ export function Home() {
             <Container fluid className={'home-nav position-absolute bg-transparent'}>
                 <Row className={'d-flex pt-3'}>
                     <Col className={'mr-auto'}>
-                        <Button className={'large-button m-3'} size={'lg'}>Add Pothole</Button>
+                        <Button href="/severity-photo-page" className={'large-button m-3'} size={'lg'}>Add Pothole</Button>
                     </Col>
                     <Col className={'d-flex justify-content-end'}>
                         <Dropdown>
