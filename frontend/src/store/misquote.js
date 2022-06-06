@@ -1,5 +1,5 @@
 import {createSlice} from '@reduxjs/toolkit'
-import {httpConfig} from '../utils/httpConfig'
+import {httpConfig} from '../ui/utils/httpConfig'
 
 //Define our reducer and action
 const misquoteSlice = createSlice({
