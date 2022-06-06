@@ -1,22 +1,28 @@
-import {createSlice} from '@reduxjs/toolkit'
-import {httpConfig} from '../utils/httpConfig'
+import { createSlice } from '@reduxjs/toolkit'
+import { fetchAuth } from './auth'
+import { httpConfig } from '../ui/utils/httpConfig'
 
-// Define our reducer and action
-const misquoteSlice = createSlice({
-    name: 'misquotes',
-    initialState: [],
+const profileSlice = createSlice({
+    name: "profile",
+    initialState: null,
     reducers: {
-        setAllMisquotes: (misquotes, action) => action.payload
+        getProfileByProfileId: (profile, action) => {
+            return action.payload
+        }
     }
 })
 
-// Make our actions callable as function setAllMisquotes
-export const {setAllMisquotes} = misquoteSlice.actions
+export const {getProfileByProfileId} = profileSlice.actions
 
-export default misquoteSlice.reducer
+export default profileSlice.reducer
 
-// create an export to allow async calls to our action
-export const fetchAllMisquotes = () => async dispatch => {
-    const {data} = await httpConfig('/apis/misquote/')
-    dispatch(setAllMisquotes(data))
+export const fetchProfileByProfileId = () => async (dispatch, getState) => {
+    await dispatch(fetchAuth())
+    const {auth} = getState()
+    console.log(auth)
+    if(auth !== null) {
+        const {data} = await httpConfig.get(`/apis/profile/${auth.profileId}`)
+        console.log(data)
+        dispatch(getProfileByProfileId(data))
+    }
 }
