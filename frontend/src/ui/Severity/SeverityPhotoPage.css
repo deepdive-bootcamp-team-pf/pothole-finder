@@ -1,31 +1,33 @@
-
 @import url('https://fonts.googleapis.com/css2?family=Prompt:wght@300&display=swap');
 
 #content {
     background: rgba(255,255,255,.5);
     border-radius: 3%;
 }
+
 .full-screen {
     height: 100vh;
 
 }
-body {
+
+.add-background-image {
     font-family: 'Prompt', sans-serif;
     background: url(images/night-lights.jpg) no-repeat center center fixed;
     background-size: cover;
 }
-h1 {
+
+.title-centering {
     text-align: center;
 }
 
 .face-palm {
-    background-image: url(../home/icons/face-palm.png);
+    background-image: url(../Home/icons/face-palm.png);
 }
 
 .crying {
-    background-image: url(../home/icons/crying.png);
+    background-image: url(../Home/icons/crying.png);
 }
 
 .bomb {
-    background-image: url(../home/icons/bomb.png);
+    background-image: url(../Home/icons/bomb.png);
 }
