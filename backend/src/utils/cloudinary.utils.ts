@@ -25,7 +25,7 @@ export const uploadToCloudinary = async (file: Express.Multer.File): Promise<str
                     reject(error)
                 }
             }
-        )
+        )+
 
         const readable: Readable = new Readable()
         readable._read = () => {}

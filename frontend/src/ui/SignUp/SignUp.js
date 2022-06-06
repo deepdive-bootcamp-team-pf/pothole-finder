@@ -7,7 +7,7 @@ export function SignUp() {
 
     return (
         <>
-            <Button variant="primary" onClick={() => setModalShow(true)}>
+            <Button className={'sign-up-button m-3'} size={'lg'} variant="primary" onClick={() => setModalShow(true)}>
                 Sign Up
             </Button>
 
