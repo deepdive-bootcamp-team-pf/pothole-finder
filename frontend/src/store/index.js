@@ -1,12 +1,11 @@
-import profiles from "./profile"
+import auth from './auth'
+import profile from "./profile"
 import potholes from "./potholes"
 import photos from "./photos"
-import potholeVerifications from "./potholeVerifications"
-import {combineReducers, configureStore} from "@reduxjs/toolkit";
+import potholeVerifications from "./pothole-verifications"
+import {combineReducers, configureStore} from '@reduxjs/toolkit'
 
 
-const reducer = combineReducers({profile, potholes, photos, potholeVerifications})
-
-const reducer = combineReducers({profiles, potholes, photos, potholeVerifications})
+const reducer = combineReducers({auth, profile, potholes, photos, potholeVerifications})
 
 export const store = configureStore({reducer})
