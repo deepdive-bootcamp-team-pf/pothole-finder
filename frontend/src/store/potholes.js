@@ -3,20 +3,20 @@ import {httpConfig} from '../ui/utils/httpConfig'
 
 //Define our reducer and action
 const potholeSlice = createSlice({
-    name: 'misquote',
+    name: 'pothole',
     initialState: [],
     reducers: {
-        setAllMisquotes: (misquotes,action) => action.payload
+        setAllPotholes: (potholes,action) => action.payload
         }
 })
 
 // Make our actions callable as function setAllMisquotes
-export const {setAllMisquotes} = misquoteSlice.actions
+export const {setAllPotholes} = potholeSlice.actions
 
-export default misquoteSlice.reducer
+export default potholeSlice.reducer
 
 // create an export to allow async calls to our action
-export const fetchAllMisquotes = () => async dispatch => {
-    const {data} = await httpConfig('/apis/misquote')
-    dispatch(setAllMisquotes(data))
+export const fetchAllPotholes = () => async dispatch => {
+    const {data} = await httpConfig('/apis/potholes')
+    dispatch(setAllPotholes(data))
 }
