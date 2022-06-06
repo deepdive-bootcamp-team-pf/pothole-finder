@@ -9,8 +9,8 @@ import {SignUpModal} from "./SignUp/SignUpModal"
 import {Provider} from "react-redux"
 
 
-export const App = () => (
-    <Provider>
+export const App = (store) => (
+    <Provider store={store}>
         <BrowserRouter>
             <Routes>
                 <Route path='/' element={<Home/>}/>
