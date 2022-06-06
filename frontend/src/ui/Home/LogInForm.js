@@ -1,5 +1,5 @@
-import {Button, Col, Form, FormControl, InputGroup, Row} from "react-bootstrap";
-import React from 'react';
+import {Button, Col, Form, FormControl, InputGroup, Row} from 'react-bootstrap'
+import React from 'react'
 
 export function LogInForm() {
     return (

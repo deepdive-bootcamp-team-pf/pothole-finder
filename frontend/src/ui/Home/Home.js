@@ -2,8 +2,8 @@ import React from 'react'
 import Map from './Map'
 import {Button, Col, Container, Dropdown, Row} from 'react-bootstrap'
 import './HomeNav.css'
-import {LogInForm} from "./LogInForm";
-import {SignUp} from "../SignUp/SignUp";
+import {LogInForm} from './LogInForm'
+import {SignUp} from '../SignUp/SignUp'
 
 export function Home() {
     return (

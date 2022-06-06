@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import { Button, ButtonGroup, Container, Form, Image, ToggleButton } from 'react-bootstrap'
 import './SeverityPhotoPage.css'
-import bomb from '../home/icons/bomb.png'
-import crying from '../home/icons/crying.png'
-import facepalm from '../home/icons/face-palm.png'
+import bomb from '../Home/icons/bomb.png'
+import crying from '../Home/icons/crying.png'
+import facepalm from '../Home/icons/face-palm.png'
 
 
 export function SeverityPhotoPage () {
@@ -17,12 +17,10 @@ export function SeverityPhotoPage () {
   const [radioValue, setRadioValue] = useState('1')
   return (
     <>
-
-
-      <Container fluid className={'full-screen d-flex justify-content-center align-items-center'}>
+      <Container fluid className={'full-screen d-flex justify-content-center align-items-center add-background-image'}>
         <Container id={'content'} className={'my-auto p-3'}>
           <Form>
-            <h1>Please rate your Pothole</h1>
+            <h1 className='title-centering'>Please rate your Pothole</h1>
             <ButtonGroup className="mb-2 d-flex text-center">
               {radios.map((radio, idx) => (
                 <ToggleButton
@@ -42,9 +40,7 @@ export function SeverityPhotoPage () {
               ))}
             </ButtonGroup>
             <br/>
-
             <br/>
-
             <Form.Group className="mb-3" controlId="photoName">
               <Form.Label>Photo Name</Form.Label>
               <Form.Control type="name" placeholder="Camino de Crater"/>
@@ -62,7 +58,7 @@ export function SeverityPhotoPage () {
               </Form.Text>
             </Form.Group>
 
-            <h1>Add Photo</h1>
+            <h1 className='title-centering'>Add Photo</h1>
             <p>Please add a photo of your pothole. We can pull the location of pothole from photo. This step is
               optional.</p>
             <Button className="m-auto d-flex primary" type="addPhoto">

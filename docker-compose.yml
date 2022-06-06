@@ -37,8 +37,8 @@ services:
       - 8080:4200
     user: "node"
     volumes:
-      - ./backend/src:/home/node/app/src
-      - ./backend/tsconfig.json:/home/node/app/tsconfig.json
+      - ./backend/src:/Home/node/app/src
+      - ./backend/tsconfig.json:/Home/node/app/tsconfig.json
 volumes:
   mysql:
     driver: local
