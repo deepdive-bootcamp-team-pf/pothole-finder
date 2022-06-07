@@ -2,8 +2,23 @@ import React, {useRef, useEffect, useState} from 'react'
 import maplibregl from 'maplibre-gl'
 import 'maplibre-gl/dist/maplibre-gl.css'
 import './Map.css'
+import {fetchAllPotholes} from "../../store/potholes";
 
 export default function Map(){
+
+    // // Tell this component that it needs to watch for items that live outside this component (misquotes in the redux store)
+    // // This is how we make sure the component looks for our data from redux and the fetch response from the backend
+    // const dispatch = useDispatch()
+    // const initialEffects = () => {
+    //     dispatch(fetchAllPotholes())
+    // }
+    // React.useEffect(initialEffects, [dispatch])
+    //
+    // // use the misquotes data from the store
+    // const potholes = useSelector((state) => state.potholes ? state.potholes : [])
+    //
+    // console.log(potholes)
+
     const pins = {
         'type': 'Potholes',
         'potholes': [
