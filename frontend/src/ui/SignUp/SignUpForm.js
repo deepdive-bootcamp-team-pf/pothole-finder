@@ -5,6 +5,7 @@ import * as Yup from 'yup'
 import {httpConfig} from "../utils/httpConfig"
 import { FormDebugger } from "../utils/FormDebugger"
 import { Formik } from 'formik'
+import {DisplayStatus} from "../shared/components/display-status/DisplayStatus";
 
 export function SignUpForm() {
 
