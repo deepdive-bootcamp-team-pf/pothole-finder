@@ -5,6 +5,7 @@ import * as Yup from 'yup'
 import {httpConfig} from "../utils/httpConfig"
 import { FormDebugger } from "../utils/FormDebugger"
 import { Formik } from 'formik'
+import {DisplayStatus} from "../shared/components/display-status/DisplayStatus";
 
 export function SignUpForm() {
 
@@ -28,11 +29,11 @@ export function SignUpForm() {
             .max(32, 'Username must be 64 characters or less')
     })
 
-    const handleSubmit = (values, {resetFrom, setStatus}) => {
+    const handleSubmit = (values, {resetForm, setStatus}) => {
         httpConfig.post('/apis/sign-up', values).then(reply => {
             const {message, type, status} = reply
             if (status === 200) {
-                resetFrom()
+                resetForm()
             }
             setStatus({message, type})
         })
@@ -220,9 +221,10 @@ function SignUpFormContent(props) {
                     }
                 </Form.Group>
                         <Button className="btn btn-primary btn-lg mt-3" type="submit">Sign Up!</Button>
-                <FormDebugger {...props}/>
+                {/*<FormDebugger {...props}/>*/}
             </Form>
             {status && <div className={status.type}>{status.message}</div>}
+            <DisplayStatus status={status} />
         </>
     )
 }

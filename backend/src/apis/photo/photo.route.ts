@@ -10,8 +10,6 @@ import {asyncValidatorController} from "../../utils/controllers/asyncValidator.c
 import {check, checkSchema} from "express-validator";
 import {photoValidator} from "./photo.validator";
 import {isLoggedIn} from "../../utils/controllers/isLoggedIn.controller";
-import {potholeValidator} from "../pothole/pothole.validator";
-import {putPotholeController} from "../pothole/pothole.controller";
 export const photoRoute = Router()
 
 photoRoute.route('/')
