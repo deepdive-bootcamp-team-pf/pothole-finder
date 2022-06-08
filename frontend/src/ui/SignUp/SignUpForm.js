@@ -224,7 +224,7 @@ function SignUpFormContent(props) {
                 {/*<FormDebugger {...props}/>*/}
             </Form>
             {status && <div className={status.type}>{status.message}</div>}
-            <DisplayStatus status={status} />
+            <DisplayStatus status={status}/>
         </>
     )
 }
