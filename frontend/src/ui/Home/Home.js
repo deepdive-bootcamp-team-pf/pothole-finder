@@ -4,6 +4,7 @@ import {Button, Col, Container, Dropdown, Row} from 'react-bootstrap'
 import './HomeNav.css'
 import {LogInForm} from './LogInForm'
 import {SignUp} from '../SignUp/SignUp'
+import MapFunction from "./Map";
 
 export function Home() {
     return (
@@ -28,7 +29,7 @@ export function Home() {
                     </Col>
                 </Row>
             </Container>
-            <Map/>
+            <MapFunction/>
         </>
     )
 }

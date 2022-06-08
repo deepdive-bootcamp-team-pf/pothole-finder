@@ -1,11 +1,11 @@
 import React from 'react'
-// import 'maplibre-gl/dist/maplibre-gl.css'
+import 'maplibre-gl/dist/maplibre-gl.css'
 import './Map.css'
 import Map from 'react-map-gl'
 import mapLibre from 'maplibre-gl'
 import { Pin } from './Pin'
 
-export default function Map() {
+export default function MapFunction() {
 
     const [points] = React.useState([
         { lat: 35.332, lng: -106.652 },
@@ -17,20 +17,21 @@ export default function Map() {
 
     return (
         <div className="map-wrap">
-            <Map
-                // ref={mapContainer}
-                className="map"
-                mapLib={mapLibre}
-                initialViewState={{
-                    latitude: 35.33,
-                    longitude: -106.65,
-                    zoom: 9
-                }}
-                style={{ width: 600, height: 400 }}
-                mapStyle="https://api.maptiler.com/maps/streets/style.json?key=D4b2ldjY7geFrPnuBPU8"
-            >
-                {points.map((point, index) => <Pin lat={point.lat} lng={point.lng} index={index} key={index}/>)}
-            </Map>
+            <div className="map">
+                <Map
+                    // ref={mapContainer}
+                    mapLib={mapLibre}
+                    initialViewState={{
+                        latitude: 35.33,
+                        longitude: -106.65,
+                        zoom: 9
+                    }}
+                    style={{ width: 600, height: 400 }}
+                    mapStyle="https://api.maptiler.com/maps/streets/style.json?key=D4b2ldjY7geFrPnuBPU8"
+                >
+                    {points.map((point, index) => <Pin lat={point.lat} lng={point.lng} index={index} key={index}/>)}
+                </Map>
+            </div>
         </div>
     )
 }
