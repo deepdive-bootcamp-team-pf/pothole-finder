@@ -4,6 +4,7 @@ import './Map.css'
 import Map from 'react-map-gl'
 import mapLibre from 'maplibre-gl'
 import { Pin } from './Pin'
+// import mapLib from "mapbox-gl";
 
 export default function MapFunction() {
 
@@ -14,11 +15,10 @@ export default function MapFunction() {
         { lat: 35.23, lng: -106.4444 }
     ])
 
-
     return (
-        <div className="map-wrap">
-            <div className="map">
+        <>
                 <Map
+                    // className="map"
                     // ref={mapContainer}
                     mapLib={mapLibre}
                     initialViewState={{
@@ -26,12 +26,13 @@ export default function MapFunction() {
                         longitude: -106.65,
                         zoom: 9
                     }}
-                    style={{ width: 600, height: 400 }}
+                    style={{height: '100vw'}}
                     mapStyle="https://api.maptiler.com/maps/streets/style.json?key=D4b2ldjY7geFrPnuBPU8"
                 >
                     {points.map((point, index) => <Pin lat={point.lat} lng={point.lng} index={index} key={index}/>)}
+
+
                 </Map>
-            </div>
-        </div>
+        </>
     )
 }
