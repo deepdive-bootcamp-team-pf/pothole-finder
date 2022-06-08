@@ -1,14 +1,79 @@
 
-import { Button, ButtonGroup, Container, Form, Image, ToggleButton } from 'react-bootstrap'
+import {
+  Button,
+  ButtonGroup,
+  Col,
+  Container,
+  Form,
+  FormControl,
+  Image,
+  InputGroup,
+  Row,
+  ToggleButton
+} from 'react-bootstrap'
 import React, { useState } from 'react'
 import facepalm from '../Home/icons/face-palm.png'
 import crying from '../Home/icons/crying.png'
 import bomb from '../Home/icons/bomb.png'
 import './SeverityPhotoPage.css'
+import { FormDebugger } from "../utils/FormDebugger"
+import * as Yup from 'yup'
+import {httpConfig} from "../utils/httpConfig"
+import { Formik } from 'formik'
+import {DisplayStatus} from "../shared/components/display-status/DisplayStatus";
 
 
 
-export function SeverityPhotoForm (){
+export function SeverityPhotoForm () {
+  const validator = Yup.object().shape({
+    potholeDescription: Yup.string()
+      .required('A pothole description is required.')
+      .max(255, 'First name must be 255 characters or less.'),
+    potholeName: Yup.string()
+      .required('A name is required.')
+      .max(32, 'Last name must be 32 characters or less.')
+  })
+  const handleSubmit = (values, { resetForm, setStatus }) => {
+    httpConfig.post('/apis/severity-photo-page', values).then(reply => {
+      const { message, type, status } = reply
+      if (status === 200) {
+        resetForm()
+      }
+      setStatus({ message, type })
+    })
+  }
+  const pothole = {
+    potholeName: '',
+    potholeDescription: ''
+  }
+  return (
+    <>
+      <Formik
+        onSubmit={handleSubmit}
+        initialValues={pothole}
+        validationSchema={validator}
+      >
+        {SeverityPhotoFormContent}
+      </Formik>
+    </>
+  )
+}
+
+function SeverityPhotoFormContent(props) {
+  const {
+    status,
+    values,
+    errors,
+    touched,
+    dirty,
+    isSubmitting,
+    handleChange,
+    handleBlur,
+    handleSubmit,
+    handleReset,
+    setFieldValue
+  } = props
+
   const radios = [
     { name: 'Mild ', value: '1', img: facepalm },
     { name: 'Moderate ', value: '2', img: crying },
@@ -19,7 +84,7 @@ export function SeverityPhotoForm (){
 
   return (
     <>
-      <Form>
+      <Form onSubmit={handleSubmit} className={'p-3 form-text'}>
         <h1 className='title-centering'>Please rate your Pothole</h1>
         <ButtonGroup className="mb-2 d-flex text-center">
           {radios.map((radio, idx) => (
@@ -39,23 +104,64 @@ export function SeverityPhotoForm (){
             </ToggleButton>
           ))}
         </ButtonGroup>
-        <br/>
-        <br/>
+
+
         <Form.Group className="mb-3" controlId="photoName">
           <Form.Label>Photo Name</Form.Label>
-          <Form.Control type="name" placeholder="Camino de Crater"/>
-          <Form.Text className="text-muted">
-            Please add a name for your pothole.
-          </Form.Text>
+          <InputGroup>
+            <InputGroup.Text>
+            </InputGroup.Text>
+          <Form.Control
+            type="name"
+            placeholder="Camino de Crater"
+            onChange={handleChange}
+            onBlur={handleBlur}
+            value={values.photoName}
+            name="photoName"
+          />
+            <InputGroup>
+            <Form.Text className="text-muted">
+              Please add a name for your pothole.
+            </Form.Text>
+              </InputGroup>
+          </InputGroup>
+          {errors.photoName && touched.photoName &&
+            <>
+              <div className={'alert alert-danger'}>
+                {errors.photoName}
+              </div>
+            </>
+          }
         </Form.Group>
 
 
         <Form.Group className="mb-3" controlId="photoDescription">
           <Form.Label>Photo Description</Form.Label>
-          <Form.Control type="description" placeholder="This pothole gave me a flat tire!"/>
-          <Form.Text className="text-muted">
-            Please add a brief description of pothole.
-          </Form.Text>
+          <InputGroup>
+            <InputGroup.Text>
+            </InputGroup.Text>
+            <Form.Control
+              type="description"
+              placeholder="This pothole gave me a flat tire!"
+              onChange={handleChange}
+              onBlur={handleBlur}
+              value={values.photoDescription}
+              name="photoDescription"
+              />
+            <InputGroup>
+            <Form.Text className="text-muted">
+              Please add a brief description of pothole.
+            </Form.Text>
+              </InputGroup>
+          </InputGroup>
+          {errors.photoDescription && touched.photoDescription &&
+            <>
+              <div className={'alert alert-danger'}>
+                {errors.photoDescription}
+
+              </div>
+            </>
+          }
         </Form.Group>
 
         <h1 className='title-centering'>Add Photo</h1>
@@ -72,10 +178,15 @@ export function SeverityPhotoForm (){
             Submit
           </Button>
         </Container>
-
       </Form>
-
+          {status && <div className={status.type}>{status.message}</div>}
+            <DisplayStatus status={status}/>
     </>
   )
 }
+
+
+
+
+
 
