@@ -34,7 +34,7 @@ export function SeverityPhotoForm () {
       .max(32, 'Last name must be 32 characters or less.')
   })
   const handleSubmit = (values, { resetForm, setStatus }) => {
-    httpConfig.post('/apis/severity-photo-page', values).then(reply => {
+    httpConfig.post('/apis/pothole', values).then(reply => {
       const { message, type, status } = reply
       if (status === 200) {
         resetForm()
@@ -107,7 +107,7 @@ function SeverityPhotoFormContent(props) {
 
 
         <Form.Group className="mb-3" controlId="photoName">
-          <Form.Label>Photo Name</Form.Label>
+          <Form.Label>Pothole Name</Form.Label>
           <InputGroup>
             <InputGroup.Text>
             </InputGroup.Text>
@@ -116,8 +116,8 @@ function SeverityPhotoFormContent(props) {
             placeholder="Camino de Crater"
             onChange={handleChange}
             onBlur={handleBlur}
-            value={values.photoName}
-            name="photoName"
+            value={values.potholeName}
+            name="potholeName"
           />
             <InputGroup>
             <Form.Text className="text-muted">
@@ -125,18 +125,18 @@ function SeverityPhotoFormContent(props) {
             </Form.Text>
               </InputGroup>
           </InputGroup>
-          {errors.photoName && touched.photoName &&
+          {errors.potholeName && touched.potholeName &&
             <>
               <div className={'alert alert-danger'}>
-                {errors.photoName}
+                {errors.potholeName}
               </div>
             </>
           }
         </Form.Group>
 
 
-        <Form.Group className="mb-3" controlId="photoDescription">
-          <Form.Label>Photo Description</Form.Label>
+        <Form.Group className="mb-3" controlId="potholeDescription">
+          <Form.Label>Pothole Description</Form.Label>
           <InputGroup>
             <InputGroup.Text>
             </InputGroup.Text>
@@ -145,8 +145,8 @@ function SeverityPhotoFormContent(props) {
               placeholder="This pothole gave me a flat tire!"
               onChange={handleChange}
               onBlur={handleBlur}
-              value={values.photoDescription}
-              name="photoDescription"
+              value={values.potholeDescription}
+              name="potholeDescription"
               />
             <InputGroup>
             <Form.Text className="text-muted">
@@ -154,10 +154,10 @@ function SeverityPhotoFormContent(props) {
             </Form.Text>
               </InputGroup>
           </InputGroup>
-          {errors.photoDescription && touched.photoDescription &&
+          {errors.potholeDescription && touched.potholeDescription &&
             <>
               <div className={'alert alert-danger'}>
-                {errors.photoDescription}
+                {errors.potholeDescription}
 
               </div>
             </>
