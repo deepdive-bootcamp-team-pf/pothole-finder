@@ -188,6 +188,7 @@ function SignUpFormContent(props) {
                             value={values.profilePassword}
                             name="profilePassword"
                             placeholder="p@ssword1"
+                            type="password"
                         />
                     </InputGroup>
                     {errors.profilePassword && touched.profilePassword &&
@@ -210,6 +211,7 @@ function SignUpFormContent(props) {
                             value={values.profilePasswordConfirm}
                             name="profilePasswordConfirm"
                             placeholder="p@ssword1"
+                            type="password"
                         />
                     </InputGroup>
                     {errors.profilePasswordConfirm && touched.profilePasswordConfirm &&

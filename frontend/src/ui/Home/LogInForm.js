@@ -98,6 +98,7 @@ function LoginInFormContent(props) {
                                     value={values.profilePassword}
                                     name="profilePassword"
                                     placeholder="p@ssword1"
+                                    type="password"
                                 />
                             </InputGroup>
                             {errors.profilePassword && touched.profilePassword &&
