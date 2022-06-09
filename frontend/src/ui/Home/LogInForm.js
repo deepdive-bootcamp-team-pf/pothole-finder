@@ -111,8 +111,7 @@ function LoginInFormContent(props) {
                         </Form.Group>
                     </Col>
                 </Row>
-                <Button className="btn btn-primary btn-lg mt-3" type="submit">Sign Up!</Button>
-                {/*<FormDebugger {...props}/>*/}
+                <Button className="btn btn-primary btn-lg mt-3" type="submit">Login</Button>
             </Form>
             <DisplayStatus status={status}/>
         </>
