@@ -1,8 +1,11 @@
 import express, { Application } from 'express'
 import morgan from 'morgan'
 import session from 'express-session'
-import createMemoryStore from 'memorystore'
-const MemoryStore = createMemoryStore(session)
+import { createClient, RedisClientType } from 'redis'
+import RedisConnect from "connect-redis"
+const redisClient = createClient({legacyMode: true, socket:{host: process.env.REDIS_HOST}})
+redisClient.connect().catch(console.error)
+const RedisStore = RedisConnect(session)
 
 //Routes
 import {photoRoute} from "./apis/photo/photo.route"
@@ -35,13 +38,10 @@ export class App {
   // private method to setting up the middleware to handle json responses, one for dev and one for prod
   private middlewares () :void {
     const sessionConfig = {
-      store: new MemoryStore({
-        checkPeriod: 100800
-      }),
-      secret: 'secret',
+      store: new RedisStore({ client: redisClient, host: process.env.REDIS_HOST, port: 6379}),
       saveUninitialized: true,
-      resave: true,
-      maxAge: '3h'
+      secret: process.env.SESSION_SECRET as string,
+      resave: false,
     }
 
     this.app.use(morgan('dev'))
