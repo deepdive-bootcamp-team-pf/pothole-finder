@@ -15,8 +15,16 @@ export function Home() {
             <Container fluid className={'home-nav position-absolute bg-transparent'}>
                 <Row className={'d-flex pt-3'}>
                     <Col className={'mr-auto'}>
-                        <Button href="/severity-photo-page" className={'large-button m-3'} size={'lg'}>Add Pothole from Current Location</Button>
-                        <Button className={'large-button m-3'} size={'lg'} onClick={() => setShow(true)}>Add Pothole On Map</Button>
+                        <Dropdown>
+                            <Dropdown.Toggle variant="primary" id="dropdown-basic" className={'large-button mt-3'} size={'lg'}>
+                                Add Pothole
+                            </Dropdown.Toggle>
+
+                            <Dropdown.Menu>
+                                <Dropdown.Item href="/severity-photo-page">From Current Location</Dropdown.Item>
+                                <Dropdown.Item href="#/action-2" onClick={() => setShow(true)}>On Map</Dropdown.Item>
+                            </Dropdown.Menu>
+                        </Dropdown>
                     </Col>
                     <Col className={'d-flex justify-content-end'}>
                         <Dropdown>
