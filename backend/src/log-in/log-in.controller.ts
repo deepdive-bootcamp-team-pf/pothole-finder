@@ -2,13 +2,13 @@ import { Request, Response } from 'express'
 import 'express-session'
 import { v4 as uuid } from 'uuid'
 import { Profile } from '../utils/interfaces/Profile'
-import { selectProfileByProfileEmail } from '../utils/profile/selectProfileByProfileEmail'
+import { selectProfileByProfileUsername } from '../utils/profile/selectProfileByProfileUsername'
 import { generateJwt, validatePassword } from '../utils/auth.utils'
 
 export async function logInController (request: Request, response: Response): Promise<Response> {
     try {
-        const { profileEmail, profilePassword } = request.body
-        const profile: Profile | null = await selectProfileByProfileEmail(profileEmail)
+        const { profileUsername, profilePassword } = request.body
+        const profile: Profile | null = await selectProfileByProfileUsername(profileUsername)
 
         return (profile !== null) && await validatePassword(profile.profileHash, profilePassword)
             ? signInSuccessful(request, response, profile)
@@ -19,7 +19,7 @@ export async function logInController (request: Request, response: Response): Pr
 }
 
 function signInFailed (response: Response): Response {
-    return response.json({status: 400, message: "Email or password is incorrect. Please try again.", data: null})
+    return response.json({status: 400, message: "Username or password is incorrect. Please try again.", data: null})
 }
 
 function signInSuccessful (request: Request, response: Response, profile: Profile): Response {
@@ -46,10 +46,10 @@ function signInSuccessful (request: Request, response: Response, profile: Profil
     return response.json({status:200, message: 'Log in successful', data: null})
 }
 
-export async function getProfileByProfileEmail(request: Request, response: Response): Promise<Response> {
+export async function getProfileByProfileUsername(request: Request, response: Response): Promise<Response> {
     try {
-        const {profileEmail} = request.params
-        const data = await selectProfileByProfileEmail(profileEmail)
+        const {profileUsername} = request.params
+        const data = await selectProfileByProfileUsername(profileUsername)
         return response.json({status: 200, message: null, data})
     } catch (e) {
         return response.json({

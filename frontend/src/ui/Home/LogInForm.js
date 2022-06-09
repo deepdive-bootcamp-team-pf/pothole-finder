@@ -3,8 +3,8 @@ import React from 'react'
 
 import * as Yup from 'yup'
 import {httpConfig} from "../utils/httpConfig"
-import { FormDebugger } from "../utils/FormDebugger"
-import { Formik } from 'formik'
+import {FormDebugger} from "../utils/FormDebugger"
+import {Formik} from 'formik'
 import {DisplayStatus} from "../shared/components/display-status/DisplayStatus";
 
 export function LogInForm() {
@@ -18,11 +18,11 @@ export function LogInForm() {
             .max(32, 'Username must be 64 characters or less')
     })
 
-    const handleSubmit = (values, {resetFrom, setStatus}) => {
+    const handleSubmit = (values, {resetForm, setStatus}) => {
         httpConfig.post('/apis/login', values).then(reply => {
             const {message, type, status} = reply
             if (status === 200) {
-                resetFrom()
+                resetForm()
             }
             setStatus({message, type})
         })
@@ -62,11 +62,11 @@ function LoginInFormContent(props) {
 
     return (
         <>
-            <Form className={'login-form'}>
+            <Form onSubmit={handleSubmit} className={'login-form'}>
                 <Row>
                     <Col>
                         <Form.Group className="mb-2" controlId="profileUsername">
-                            <Form.Label>User Name</Form.Label>
+                            <Form.Label>Enter Username</Form.Label>
                             <InputGroup>
                                 <InputGroup.Text>
                                 </InputGroup.Text>
@@ -75,7 +75,7 @@ function LoginInFormContent(props) {
                                     onBlur={handleBlur}
                                     value={values.profileUsername}
                                     name="profileUsername"
-                                    placeholder="Your User Name"
+                                    placeholder="Username"
                                 />
                             </InputGroup>
                             {errors.profileUsername && touched.profileUsername &&
@@ -88,7 +88,7 @@ function LoginInFormContent(props) {
                         </Form.Group>
 
                         <Form.Group className="mb-1" controlId="profilePassword">
-                            <Form.Label>Create Password</Form.Label>
+                            <Form.Label>Enter Password</Form.Label>
                             <InputGroup>
                                 <InputGroup.Text>
                                 </InputGroup.Text>
@@ -97,7 +97,7 @@ function LoginInFormContent(props) {
                                     onBlur={handleBlur}
                                     value={values.profilePassword}
                                     name="profilePassword"
-                                    placeholder="p@ssword1"
+                                    placeholder="Password"
                                     type="password"
                                 />
                             </InputGroup>
@@ -109,14 +109,11 @@ function LoginInFormContent(props) {
                                 </>
                             }
                         </Form.Group>
-
-                        <Form.Group className={"mt-3"}>
-                            <Button className="log-in-btn btn btn-primary" type="submit">Log In</Button>
-                        </Form.Group>
                     </Col>
                 </Row>
+                <Button className="btn btn-primary btn-lg mt-3" type="submit">Sign Up!</Button>
+                {/*<FormDebugger {...props}/>*/}
             </Form>
-            {status && <div className={status.type}>{status.message}</div>}
             <DisplayStatus status={status}/>
         </>
     )
