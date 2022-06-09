@@ -4,11 +4,23 @@ import './Map.css'
 import Map, {Marker} from 'react-map-gl'
 import mapLibre from 'maplibre-gl'
 import { Pin } from './Pin'
+import pin from "./icons/pin.png"
+
 
 export function GetMarker() {
+    const dragEnd = (event) => {
+        console.log(event.lngLat)
+    }
+
     return (
-            <Marker longitude={-100} latitude={40} anchor="bottom" >
-                <img src="./icons/pin.png"/>
+            <Marker
+                longitude={-106.575077}
+                latitude={35.126899}
+                anchor="bottom"
+                draggable={true}
+                onDragEnd={dragEnd}
+            >
+                <img src={pin} style={{width: '100px', height: '100px'}}/>
             </Marker>
     )
 }
