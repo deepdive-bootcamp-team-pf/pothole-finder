@@ -223,7 +223,6 @@ function SignUpFormContent(props) {
                     }
                 </Form.Group>
                         <Button className="btn btn-primary btn-lg mt-3" type="submit">Sign Up!</Button>
-                {/*<FormDebugger {...props}/>*/}
             </Form>
             <DisplayStatus status={status}/>
         </>
