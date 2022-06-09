@@ -9,7 +9,8 @@ import pin from "./icons/pin.png"
 
 export function GetMarker() {
     const dragEnd = (event) => {
-        console.log(event.lngLat)
+        console.log(event.lngLat.lng)
+        console.log(event.lngLat.lat)
     }
 
     return (
@@ -32,7 +33,9 @@ export default function MapFunction(props) {
     const [points] = React.useState([
         { lat: 35.116363, lng: -106.604730},
         { lat: 35.110367, lng: -106.590706},
-        { lat: 35.104307, lng: -106.609019}
+        { lat: 35.104307, lng: -106.609019},
+        { lat: 35.123987, lng: -106.649704},
+        { lat: 35.139077, lng: -106.545731}
     ])
 
 

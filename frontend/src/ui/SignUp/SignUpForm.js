@@ -188,6 +188,7 @@ function SignUpFormContent(props) {
                             value={values.profilePassword}
                             name="profilePassword"
                             placeholder="p@ssword1"
+                            type="password"
                         />
                     </InputGroup>
                     {errors.profilePassword && touched.profilePassword &&
@@ -210,6 +211,7 @@ function SignUpFormContent(props) {
                             value={values.profilePasswordConfirm}
                             name="profilePasswordConfirm"
                             placeholder="p@ssword1"
+                            type="password"
                         />
                     </InputGroup>
                     {errors.profilePasswordConfirm && touched.profilePasswordConfirm &&
@@ -223,7 +225,6 @@ function SignUpFormContent(props) {
                         <Button className="btn btn-primary btn-lg mt-3" type="submit">Sign Up!</Button>
                 {/*<FormDebugger {...props}/>*/}
             </Form>
-            {status && <div className={status.type}>{status.message}</div>}
             <DisplayStatus status={status}/>
         </>
     )
