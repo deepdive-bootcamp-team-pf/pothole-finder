@@ -9,10 +9,11 @@ export const logInValidator: Schema = {
         trim: true,
         escape: true,
     },
-    profileEmail: {
-        isEmail: {
-            errorMessage: 'Please provide a valid email'
-        },
-        trim:true
+    profileUsername: {
+        escape: true,
+        trim: true,
+        notEmpty: {
+            errorMessage: 'Profile must have a username.'
+        }
     }
 }
