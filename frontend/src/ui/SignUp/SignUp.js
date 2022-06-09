@@ -7,10 +7,7 @@ export function SignUp() {
 
     return (
         <>
-            <Button className={'large-button primary m-3'} size={'lg'} onClick={() => setModalShow(true)}>
-                Sign Up
-            </Button>
-
+            <Button className={'m-3'} size={"lg"} onClick={() => setModalShow(true)}>Sign Up</Button>
             <SignUpModal
                 show={modalShow}
                 onHide={() => setModalShow(false)}
