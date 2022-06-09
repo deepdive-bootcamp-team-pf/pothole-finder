@@ -9,7 +9,8 @@ import pin from "./icons/pin.png"
 
 export function GetMarker() {
     const dragEnd = (event) => {
-        console.log(event.lngLat)
+        console.log(event.lngLat.lng)
+        console.log(event.lngLat.lat)
     }
 
     return (
