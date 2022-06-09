@@ -1,17 +1,22 @@
 import React from 'react'
-import Map from './Map'
+import Map, {GetMarker} from './Map'
 import {Button, Col, Container, Dropdown, Row} from 'react-bootstrap'
 import './HomeNav.css'
 import {LogInForm} from './LogInForm'
 import {SignUp} from '../SignUp/SignUp'
+import MapFunction from "./Map";
 
 export function Home() {
+
+    const [show, setShow] = React.useState(false)
+
     return (
         <>
             <Container fluid className={'home-nav position-absolute bg-transparent'}>
                 <Row className={'d-flex pt-3'}>
                     <Col className={'mr-auto'}>
-                        <Button href="/severity-photo-page" className={'large-button m-3'} size={'lg'}>Add Pothole</Button>
+                        <Button href="/severity-photo-page" className={'large-button m-3'} size={'lg'}>Add Pothole from Current Location</Button>
+                        <Button className={'large-button m-3'} size={'lg'} onClick={() => setShow(true)}>Add Pothole On Map</Button>
                     </Col>
                     <Col className={'d-flex justify-content-end'}>
                         <Dropdown>
@@ -27,7 +32,7 @@ export function Home() {
                     </Col>
                 </Row>
             </Container>
-            <Map/>
+            <MapFunction show={show}/>
         </>
     )
 }
