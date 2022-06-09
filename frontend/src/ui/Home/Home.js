@@ -16,7 +16,7 @@ export function Home() {
                 <Row className={'d-flex pt-3'}>
                     <Col className={'mr-auto'}>
                         <Dropdown>
-                            <Dropdown.Toggle variant="primary" id="dropdown-basic" size={'lg'}>
+                            <Dropdown.Toggle variant="primary" id="dropdown-basic" className={'large-button mt-3'} size={'lg'}>
                                 Add Pothole
                             </Dropdown.Toggle>
 

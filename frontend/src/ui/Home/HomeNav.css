@@ -21,11 +21,11 @@ Button {
         line-height: .5;
     }
 
-    /*.sign-up-button {*/
-    /*    padding: .5rem;*/
-    /*    font-size: 80%;*/
-    /*    line-height: 1;*/
-    /*}*/
+    .sign-up-button {
+        padding: .5rem;
+        font-size: 80%;
+        line-height: 1;
+    }
 
     .dropdown-menu-css {
         padding: .75rem;
