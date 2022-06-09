@@ -12,7 +12,11 @@
     "formik": "^2.2.9",
     "http-proxy-middleware": "^1.3.1",
     "jwt-decode": "^3.1.2",
+<<<<<<< HEAD
     "mapbox-gl": "^2.8.2",
+=======
+    "mapbox-gl": "npm:empty-npm-package@^1.0.0",
+>>>>>>> 9142cd5c05ffac09b12097e50aac23e0b5191958
     "maplibre-gl": "^2.1.9",
     "react": "^18.0.0",
     "react-bootstrap": "^2.4.0",

@@ -12,6 +12,10 @@ Button {
     left: 0;
 }
 
+/*@media (max-width: ) {*/
+/*    */
+/*}*/
+
 @media (max-width: 978px) {
     .large-button {
         margin: 0;
