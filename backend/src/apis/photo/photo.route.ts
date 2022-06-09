@@ -4,14 +4,12 @@ import {
     getAllPhotosCController,
     getPhotoByPhotoIdController,
     getPhotoByPhotoProfileIdController,
-    postPhotoController, putPhotoController
+    postPhotoController
 } from './photo.controller'
 import {asyncValidatorController} from "../../utils/controllers/asyncValidator.controller";
 import {check, checkSchema} from "express-validator";
 import {photoValidator} from "./photo.validator";
 import {isLoggedIn} from "../../utils/controllers/isLoggedIn.controller";
-import {potholeValidator} from "../pothole/pothole.validator";
-import {putPotholeController} from "../pothole/pothole.controller";
 export const photoRoute = Router()
 
 photoRoute.route('/')
@@ -28,4 +26,3 @@ photoRoute.route('/photoProfileId/:photoProfileId')
 photoRoute.route('/:photoId')
     .get(asyncValidatorController([check('photoId', 'Please provide a valid UUID').isUUID()]), getPhotoByPhotoIdController)
     .delete(asyncValidatorController([check('photoId', 'Please provide a valid photoId').isUUID()]), deletePhotoController)
-    .put(isLoggedIn, asyncValidatorController(checkSchema(photoValidator)), putPhotoController)
