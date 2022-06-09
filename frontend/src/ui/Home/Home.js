@@ -1,14 +1,27 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import Map, {GetMarker} from './Map'
 import {Button, Col, Container, Dropdown, Row} from 'react-bootstrap'
 import './HomeNav.css'
 import {LogInForm} from './LogInForm'
 import {SignUp} from '../SignUp/SignUp'
 import MapFunction from "./Map";
+import {fetchAuth} from '../../store/auth'
+import {useDispatch, useSelector} from "react-redux";
+
 
 export function Home() {
 
+    const auth = useSelector(state => state.auth);
+    const dispatch = useDispatch()
+    const effects = () => {
+        dispatch(fetchAuth());
+    };
+    useEffect(effects, [dispatch]);
+
     const [show, setShow] = React.useState(false)
+
+    console.log(auth)
+
 
     return (
         <>
