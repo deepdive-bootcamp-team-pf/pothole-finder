@@ -1,29 +1,44 @@
 version: "3"
 
 services:
-  node:
-     build: ../pothole-finder/backend
-     depends_on:
-       - sql
-     env_file:
-       # Make sure to update this to match your project.
-        - ./project.env
-     environment:
-        - MYSQL_HOST=sql
-     ports:
-        - 8080:4200
-     volumes:
-        - ./backend/src:/home/node/app/src
-        - ./backend/tsconfig.json:/home/node/app/tsconfig.json
-  sql:
-    build: ../pothole-finder/sql
-    # Make sure to update this to match your project.
-    env_file:
-       - ./project.env
-    command: --default-authentication-plugin=mysql_native_password
+  redis:
+    image: 'redis:alpine'
     volumes:
-     - compose-lesson:/var/lib/mysql
+      - 'redis:/data'
+    env_file:
+      - ./project.env
+    healthcheck:
+      test: [ "CMD", "redis-cli", "ping"]
+
+  sql:
+    build: ./sql
+    platform: linux/x86_64
+    volumes:
+      - mysql:/var/lib/mysql
+    env_file:
+      - ./project.env
+    command: --default-authentication-plugin=mysql_native_password
     ports:
-       - 33006:3306
+      - 33006:3306
+  app:
+    build: frontend
+    depends_on:
+      - node
+    #    For deploying to server use ports: - 80:80
+    ports:
+      - 80:80
+  node:
+    build: backend
+    env_file:
+      - project.env
+    ports:
+      - 8080:4200
+    user: "node"
+    volumes:
+      - ./backend/src:/home/node/app/src
+      - ./backend/tsconfig.json:/home/node/app/tsconfig.json
 volumes:
-  compose-lesson:
+  mysql:
+    driver: local
+  redis:
+    driver: local

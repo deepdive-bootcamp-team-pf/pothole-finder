@@ -34,7 +34,7 @@ export const signupValidator: Schema = {
         escape: true,
         trim: true,
         isLength: {
-            errorMessage: 'Confirm password must match the password.',
+            errorMessage: 'Confirmed password must match the original password.',
             options: {min: 8}
         }
     },
