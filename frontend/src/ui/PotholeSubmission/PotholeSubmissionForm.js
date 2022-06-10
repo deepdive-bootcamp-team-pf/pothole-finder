@@ -23,7 +23,7 @@ import {DisplayStatus} from "../shared/components/display-status/DisplayStatus";
 
 
 export function PotholeSubmissionForm(props) {
-    const {pothole} = props
+    const {photo} = props
 
     const validator = Yup.object().shape({
         potholeDescription: Yup.string()
@@ -152,7 +152,6 @@ function PotholeSubmissionFormContent(props) {
                     }
                 </Form.Group>
 
-
                 <Form.Group className="mb-3" controlId="photoDescription">
                     <Form.Label>Photo Description</Form.Label>
                     <InputGroup>
@@ -238,7 +237,6 @@ function ImageDropZone({formikProps}) {
                             <Image fluid={true} height={100} rounded={true} thumbnail={true} width={100}
                                    alt="user avatar" src={formikProps.values.profileAvatarUrl}/>
                         </div>
-
                     </>
                 }
                 <div className="d-flex flex-fill bg-light justify-content-center align-items-center border rounded">
@@ -257,8 +255,6 @@ function ImageDropZone({formikProps}) {
                             <span className="align-items-center">Drag and drop image here, or click here to select an image</span>
                     }
                 </div>
-
-
             </InputGroup>
         </Form.Group>
     )

@@ -42,7 +42,6 @@ export default function MapFunction(props) {
     return (
         <>
                 <Map
-
                     mapLib={mapLibre}
                     initialViewState={{
                         latitude: 35.126899,
