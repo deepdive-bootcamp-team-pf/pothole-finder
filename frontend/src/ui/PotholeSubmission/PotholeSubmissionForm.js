@@ -22,7 +22,9 @@ import {Formik} from 'formik'
 import {DisplayStatus} from "../shared/components/display-status/DisplayStatus";
 
 
-export function PotholeSubmissionForm() {
+export function PotholeSubmissionForm(props) {
+    const {pothole} = props
+
     const validator = Yup.object().shape({
         potholeDescription: Yup.string()
             .required('A pothole description is required.')
@@ -32,33 +34,47 @@ export function PotholeSubmissionForm() {
             .max(32, 'Last name must be 32 characters or less.')
     })
 
-    const handleSubmit = (values, {resetForm, setStatus}) => {
-        httpConfig.post('/apis/', values)
-            .then(reply => {
-                const {message, type, status} = reply
-                if (status === 200) {
-                    resetForm()
-                }
-                setStatus({message, type})
-            })
-    }
+    function SubmitPotholeSubmissionForm(values, {resetForm, setStatus}) {
 
-    const pothole = {
-        potholeName: '',
-        potholeDescription: ''
-    }
+        if (values !== undefined) {
+            httpConfig.post('/apis/photo-upload', values)
+                .then(reply => {
+                        let {message, type} = reply
 
-    return (
-        <>
-            <Formik
-                onSubmit={handleSubmit}
-                initialValues={pothole}
-                validationSchema={validator}
-            >
-                {PotholeSubmissionFormContent}
-            </Formik>
-        </>
-    )
+                        if (reply.status === 200) {
+                            submitUpdatedPothole({...values})
+                        } else {
+                            setStatus({message, type})
+                        }
+                    }
+                )
+        } else {
+            submitUpdatedPothole(values)
+        }
+
+        function submitUpdatedPothole(updatedPothole) {
+            httpConfig.post(`/apis/photo-upload/${photo.photoId}`, updatedPothole)
+                .then(reply => {
+                    let {message, type} = reply
+
+                    if (reply.status === 200) {
+                        resetForm()
+                    }
+                    setStatus({message, type})
+                })
+        }
+    }
+        return (
+            <>
+                <Formik
+                    onSubmit={SubmitPotholeSubmissionForm}
+                    initialValues={pothole}
+                    validationSchema={validator}
+                >
+                    {PotholeSubmissionFormContent}
+                </Formik>
+            </>
+        )
 }
 
 function PotholeSubmissionFormContent(props) {
@@ -160,7 +176,6 @@ function PotholeSubmissionFormContent(props) {
                         <>
                             <div className={'alert alert-danger'}>
                                 {errors.photoDescription}
-
                             </div>
                         </>
                     }
@@ -171,7 +186,19 @@ function PotholeSubmissionFormContent(props) {
                     optional.</p>
                 <Button className="m-auto d-flex primary" type="addPhoto">
                     Add Photo</Button>
-                <br></br>
+
+                <ImageDropZone
+                    formikProps={{
+                        values,
+                        handleChange,
+                        handleBlur,
+                        setFieldValue,
+                        fieldValue: 'profileAvatarUrl'
+                    }}
+                />
+
+                <br/>
+
                 <Container fluid className="d-flex">
                     <Button href="/" variant="primary" type="back">
                         Back
@@ -184,6 +211,56 @@ function PotholeSubmissionFormContent(props) {
             {status && <div className={status.type}>{status.message}</div>}
             <DisplayStatus status={status}/>
         </>
+    )
+}
+
+function ImageDropZone({formikProps}) {
+
+    const onDrop = React.useCallback(acceptedFiles => {
+
+        const formData = new FormData()
+        formData.append('image', acceptedFiles[0])
+
+        formikProps.setFieldValue(formikProps.fieldValue, formData)
+
+    }, [formikProps])
+    const {getRootProps, getInputProps, isDragActive} = useDropzone({onDrop})
+
+    return (
+        <Form.Group className={"mb-3"} {...getRootProps()}>
+            <Form.Label>User Avatar</Form.Label>
+
+            <InputGroup size="lg" className="">
+                {
+                    formikProps.values.profileAvatarUrl &&
+                    <>
+                        <div className="bg-transparent m-0">
+                            <Image fluid={true} height={100} rounded={true} thumbnail={true} width={100}
+                                   alt="user avatar" src={formikProps.values.profileAvatarUrl}/>
+                        </div>
+
+                    </>
+                }
+                <div className="d-flex flex-fill bg-light justify-content-center align-items-center border rounded">
+                    <FormControl
+                        aria-label="profile avatar file drag and drop area"
+                        aria-describedby="image drag drop area"
+                        className="form-control-file"
+                        accept="image/*"
+                        onChange={formikProps.handleChange}
+                        onBlur={formikProps.handleBlur}
+                        {...getInputProps()}
+                    />
+                    {
+                        isDragActive ?
+                            <span className="align-items-center">Drop image here</span> :
+                            <span className="align-items-center">Drag and drop image here, or click here to select an image</span>
+                    }
+                </div>
+
+
+            </InputGroup>
+        </Form.Group>
     )
 }
 
