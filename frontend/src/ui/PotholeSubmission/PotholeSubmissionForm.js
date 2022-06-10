@@ -15,7 +15,7 @@ import React, { useState } from 'react'
 import facepalm from '../Home/icons/face-palm.png'
 import crying from '../Home/icons/crying.png'
 import bomb from '../Home/icons/bomb.png'
-import './SeverityPhotoPage.css'
+import './PotholeSubmissionPage.css'
 import { FormDebugger } from "../utils/FormDebugger"
 import * as Yup from 'yup'
 import {httpConfig} from "../utils/httpConfig"
@@ -24,7 +24,7 @@ import {DisplayStatus} from "../shared/components/display-status/DisplayStatus";
 
 
 
-export function SeverityPhotoForm () {
+export function PotholeSubmissionForm () {
   const validator = Yup.object().shape({
     potholeDescription: Yup.string()
       .required('A pothole description is required.')
@@ -33,8 +33,9 @@ export function SeverityPhotoForm () {
       .required('A name is required.')
       .max(32, 'Last name must be 32 characters or less.')
   })
+
   const handleSubmit = (values, { resetForm, setStatus }) => {
-    httpConfig.post('/apis/severity-photo-page', values).then(reply => {
+    httpConfig.post('/apis/pothole-submission-page', values).then(reply => {
       const { message, type, status } = reply
       if (status === 200) {
         resetForm()
@@ -42,10 +43,12 @@ export function SeverityPhotoForm () {
       setStatus({ message, type })
     })
   }
+
   const pothole = {
     potholeName: '',
     potholeDescription: ''
   }
+
   return (
     <>
       <Formik

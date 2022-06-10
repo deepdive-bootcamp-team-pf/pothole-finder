@@ -46,7 +46,7 @@ export function Home() {
                                 </Dropdown.Toggle>
 
                                 <Dropdown.Menu>
-                                    <Dropdown.Item href="/severity-photo-page">From Current Location</Dropdown.Item>
+                                    <Dropdown.Item href="/pothole-submission-page">From Current Location</Dropdown.Item>
                                     <Dropdown.Item href="#/action-2" onClick={() => setShow(true)}>On
                                         Map</Dropdown.Item>
                                 </Dropdown.Menu>
