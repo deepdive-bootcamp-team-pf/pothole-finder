@@ -34,12 +34,6 @@ export function GetMarker() {
             anchor="bottom"
             draggable={true}
             onDragEnd={dragEnd}
-            //     onClick={e => {
-            //         // If we let the click event propagates to the map, it will immediately close the popup
-            //         // with `closeOnClick: true`
-            //         e.originalEvent.stopPropagation();
-            //         setPopupInfo(potholeInfo);
-            //     }}
         >
             <img src={pin} alt={'draggable marker'} style={{width: '80px', height: '80px'}}/>
         </Marker>
