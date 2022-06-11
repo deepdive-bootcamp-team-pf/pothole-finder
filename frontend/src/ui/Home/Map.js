@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import 'maplibre-gl/dist/maplibre-gl.css'
 import './Map.css'
 import Map, {GeolocateControl, Marker, NavigationControl, Popup, ScaleControl} from 'react-map-gl'
@@ -6,8 +6,10 @@ import mapLibre from 'maplibre-gl'
 import {Pin} from './Pin'
 import pin from "./icons/pin.png"
 
+import bomb from './icons/bomb.png'
 
 export function GetMarker() {
+
     const dragEnd = (event) => {
         console.log(event.lngLat.lng)
         console.log(event.lngLat.lat)
@@ -20,12 +22,12 @@ export function GetMarker() {
             anchor="bottom"
             draggable={true}
             onDragEnd={dragEnd}
-        //     onClick={e => {
-        //         // If we let the click event propagates to the map, it will immediately close the popup
-        //         // with `closeOnClick: true`
-        //         e.originalEvent.stopPropagation();
-        //         setPopupInfo(potholeInfo);
-        //     }}
+            //     onClick={e => {
+            //         // If we let the click event propagates to the map, it will immediately close the popup
+            //         // with `closeOnClick: true`
+            //         e.originalEvent.stopPropagation();
+            //         setPopupInfo(potholeInfo);
+            //     }}
         >
             <img src={pin} style={{width: '80px', height: '80px'}}/>
         </Marker>
@@ -35,7 +37,7 @@ export function GetMarker() {
 export default function MapFunction(props) {
 
     const {show} = props
-
+    console.log('I re-rendered')
     const [points] = React.useState([
         {lat: 35.116363, lng: -106.604730},
         {lat: 35.110367, lng: -106.590706},
@@ -65,6 +67,9 @@ export default function MapFunction(props) {
 
     navigator.geolocation.getCurrentPosition(success, error, options);
 
+    const [popupInfo, setPopupInfo] = useState(null);
+    console.log(popupInfo)
+
     return (
         <>
             <Map
@@ -77,31 +82,29 @@ export default function MapFunction(props) {
                 style={{height: '100vh'}}
                 mapStyle="https://api.maptiler.com/maps/streets/style.json?key=D4b2ldjY7geFrPnuBPU8"
             >
-                {points.map((point, index) => <Pin lat={point.lat} lng={point.lng} index={index} key={index}/>)}
+                {points.map((point, index) => <Pin setPopupInfo={setPopupInfo} lat={point.lat} lng={point.lng} index={index} key={index}/>)}
                 {show ? <GetMarker/> : null}
 
                 <GeolocateControl position="bottom-left"/>
                 <NavigationControl position="bottom-left"/>
                 <ScaleControl/>
 
-                {/*<Popup*/}
-                {/*    anchor="top"*/}
-                {/*    longitude={Number(popupInfo.longitude)}*/}
-                {/*    latitude={Number(popupInfo.latitude)}*/}
-                {/*    onClose={() => setPopupInfo(null)}*/}
-                {/*>*/}
-                {/*    <div>*/}
-                {/*        {popupInfo.city}, {popupInfo.state} |{' '}*/}
-                {/*        <a*/}
-                {/*            target="_new"*/}
-                {/*            href={`http://en.wikipedia.org/w/index.php?title=Special:Search&search=${popupInfo.city}, ${popupInfo.state}`}*/}
-                {/*        >*/}
-                {/*            Wikipedia*/}
-                {/*        </a>*/}
-                {/*    </div>*/}
-                {/*    <img width="100%" src={popupInfo.image}/>*/}
-                {/*</Popup>*/}
-
+                {popupInfo !== null && (
+                    <Popup
+                        anchor="top"
+                        longitude={Number(popupInfo.longitude)}
+                        latitude={Number(popupInfo.latitude)}
+                        onClose={() => {
+                            setPopupInfo(null)
+                        }}
+                    >
+                        I Worked
+                        {/*<div>*/}
+                        {/*    {popupInfo.pothole} | {' '}*/}
+                        {/*</div>*/}
+                        {/*<img width="100%" src={popupInfo.photo}/>*/}
+                    </Popup>
+                )}
             </Map>
         </>
     )
