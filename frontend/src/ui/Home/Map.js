@@ -1,12 +1,13 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import 'maplibre-gl/dist/maplibre-gl.css'
 import './Map.css'
 import Map, {Marker} from 'react-map-gl'
 import mapLibre from 'maplibre-gl'
 import { Pin } from './Pin'
 import pin from "./icons/pin.png"
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {setLocation} from '../../store/location'
+import {fetchAllPotholes} from "../../store/potholes";
 
 
 export function GetMarker() {
@@ -51,6 +52,14 @@ export default function MapFunction(props) {
         { lat: 35.123987, lng: -106.649704},
         { lat: 35.139077, lng: -106.545731}
     ])
+
+    const potholes = useSelector(state => state.potholes ? state.potholes : []);
+
+    const dispatch = useDispatch();
+    const effects = () => {
+        dispatch(fetchAllPotholes());
+    };
+    useEffect(effects, [dispatch]);
 
 
     return (
