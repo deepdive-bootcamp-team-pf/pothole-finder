@@ -1,5 +1,4 @@
-import React, { useState } from 'react'
-import { Button, ButtonGroup, Container, Form, Image, ToggleButton } from 'react-bootstrap'
+import { Container } from 'react-bootstrap'
 import './PotholeSubmissionPage.css'
 import {PotholeSubmissionForm} from './PotholeSubmissionForm'
 
@@ -12,7 +11,6 @@ export function PotholeSubmissionPage() {
           <PotholeSubmissionForm/>
         </Container>
       </Container>
-
     </>
   )
 }

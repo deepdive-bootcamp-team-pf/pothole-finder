@@ -1,27 +1,41 @@
-import React from 'react'
+import React, {useState} from 'react'
 import 'maplibre-gl/dist/maplibre-gl.css'
 import './Map.css'
 import Map, {Marker} from 'react-map-gl'
 import mapLibre from 'maplibre-gl'
 import { Pin } from './Pin'
 import pin from "./icons/pin.png"
+import {useDispatch} from "react-redux";
+import {setLocation} from '../../store/location'
 
 
 export function GetMarker() {
+    const dispatch = useDispatch()
+
+    const [lat, setLat] = useState(35.116363)
+    const [lng, setLng] = useState(-106.604730)
+
+    const initialEffects = () => {
+        dispatch(setLocation({}))
+    }
+
+    React.useEffect(initialEffects, [dispatch])
+
     const dragEnd = (event) => {
-        console.log(event.lngLat.lng)
-        console.log(event.lngLat.lat)
+        dispatch(setLocation({lat: event.lngLat.lat, lng: event.lngLat.lng}))
+        setLat(event.lngLat.lat)
+        setLng(event.lngLat.lng)
     }
 
     return (
             <Marker
-                longitude={-106.575077}
-                latitude={35.126899}
+                longitude={lng}
+                latitude={lat}
                 anchor="bottom"
                 draggable={true}
                 onDragEnd={dragEnd}
             >
-                <img src={pin} style={{width: '100px', height: '100px'}}/>
+                <img src={pin} style={{width: '50px', height: '50px'}}/>
             </Marker>
     )
 }
