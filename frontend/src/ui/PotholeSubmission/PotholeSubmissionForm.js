@@ -24,7 +24,9 @@ import {fetchAuth, getAuth} from "../../store/auth";
 import {useLocation} from "react-router-dom";
 
 
-export function PotholeSubmissionForm() {
+export function PotholeSubmissionForm(props) {
+
+    const {photo} = props
 
     const location = useLocation()
     const auth = useSelector(state => state.auth);
@@ -130,7 +132,9 @@ function PotholeSubmissionFormContent(props) {
                                 value={radio.value}
                                 checked={radioValue === radio.value}
                                 onChange={(e) => setRadioValue(e.currentTarget.value)}
-                                onClick={()=>{setFieldValue('potholeSeverity', radio.value)}}
+                                onClick={() => {
+                                    setFieldValue('potholeSeverity', radio.value)
+                                }}
                             >
                                 {radio.name}
 
@@ -194,48 +198,53 @@ function PotholeSubmissionFormContent(props) {
     )
 }
 
-// function ImageDropZone({formikProps}) {
-//
-//     const onDrop = React.useCallback(acceptedFiles => {
-//
-//         const formData = new FormData()
-//         formData.append('image', acceptedFiles[0])
-//
-//         formikProps.setFieldValue(formikProps.fieldValue, formData)
-//
-//     }, [formikProps])
-//     const {getRootProps, getInputProps, isDragActive} = useDropzone({onDrop})
-//
-//     return (
-//         <Form.Group className={"mb-3"} {...getRootProps()}>
-//             <Form.Label>User Avatar</Form.Label>
-//
-//             <InputGroup size="lg" className="">
-//                 {
-//                     formikProps.values.profileAvatarUrl &&
-//                     <>
-//                         <div className="bg-transparent m-0">
-//                             <Image fluid={true} height={100} rounded={true} thumbnail={true} width={100}
-//                                    alt="user avatar" src={formikProps.values.profileAvatarUrl}/>
-//                         </div>
-//
-//                     </>
-//                 }
-//                 <div className="d-flex flex-fill bg-light justify-content-center align-items-center border rounded">
-//                     <FormControl
-//                         aria-label="profile avatar file drag and drop area"
-//                         aria-describedby="image drag drop area"
-//                         className="form-control-file"
-//                         accept="image/*"
-//                         onChange={formikProps.handleChange}
-//                         onBlur={formikProps.handleBlur}
-//                         {...getInputProps()}
-//                     />
-//                     {
-//                         isDragActive ?
-//                             <span className="align-items-center">Drop image here</span> :
-//                             <span className="align-items-center">Drag and drop image here, or click here to select
-// an image</span> } </div> </InputGroup> </Form.Group> ) }
+function ImageDropZone({formikProps}) {
+
+    const onDrop = React.useCallback(acceptedFiles => {
+
+        const formData = new FormData()
+        formData.append('image', acceptedFiles[0])
+
+        formikProps.setFieldValue(formikProps.fieldValue, formData)
+
+    }, [formikProps])
+    const {getRootProps, getInputProps, isDragActive} = useDropzone({onDrop})
+
+    return (
+        <Form.Group className={"mb-3"} {...getRootProps()}>
+            <Form.Label>User Avatar</Form.Label>
+
+            <InputGroup size="lg" className="">
+                {
+                    formikProps.values.profileAvatarUrl &&
+                    <>
+                        <div className="bg-transparent m-0">
+                            <Image fluid={true} height={100} rounded={true} thumbnail={true} width={100}
+                                   alt="user avatar" src={formikProps.values.profileAvatarUrl}/>
+                        </div>
+                    </>
+                }
+                <div className="d-flex flex-fill bg-light justify-content-center align-items-center border rounded">
+                    <FormControl
+                        aria-label="profile avatar file drag and drop area"
+                        aria-describedby="image drag drop area"
+                        className="form-control-file"
+                        accept="image/*"
+                        onChange={formikProps.handleChange}
+                        onBlur={formikProps.handleBlur}
+                        {...getInputProps()}
+                    />
+                    {
+                        isDragActive ?
+                            <span className="align-items-center">Drop image here</span> :
+                            <span className="align-items-center">Drag and drop image here, or click here to select an image</span>
+                    }
+                </div>
+            </InputGroup>
+        </Form.Group>
+    )
+}
+
 
 
 

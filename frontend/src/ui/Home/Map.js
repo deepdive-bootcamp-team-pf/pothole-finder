@@ -1,15 +1,13 @@
 import React, {useEffect, useState} from 'react'
 import 'maplibre-gl/dist/maplibre-gl.css'
 import './Map.css'
-import Map, {Marker} from 'react-map-gl'
+import Map, {GeolocateControl, Marker, NavigationControl, Popup, ScaleControl} from 'react-map-gl'
 import mapLibre from 'maplibre-gl'
-import { Pin } from './Pin'
+import {Pin} from './Pin'
 import pin from "./icons/pin.png"
 import {useDispatch, useSelector} from "react-redux";
 import {setLocation} from '../../store/location'
 import {fetchAllPotholes} from "../../store/potholes";
-import {Container} from "react-bootstrap";
-
 
 export function GetMarker() {
     const dispatch = useDispatch()
@@ -30,15 +28,21 @@ export function GetMarker() {
     }
 
     return (
-            <Marker
-                longitude={lng}
-                latitude={lat}
-                anchor="bottom"
-                draggable={true}
-                onDragEnd={dragEnd}
-            >
-                <img src={pin} style={{width: '50px', height: '50px'}}/>
-            </Marker>
+        <Marker
+            longitude={lng}
+            latitude={lat}
+            anchor="bottom"
+            draggable={true}
+            onDragEnd={dragEnd}
+        //     onClick={e => {
+        //         // If we let the click event propagates to the map, it will immediately close the popup
+        //         // with `closeOnClick: true`
+        //         e.originalEvent.stopPropagation();
+        //         setPopupInfo(potholeInfo);
+        //     }}
+        >
+            <img src={pin} alt={'draggable marker'} style={{width: '80px', height: '80px'}}/>
+        </Marker>
     )
 }
 
@@ -52,10 +56,30 @@ export default function MapFunction(props) {
     };
     useEffect(effects, [dispatch]);
 
+    const options = {
+        enableHighAccuracy: true,
+        timeout: 5000,
+        maximumAge: 0
+    };
+
+    function success(pos) {
+        const crd = pos.coords;
+
+        console.log('Your current position is:');
+        console.log(`Latitude : ${crd.latitude}`);
+        console.log(`Longitude: ${crd.longitude}`);
+        console.log(`More or less ${crd.accuracy} meters.`);
+    }
+
+    function error(err) {
+        console.warn(`ERROR(${err.code}): ${err.message}`);
+    }
+
+    navigator.geolocation.getCurrentPosition(success, error, options);
+
     return (
         <>
-                <Map
-
+            <Map
                     mapLib={mapLibre}
                     initialViewState={{
                         latitude: 35.126899,
@@ -67,7 +91,30 @@ export default function MapFunction(props) {
                 >
                     {potholes.map(pothole => <Pin pothole={pothole} latitude={pothole.potholeLat} longitude={pothole.potholeLng} description={pothole.potholeDescription} key={pothole.potholeId}/>)}
                     {show ? <GetMarker/> : null}
-                </Map>
+
+                <GeolocateControl position="bottom-left"/>
+                <NavigationControl position="bottom-left"/>
+                <ScaleControl/>
+
+                {/*<Popup*/}
+                {/*    anchor="top"*/}
+                {/*    longitude={Number(popupInfo.longitude)}*/}
+                {/*    latitude={Number(popupInfo.latitude)}*/}
+                {/*    onClose={() => setPopupInfo(null)}*/}
+                {/*>*/}
+                {/*    <div>*/}
+                {/*        {popupInfo.city}, {popupInfo.state} |{' '}*/}
+                {/*        <a*/}
+                {/*            target="_new"*/}
+                {/*            href={`http://en.wikipedia.org/w/index.php?title=Special:Search&search=${popupInfo.city}, ${popupInfo.state}`}*/}
+                {/*        >*/}
+                {/*            Wikipedia*/}
+                {/*        </a>*/}
+                {/*    </div>*/}
+                {/*    <img width="100%" src={popupInfo.image}/>*/}
+                {/*</Popup>*/}
+
+            </Map>
         </>
     )
 }

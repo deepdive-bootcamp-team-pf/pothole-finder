@@ -9,17 +9,17 @@ export const Pin = ({pothole}) => {
         case '1':
             return (
                 <Marker key={pothole.potholeId} longitude={pothole.potholeLng} latitude={pothole.potholeLat}>
-                    <img src={facepalm} alt="test" style={{width: '25px', height: '25px'}}/>
+                    <img src={facepalm} alt="severity 1" style={{width: '25px', height: '25px'}}/>
                 </Marker>)
         case '2':
             return (
                 <Marker key={pothole.potholeId} longitude={pothole.potholeLng} latitude={pothole.potholeLat}>
-                    <img src={crying} alt="test" style={{width: '25px', height: '25px'}}/>
+                    <img src={crying} alt="severity 2" style={{width: '25px', height: '25px'}}/>
                 </Marker>)
         case '3':
             return (
                 <Marker key={pothole.potholeId} longitude={pothole.potholeLng} latitude={pothole.potholeLat}>
-                    <img src={bomb} alt="test" style={{width: '25px', height: '25px'}}/>
+                    <img src={bomb} alt="severity 3" style={{width: '25px', height: '25px'}}/>
                 </Marker>)
     }
 }
