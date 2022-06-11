@@ -21,7 +21,7 @@ export function GetMarker() {
                 draggable={true}
                 onDragEnd={dragEnd}
             >
-                <img src={pin} style={{width: '100px', height: '100px'}}/>
+                <img src={pin} style={{width: '80px', height: '80px'}}/>
             </Marker>
     )
 }
