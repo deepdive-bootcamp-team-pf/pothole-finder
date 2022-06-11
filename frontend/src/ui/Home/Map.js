@@ -8,6 +8,7 @@ import pin from "./icons/pin.png"
 import {useDispatch, useSelector} from "react-redux";
 import {setLocation} from '../../store/location'
 import {fetchAllPotholes} from "../../store/potholes";
+import {Container} from "react-bootstrap";
 
 
 export function GetMarker() {
@@ -42,25 +43,14 @@ export function GetMarker() {
 }
 
 export default function MapFunction(props) {
-
     const {show} = props
 
-    const [points] = React.useState([
-        { lat: 35.116363, lng: -106.604730},
-        { lat: 35.110367, lng: -106.590706},
-        { lat: 35.104307, lng: -106.609019},
-        { lat: 35.123987, lng: -106.649704},
-        { lat: 35.139077, lng: -106.545731}
-    ])
-
     const potholes = useSelector(state => state.potholes ? state.potholes : []);
-
     const dispatch = useDispatch();
     const effects = () => {
         dispatch(fetchAllPotholes());
     };
     useEffect(effects, [dispatch]);
-
 
     return (
         <>
@@ -75,7 +65,7 @@ export default function MapFunction(props) {
                     style={{height: '100vh'}}
                     mapStyle="https://api.maptiler.com/maps/streets/style.json?key=D4b2ldjY7geFrPnuBPU8"
                 >
-                    {points.map((point, index) => <Pin lat={point.lat} lng={point.lng} index={index} key={index}/>)}
+                    {potholes.map(pothole => <Pin pothole={pothole} latitude={pothole.potholeLat} longitude={pothole.potholeLng} description={pothole.potholeDescription} key={pothole.potholeId}/>)}
                     {show ? <GetMarker/> : null}
                 </Map>
         </>

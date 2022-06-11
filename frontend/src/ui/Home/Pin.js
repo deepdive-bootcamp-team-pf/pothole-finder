@@ -1,20 +1,25 @@
-import {Marker} from "react-map-gl";
+import {Marker} from 'react-map-gl'
 import bomb from './icons/bomb.png'
 import crying from './icons/crying.png'
 import facepalm from './icons/face-palm.png'
 
+export const Pin = ({pothole}) => {
 
-export function Pin(props) {
-    const {lat, lng} = props
-
-    const icon = [
-        {name: 'Mild ', value: '1', img: facepalm},
-        {name: 'Moderate ', value: '2', img: crying},
-        {name: 'Severe ', value: '3', img: bomb},
-    ]
-
-    return (
-        <Marker key={icon.value} longitude={lng} latitude={lat}>
-            <img src={icon[0].img} alt="test" style={{width: '25px', height: '25px'}}/>
-        </Marker>)
+    switch (pothole.potholeSeverity){
+        case '1':
+            return (
+                <Marker key={pothole.potholeId} longitude={pothole.potholeLng} latitude={pothole.potholeLat}>
+                    <img src={facepalm} alt="test" style={{width: '25px', height: '25px'}}/>
+                </Marker>)
+        case '2':
+            return (
+                <Marker key={pothole.potholeId} longitude={pothole.potholeLng} latitude={pothole.potholeLat}>
+                    <img src={crying} alt="test" style={{width: '25px', height: '25px'}}/>
+                </Marker>)
+        case '3':
+            return (
+                <Marker key={pothole.potholeId} longitude={pothole.potholeLng} latitude={pothole.potholeLat}>
+                    <img src={bomb} alt="test" style={{width: '25px', height: '25px'}}/>
+                </Marker>)
+    }
 }
