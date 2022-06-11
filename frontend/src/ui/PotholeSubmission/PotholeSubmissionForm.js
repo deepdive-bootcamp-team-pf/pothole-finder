@@ -1,16 +1,14 @@
 import {
     Button,
     ButtonGroup,
-    Col,
     Container,
     Form,
     FormControl,
     Image,
     InputGroup,
-    Row,
     ToggleButton
 } from 'react-bootstrap'
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import facepalm from '../Home/icons/face-palm.png'
 import crying from '../Home/icons/crying.png'
 import bomb from '../Home/icons/bomb.png'
@@ -20,61 +18,79 @@ import * as Yup from 'yup'
 import {httpConfig} from "../utils/httpConfig"
 import {Formik} from 'formik'
 import {DisplayStatus} from "../shared/components/display-status/DisplayStatus";
+import {useDispatch, useSelector} from "react-redux";
+import jwtDecode from "jwt-decode";
+import {fetchAuth, getAuth} from "../../store/auth";
+import {useLocation} from "react-router-dom";
 
 
 export function PotholeSubmissionForm(props) {
+
     const {photo} = props
+
+    const location = useLocation()
+    const auth = useSelector(state => state.auth);
+    const dispatch = useDispatch()
+    const effects = () => {
+        dispatch(fetchAuth());
+    };
+    useEffect(effects, [dispatch]);
 
     const validator = Yup.object().shape({
         potholeDescription: Yup.string()
-            .required('A pothole description is required.')
-            .max(255, 'First name must be 255 characters or less.'),
-        potholeName: Yup.string()
-            .required('A name is required.')
-            .max(32, 'Last name must be 32 characters or less.')
+            .max(512, 'Pothole description must be less than 512 characters.'),
+        potholeSeverity: Yup.number()
+            .min(1, 'Please provide a number larger than one.')
+            .required('Pothole severity is required.')
     })
 
-    function SubmitPotholeSubmissionForm(values, {resetForm, setStatus}) {
-
-        if (values !== undefined) {
-            httpConfig.post('/apis/photo-upload', values)
-                .then(reply => {
-                        let {message, type} = reply
-
-                        if (reply.status === 200) {
-                            submitUpdatedPothole({...values})
-                        } else {
-                            setStatus({message, type})
-                        }
-                    }
-                )
-        } else {
-            submitUpdatedPothole(values)
-        }
-
-        function submitUpdatedPothole(updatedPothole) {
-            httpConfig.post(`/apis/photo-upload/${photo.photoId}`, updatedPothole)
-                .then(reply => {
-                    let {message, type} = reply
-
-                    if (reply.status === 200) {
-                        resetForm()
-                    }
-                    setStatus({message, type})
-                })
-        }
+    const handleSubmit = (values, {resetForm, setStatus}) => {
+        httpConfig.post('/apis/pothole', values).then(reply => {
+            const {message, type, status} = reply
+            if (status === 200 && reply.headers["authorization"]) {
+                window.localStorage.removeItem("authorization");
+                window.localStorage.setItem("authorization", reply.headers["authorization"]);
+                resetForm();
+                let jwtToken = jwtDecode(reply.headers["authorization"])
+                dispatch(getAuth(jwtToken))
+                {
+                    resetForm()
+                }
+            }
+            setStatus({message, type})
+        })
     }
-        return (
-            <>
-                <Formik
-                    onSubmit={SubmitPotholeSubmissionForm}
-                    initialValues={pothole}
-                    validationSchema={validator}
-                >
-                    {PotholeSubmissionFormContent}
-                </Formik>
-            </>
-        )
+
+    // function submitUpdatedPothole(updatedPothole) {
+    //     httpConfig.post(`/apis/photo-upload/${photo.photoId}`, updatedPothole)
+    //         .then(reply => {
+    //             let {message, type} = reply
+    //
+    //             if (reply.status === 200) {
+    //                 resetForm()
+    //             }
+    //             setStatus({message, type})
+    //         })
+    // }
+
+    const pothole = {
+        potholeSeverity: '1',
+        potholeDescription: '',
+        potholeLat: location.state.lat,
+        potholeLng: location.state.lng
+    }
+
+    return (
+        <>
+            <Formik
+                onSubmit={handleSubmit}
+                initialValues={pothole}
+                validationSchema={validator}
+            >
+                {PotholeSubmissionFormContent}
+            </Formik>
+        </>
+    )
 }
 
 function PotholeSubmissionFormContent(props) {
@@ -104,97 +120,67 @@ function PotholeSubmissionFormContent(props) {
         <>
             <Form onSubmit={handleSubmit} className={'p-3 form-text'}>
                 <h1 className='title-centering'>Please rate your Pothole</h1>
-                <ButtonGroup className="mb-2 d-flex text-center">
-                    {radios.map((radio, idx) => (
-                        <ToggleButton
-                            key={idx}
-                            id={`radio-${idx}`}
-                            type="radio"
-                            variant="secondary"
-                            name="radio"
-                            value={radio.value}
-                            checked={radioValue === radio.value}
-                            onChange={(e) => setRadioValue(e.currentTarget.value)}
-                        >
-                            {radio.name}
+                <Form.Group controlId='potholeSeverity'>
+                    <ButtonGroup className="mb-2 d-flex text-center">
+                        {radios.map((radio, idx) => (
+                            <ToggleButton
+                                key={idx}
+                                id={`radio-${idx}`}
+                                type="radio"
+                                variant="secondary"
+                                name="potholeSeverity"
+                                value={radio.value}
+                                checked={radioValue === radio.value}
+                                onChange={(e) => setRadioValue(e.currentTarget.value)}
+                                onClick={() => {
+                                    setFieldValue('potholeSeverity', radio.value)
+                                }}
+                            >
+                                {radio.name}
 
-                            <Image src={radio.img} style={{height: '25px', width: '25px'}}/>
-                        </ToggleButton>
-                    ))}
-                </ButtonGroup>
-
-
-                <Form.Group className="mb-3" controlId="photoName">
-                    <Form.Label>Photo Name</Form.Label>
-                    <InputGroup>
-                        <InputGroup.Text>
-                        </InputGroup.Text>
-                        <Form.Control
-                            type="name"
-                            placeholder="Camino de Crater"
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            value={values.photoName}
-                            name="photoName"
-                        />
-                        <InputGroup>
-                            <Form.Text className="text-muted">
-                                Please add a name for your pothole.
-                            </Form.Text>
-                        </InputGroup>
-                    </InputGroup>
-                    {errors.photoName && touched.photoName &&
-                        <>
-                            <div className={'alert alert-danger'}>
-                                {errors.photoName}
-                            </div>
-                        </>
-                    }
+                                <Image src={radio.img} style={{height: '25px', width: '25px'}}/>
+                            </ToggleButton>
+                        ))}
+                    </ButtonGroup>
                 </Form.Group>
 
-                <Form.Group className="mb-3" controlId="photoDescription">
-                    <Form.Label>Photo Description</Form.Label>
+                <Form.Group className="mb-3" controlId="potholeDescription">
+                    <Form.Label>Pothole Description</Form.Label>
                     <InputGroup>
                         <InputGroup.Text>
                         </InputGroup.Text>
-                        <Form.Control
+                        <FormControl
                             type="description"
-                            placeholder="This pothole gave me a flat tire!"
+                            placeholder="Optional brief description of the pothole. Let users know HOW bad this pothole is."
                             onChange={handleChange}
                             onBlur={handleBlur}
-                            value={values.photoDescription}
-                            name="photoDescription"
+                            value={values.potholeDescription}
+                            name="potholeDescription"
                         />
-                        <InputGroup>
-                            <Form.Text className="text-muted">
-                                Please add a brief description of pothole.
-                            </Form.Text>
-                        </InputGroup>
                     </InputGroup>
-                    {errors.photoDescription && touched.photoDescription &&
+                    {errors.potholeDescription && touched.potholeDescription &&
                         <>
                             <div className={'alert alert-danger'}>
-                                {errors.photoDescription}
+                                {errors.potholeDescription}
                             </div>
                         </>
                     }
                 </Form.Group>
 
                 <h1 className='title-centering'>Add Photo</h1>
-                <p>Please add a photo of your pothole. We can pull the location of pothole from photo. This step is
-                    optional.</p>
+                <p className='text-center text-muted small'>(Adding a photo is optional.)</p>
                 <Button className="m-auto d-flex primary" type="addPhoto">
                     Add Photo</Button>
 
-                <ImageDropZone
-                    formikProps={{
-                        values,
-                        handleChange,
-                        handleBlur,
-                        setFieldValue,
-                        fieldValue: 'profileAvatarUrl'
-                    }}
-                />
+                {/*<ImageDropZone*/}
+                {/*    formikProps={{*/}
+                {/*        values,*/}
+                {/*        handleChange,*/}
+                {/*        handleBlur,*/}
+                {/*        setFieldValue,*/}
+                {/*        fieldValue: 'profileAvatarUrl'*/}
+                {/*    }}*/}
+                {/*/>*/}
 
                 <br/>
 
@@ -207,7 +193,6 @@ function PotholeSubmissionFormContent(props) {
                     </Button>
                 </Container>
             </Form>
-            {status && <div className={status.type}>{status.message}</div>}
             <DisplayStatus status={status}/>
         </>
     )
@@ -259,6 +244,7 @@ function ImageDropZone({formikProps}) {
         </Form.Group>
     )
 }
+
 
 
 

@@ -3,15 +3,17 @@ import {Button, Col, Container, Dropdown, Row} from 'react-bootstrap'
 import './HomeNav.css'
 import {LogInForm} from './LogInForm'
 import {SignUp} from '../SignUp/SignUp'
-import MapFunction from "./Map";
+import MapFunction, {GetMarker} from "./Map";
 import {fetchAuth} from '../../store/auth'
 import {useDispatch, useSelector} from "react-redux";
 import {LogoutComponent} from "../shared/components/Logout";
 import {SignUpModal} from "../SignUp/SignUpModal";
-
+import { Link, useNavigate } from "react-router-dom"
 
 export function Home() {
 
+    GetMarker()
+    const location = useSelector((state) => state.location ? state.location : {});
     const auth = useSelector(state => state.auth);
     const dispatch = useDispatch()
     const effects = () => {
@@ -21,6 +23,12 @@ export function Home() {
 
     const [show, setShow] = React.useState(false)
     const [modalShow, setModalShow] = React.useState(false);
+
+    const navigate = useNavigate();
+
+    const toPotholeSubmission = () => {
+        navigate('/pothole-submission-page', {state: {lat: location.lat, lng: location.lng}})
+    }
 
     return (
         <>
@@ -46,7 +54,7 @@ export function Home() {
                                 </Dropdown.Toggle>
 
                                 <Dropdown.Menu>
-                                    <Dropdown.Item href="/pothole-submission-page">From Current Location</Dropdown.Item>
+                                    <Dropdown.Item onClick={() => toPotholeSubmission()}>From Current Location</Dropdown.Item>
                                     <Dropdown.Item href="#/action-2" onClick={() => setShow(true)}>On
                                         Map</Dropdown.Item>
                                 </Dropdown.Menu>

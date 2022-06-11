@@ -9,6 +9,7 @@ import {DisplayStatus} from "../shared/components/display-status/DisplayStatus";
 import jwtDecode from "jwt-decode";
 import {useDispatch} from "react-redux";
 import {getAuth} from '../../store/auth'
+import profile from "../../store/profile";
 
 export function LogInForm() {
 
