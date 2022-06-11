@@ -64,11 +64,6 @@ export default function MapFunction(props) {
 
     function success(pos) {
         const crd = pos.coords;
-
-        console.log('Your current position is:');
-        console.log(`Latitude : ${crd.latitude}`);
-        console.log(`Longitude: ${crd.longitude}`);
-        console.log(`More or less ${crd.accuracy} meters.`);
     }
 
     function error(err) {
@@ -78,7 +73,6 @@ export default function MapFunction(props) {
     navigator.geolocation.getCurrentPosition(success, error, options);
 
     const [popupInfo, setPopupInfo] = useState(null);
-    console.log(popupInfo)
 
     return (
         <>
