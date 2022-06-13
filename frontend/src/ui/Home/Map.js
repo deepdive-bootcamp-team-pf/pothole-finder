@@ -8,7 +8,7 @@ import pin from "./icons/pin.png"
 import {useDispatch, useSelector} from "react-redux";
 import {setLocation} from '../../store/location'
 import {fetchAllPotholes} from "../../store/potholes";
-import {Button, Col, Container, Dropdown, Row} from "react-bootstrap";
+import {Col, Row} from "react-bootstrap";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faSquareXmark, faSquareCheck} from '@fortawesome/free-solid-svg-icons'
 import {useNavigate} from "react-router-dom";
@@ -104,6 +104,7 @@ export default function MapFunction(props) {
     navigator.geolocation.getCurrentPosition(success, error, options);
 
     const [popupInfo, setPopupInfo] = useState(null);
+    console.log(popupInfo)
 
     return (
         <>
@@ -119,7 +120,7 @@ export default function MapFunction(props) {
             >
                 {potholes.map(pothole => <Pin setPopupInfo={setPopupInfo} pothole={pothole}
                                               latitude={pothole.potholeLat}
-                                              longitude={pothole.potholeLng} description={pothole.potholeDescription}
+                                              longitude={pothole.potholeLng}
                                               key={pothole.potholeId}/>)}
                 {show ? <GetMarker/> : null}
 
@@ -130,16 +131,13 @@ export default function MapFunction(props) {
                 {popupInfo !== null && (
                     <Popup
                         anchor="top"
-                        longitude={Number(popupInfo.longitude)}
-                        latitude={Number(popupInfo.latitude)}
+                        longitude={Number(popupInfo.potholeLng)}
+                        latitude={Number(popupInfo.potholeLat)}
                         onClose={() => {
                             setPopupInfo(null)
                         }}
                     >
-                        <div>
-                            {popupInfo.pothole.potholeDescription}
-                            {popupInfo.pothole} | {' '}
-                        </div>
+                        {popupInfo.potholeDescription}
                         {/*<img width="100%" src={popupInfo.photo}/>*/}
                     </Popup>
                 )}

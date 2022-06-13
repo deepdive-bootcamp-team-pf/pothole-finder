@@ -1,15 +1,12 @@
 import {Button, Col, Form, FormControl, InputGroup, Row} from 'react-bootstrap'
 import React from 'react'
-
 import * as Yup from 'yup'
 import {httpConfig} from "../utils/httpConfig"
-import {FormDebugger} from "../utils/FormDebugger"
 import {Formik} from 'formik'
 import {DisplayStatus} from "../shared/components/display-status/DisplayStatus";
 import jwtDecode from "jwt-decode";
 import {useDispatch} from "react-redux";
 import {getAuth} from '../../store/auth'
-import profile from "../../store/profile";
 
 export function LogInForm() {
 

@@ -15,7 +15,7 @@ export const Pin = (props) => {
                     latitude={pothole.potholeLat}
                     onClick={(e) => {
                         e.originalEvent.stopPropagation()
-                        setPopupInfo({latitude: pothole.potholeLat, longitude: pothole.potholeLng})
+                        setPopupInfo(pothole)
                     }}
                 >
                     <img src={facepalm} alt="severity 1" style={{width: '25px', height: '25px'}}/>
@@ -28,7 +28,7 @@ export const Pin = (props) => {
                     latitude={pothole.potholeLat}
                     onClick={(e) => {
                         e.originalEvent.stopPropagation()
-                        setPopupInfo({latitude: pothole.potholeLat, longitude: pothole.potholeLng})
+                        setPopupInfo(pothole)
                     }}
                 >
                     <img src={crying} alt="severity 2" style={{width: '25px', height: '25px'}}/>
@@ -41,7 +41,7 @@ export const Pin = (props) => {
                     latitude={pothole.potholeLat}
                     onClick={(e) => {
                         e.originalEvent.stopPropagation()
-                        setPopupInfo({latitude: pothole.potholeLat, longitude: pothole.potholeLng})
+                        setPopupInfo(pothole)
                     }}
                 >
                     <img src={bomb} alt="severity 3" style={{width: '25px', height: '25px'}}/>
