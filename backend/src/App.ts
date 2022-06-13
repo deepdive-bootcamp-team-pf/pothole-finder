@@ -12,6 +12,7 @@ import { profileRoute } from "./apis/profile/profile.route"
 import { potholeRoute} from "./apis/pothole/pothole.route"
 import { potholeVerificationRoute } from "./apis/pothole-verification/pothole-verification.route"
 import { signUpRoute } from './apis/sign-up/sign-up.route'
+import { signOutRoute } from './apis/sign-out/sign-out.route'
 
 
 // The following class creates the app and instantiates the server
@@ -61,6 +62,7 @@ export class App {
     this.app.use('/apis/profile', profileRoute)
     this.app.use('/apis/pothole-verification', potholeVerificationRoute)
     this.app.use('/apis/sign-up', signUpRoute)
+    this.app.use('/apis/sign-out', signOutRoute)
   }
 
   // starts the server and tells the terminal to post a message that the server is running and on what port
