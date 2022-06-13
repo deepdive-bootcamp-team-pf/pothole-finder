@@ -2,6 +2,38 @@
     z-index: 999;
 }
 
+.confirm-marker {
+    margin-top: 6rem;
+    margin-left: .8rem;
+    padding: .5rem;
+    border: solid black 1px;
+    background-color: white;
+    border-radius: 10%;
+    font-size: 150%;
+}
+
+.x-button {
+    font-size: 50px;
+    color: red;
+}
+
+.x-button:hover,
+.x-button:focus {
+    cursor: pointer;
+    color: darkred;
+}
+
+.check-button {
+    font-size: 50px;
+    color: green;
+}
+
+.check-button:hover,
+.check-button:focus {
+    cursor: pointer;
+    color: darkgreen;
+}
+
 Button {
     box-shadow: 0 3px 10px rgba(0,0,0,0.2);
 }
@@ -43,5 +75,37 @@ Button {
 
     .log-in-btn {
         font-size: 110%;
+    }
+
+    .confirm-marker {
+        margin-top: 4.5rem;
+        margin-left: .8rem;
+        padding: .5rem;
+        border: solid black 1px;
+        background-color: white;
+        border-radius: 10%;
+        font-size: 100%;
+    }
+
+    .x-button {
+        font-size: 25px;
+        color: red;
+    }
+
+    .x-button:hover,
+    .x-button:focus {
+        cursor: pointer;
+        color: #BB2D3B;
+    }
+
+    .check-button {
+        font-size: 25px;
+        color: green;
+    }
+
+    .check-button:hover,
+    .check-button:focus {
+        cursor: pointer;
+        color: #006400;
     }
 }
