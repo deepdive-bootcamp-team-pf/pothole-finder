@@ -53,7 +53,8 @@ export function GetMarker() {
                     </Col>
 
                     <Col className={'d-flex justify-content-center'}>
-                        <FontAwesomeIcon className={'check-button'} icon={faSquareCheck} onClick={() => toPotholeSubmission()} />
+                        <FontAwesomeIcon className={'check-button'} icon={faSquareCheck}
+                                         onClick={() => toPotholeSubmission()}/>
                     </Col>
                 </Row>
             </div>
@@ -116,7 +117,8 @@ export default function MapFunction(props) {
                 style={{height: '100vh'}}
                 mapStyle="https://api.maptiler.com/maps/streets/style.json?key=D4b2ldjY7geFrPnuBPU8"
             >
-                {potholes.map(pothole => <Pin pothole={pothole} latitude={pothole.potholeLat}
+                {potholes.map(pothole => <Pin setPopupInfo={setPopupInfo} pothole={pothole}
+                                              latitude={pothole.potholeLat}
                                               longitude={pothole.potholeLng} description={pothole.potholeDescription}
                                               key={pothole.potholeId}/>)}
                 {show ? <GetMarker/> : null}
@@ -128,16 +130,16 @@ export default function MapFunction(props) {
                 {popupInfo !== null && (
                     <Popup
                         anchor="top"
-                        longitude={Number(popupInfo.lng)}
-                        latitude={Number(popupInfo.lat)}
+                        longitude={Number(popupInfo.longitude)}
+                        latitude={Number(popupInfo.latitude)}
                         onClose={() => {
                             setPopupInfo(null)
                         }}
                     >
-                        I Worked
-                        {/*<div>*/}
-                        {/*    {popupInfo.pothole} | {' '}*/}
-                        {/*</div>*/}
+                        <div>
+                            {popupInfo.pothole.potholeDescription}
+                            {popupInfo.pothole} | {' '}
+                        </div>
                         {/*<img width="100%" src={popupInfo.photo}/>*/}
                     </Popup>
                 )}

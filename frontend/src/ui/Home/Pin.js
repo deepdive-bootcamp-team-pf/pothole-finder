@@ -4,7 +4,7 @@ import crying from './icons/crying.png'
 import facepalm from './icons/face-palm.png'
 
 export const Pin = (props) => {
-    const {lat, lng, setPopupInfo, pothole} = props
+    const {setPopupInfo, pothole} = props
 
     switch (pothole.potholeSeverity){
         case '1':
@@ -15,7 +15,7 @@ export const Pin = (props) => {
                     latitude={pothole.potholeLat}
                     onClick={(e) => {
                         e.originalEvent.stopPropagation()
-                        setPopupInfo(pothole)
+                        setPopupInfo({latitude: pothole.potholeLat, longitude: pothole.potholeLng})
                     }}
                 >
                     <img src={facepalm} alt="severity 1" style={{width: '25px', height: '25px'}}/>
@@ -28,7 +28,7 @@ export const Pin = (props) => {
                     latitude={pothole.potholeLat}
                     onClick={(e) => {
                         e.originalEvent.stopPropagation()
-                        setPopupInfo(pothole)
+                        setPopupInfo({latitude: pothole.potholeLat, longitude: pothole.potholeLng})
                     }}
                 >
                     <img src={crying} alt="severity 2" style={{width: '25px', height: '25px'}}/>
@@ -41,7 +41,7 @@ export const Pin = (props) => {
                     latitude={pothole.potholeLat}
                     onClick={(e) => {
                         e.originalEvent.stopPropagation()
-                        setPopupInfo(pothole)
+                        setPopupInfo({latitude: pothole.potholeLat, longitude: pothole.potholeLng})
                     }}
                 >
                     <img src={bomb} alt="severity 3" style={{width: '25px', height: '25px'}}/>
