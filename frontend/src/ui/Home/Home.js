@@ -8,7 +8,7 @@ import {fetchAuth} from '../../store/auth'
 import {useDispatch, useSelector} from "react-redux";
 import {LogoutComponent} from "../shared/components/Logout";
 import {SignUpModal} from "../SignUp/SignUpModal";
-import { Link, useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 
 export function Home() {
 
@@ -54,9 +54,12 @@ export function Home() {
                                 </Dropdown.Toggle>
 
                                 <Dropdown.Menu>
-                                    <Dropdown.Item onClick={() => toPotholeSubmission()}>From Current Location</Dropdown.Item>
-                                    <Dropdown.Item href="#/action-2" onClick={() => setShow(true)}>On
-                                        Map</Dropdown.Item>
+                                    <Dropdown.Item onClick={() => toPotholeSubmission()}>
+                                        From Current Location
+                                    </Dropdown.Item>
+                                    <Dropdown.Item onClick={() => setShow(true)}>
+                                        On Map
+                                    </Dropdown.Item>
                                 </Dropdown.Menu>
                             </Dropdown>}
 

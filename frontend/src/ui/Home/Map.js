@@ -8,8 +8,14 @@ import pin from "./icons/pin.png"
 import {useDispatch, useSelector} from "react-redux";
 import {setLocation} from '../../store/location'
 import {fetchAllPotholes} from "../../store/potholes";
+import {Button, Col, Container, Dropdown, Row} from "react-bootstrap";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faSquareXmark, faSquareCheck} from '@fortawesome/free-solid-svg-icons'
+import {useNavigate} from "react-router-dom";
 
 export function GetMarker() {
+
+    const location = useSelector((state) => state.location ? state.location : {});
     const dispatch = useDispatch()
 
     const [lat, setLat] = useState(35.116363)
@@ -27,16 +33,46 @@ export function GetMarker() {
         setLng(event.lngLat.lng)
     }
 
+    const navigate = useNavigate();
+
+    const toPotholeSubmission = () => {
+        navigate('pothole-submission-page', {state: {lat: location.lat, lng: location.lng}})
+    }
+
+    const removeMarker = () => {
+        navigate('/')
+    }
+
     return (
-        <Marker
-            longitude={lng}
-            latitude={lat}
-            anchor="bottom"
-            draggable={true}
-            onDragEnd={dragEnd}
-        >
-            <img src={pin} alt={'draggable marker'} style={{width: '80px', height: '80px'}}/>
-        </Marker>
+        <>
+            <div className={'home-nav position-absolute confirm-marker'}>
+                <p className={'mb-0'}>Confirm Marker?</p>
+                <Row>
+                    <Col className={'d-flex justify-content-center'}>
+                        <FontAwesomeIcon className={'x-button'} icon={faSquareXmark} onClick={() => removeMarker()}/>
+                    </Col>
+
+                    <Col className={'d-flex justify-content-center'}>
+                        <FontAwesomeIcon className={'check-button'} icon={faSquareCheck} onClick={() => toPotholeSubmission()} />
+                    </Col>
+                </Row>
+            </div>
+            <Marker
+                longitude={lng}
+                latitude={lat}
+                anchor="bottom"
+                draggable={true}
+                onDragEnd={dragEnd}
+                //     onClick={e => {
+                //         // If we let the click event propagates to the map, it will immediately close the popup
+                //         // with `closeOnClick: true`
+                //         e.originalEvent.stopPropagation();
+                //         setPopupInfo(potholeInfo);
+                //     }}
+            >
+                <img src={pin} alt={'draggable marker'} style={{width: '80px', height: '80px'}}/>
+            </Marker>
+        </>
     )
 }
 
@@ -71,17 +107,19 @@ export default function MapFunction(props) {
     return (
         <>
             <Map
-                    mapLib={mapLibre}
-                    initialViewState={{
-                        latitude: 35.126899,
-                        longitude: -106.575077,
-                        zoom: 12
-                    }}
-                    style={{height: '100vh'}}
-                    mapStyle="https://api.maptiler.com/maps/streets/style.json?key=D4b2ldjY7geFrPnuBPU8"
-                >
-                    {potholes.map(pothole => <Pin pothole={pothole} latitude={pothole.potholeLat} longitude={pothole.potholeLng} setPopupInfo={setPopupInfo} description={pothole.potholeDescription} key={pothole.potholeId}/>)}
-                    {show ? <GetMarker/> : null}
+                mapLib={mapLibre}
+                initialViewState={{
+                    latitude: 35.126899,
+                    longitude: -106.575077,
+                    zoom: 12
+                }}
+                style={{height: '100vh'}}
+                mapStyle="https://api.maptiler.com/maps/streets/style.json?key=D4b2ldjY7geFrPnuBPU8"
+            >
+                {potholes.map(pothole => <Pin pothole={pothole} latitude={pothole.potholeLat}
+                                              longitude={pothole.potholeLng} description={pothole.potholeDescription}
+                                              key={pothole.potholeId}/>)}
+                {show ? <GetMarker/> : null}
 
                 <GeolocateControl position="bottom-left"/>
                 <NavigationControl position="bottom-left"/>
