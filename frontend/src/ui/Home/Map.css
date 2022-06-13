@@ -29,3 +29,7 @@
 .bomb {
     background-image: url(icons/bomb.png);
 }
+
+.mapboxgl-ctrl {
+    margin-top: 10rem;
+}

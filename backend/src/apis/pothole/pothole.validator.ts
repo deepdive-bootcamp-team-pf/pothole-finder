@@ -8,8 +8,7 @@ export const potholeValidator: Schema = {
         isLength: {
             errorMessage: "Please add a description.",
             options: {
-                min: 1,
-                max: 255
+                max: 512
             }
         },
         trim: true,

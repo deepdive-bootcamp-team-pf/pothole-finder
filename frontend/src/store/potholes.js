@@ -17,6 +17,6 @@ export default potholeSlice.reducer
 
 // create an export to allow async calls to our action
 export const fetchAllPotholes = () => async dispatch => {
-    const {data} = await httpConfig('/apis/potholes')
+    const {data} = await httpConfig('/apis/pothole')
     dispatch(setAllPotholes(data))
 }

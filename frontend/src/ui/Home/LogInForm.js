@@ -6,8 +6,14 @@ import {httpConfig} from "../utils/httpConfig"
 import {FormDebugger} from "../utils/FormDebugger"
 import {Formik} from 'formik'
 import {DisplayStatus} from "../shared/components/display-status/DisplayStatus";
+import jwtDecode from "jwt-decode";
+import {useDispatch} from "react-redux";
+import {getAuth} from '../../store/auth'
+import profile from "../../store/profile";
 
 export function LogInForm() {
+
+    const dispatch = useDispatch()
 
     const validator = Yup.object().shape({
         profilePassword: Yup.string()
@@ -21,8 +27,15 @@ export function LogInForm() {
     const handleSubmit = (values, {resetForm, setStatus}) => {
         httpConfig.post('/apis/login', values).then(reply => {
             const {message, type, status} = reply
-            if (status === 200) {
-                resetForm()
+            if (status === 200 && reply.headers["authorization"]) {
+                window.localStorage.removeItem("authorization");
+                window.localStorage.setItem("authorization", reply.headers["authorization"]);
+                resetForm();
+                let jwtToken = jwtDecode(reply.headers["authorization"])
+                dispatch(getAuth(jwtToken))
+                {
+                    resetForm()
+                }
             }
             setStatus({message, type})
         })
