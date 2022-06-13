@@ -80,7 +80,7 @@ export default function MapFunction(props) {
                     style={{height: '100vh'}}
                     mapStyle="https://api.maptiler.com/maps/streets/style.json?key=D4b2ldjY7geFrPnuBPU8"
                 >
-                    {potholes.map(pothole => <Pin pothole={pothole} latitude={pothole.potholeLat} longitude={pothole.potholeLng} description={pothole.potholeDescription} key={pothole.potholeId}/>)}
+                    {potholes.map(pothole => <Pin pothole={pothole} latitude={pothole.potholeLat} longitude={pothole.potholeLng} setPopupInfo={setPopupInfo} description={pothole.potholeDescription} key={pothole.potholeId}/>)}
                     {show ? <GetMarker/> : null}
 
                 <GeolocateControl position="bottom-left"/>
@@ -90,8 +90,8 @@ export default function MapFunction(props) {
                 {popupInfo !== null && (
                     <Popup
                         anchor="top"
-                        longitude={Number(popupInfo.longitude)}
-                        latitude={Number(popupInfo.latitude)}
+                        longitude={Number(popupInfo.lng)}
+                        latitude={Number(popupInfo.lat)}
                         onClose={() => {
                             setPopupInfo(null)
                         }}
