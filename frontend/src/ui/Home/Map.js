@@ -18,8 +18,6 @@ export function GetMarker() {
     const location = useSelector((state) => state.location ? state.location : {});
     const dispatch = useDispatch()
 
-    const [show, setShow] = React.useState(false)
-
     const [lat, setLat] = useState(35.116363)
     const [lng, setLng] = useState(-106.604730)
 
@@ -38,7 +36,11 @@ export function GetMarker() {
     const navigate = useNavigate();
 
     const toPotholeSubmission = () => {
-        navigate('/pothole-submission-page', {state: {lat: location.lat, lng: location.lng}})
+        navigate('pothole-submission-page', {state: {lat: location.lat, lng: location.lng}})
+    }
+
+    const removeMarker = () => {
+        navigate('/')
     }
 
     return (
@@ -47,7 +49,7 @@ export function GetMarker() {
                 <p className={'mb-0'}>Confirm Marker?</p>
                 <Row>
                     <Col className={'d-flex justify-content-center'}>
-                        <FontAwesomeIcon className={'x-button'} icon={faSquareXmark} onClick={() => setShow(false)}/>
+                        <FontAwesomeIcon className={'x-button'} icon={faSquareXmark} onClick={() => removeMarker()}/>
                     </Col>
 
                     <Col className={'d-flex justify-content-center'}>
