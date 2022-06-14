@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import 'maplibre-gl/dist/maplibre-gl.css'
 import './Map.css'
-import Map, {GeolocateControl, Marker, NavigationControl, Popup, ScaleControl} from 'react-map-gl'
+import Map, {GeolocateControl, Marker, NavigationControl, Popup, ScaleControl, useMap} from 'react-map-gl'
 import mapLibre from 'maplibre-gl'
 import {Pin} from './Pin'
 import pin from "./icons/pin.png"
@@ -47,10 +47,9 @@ export function GetMarker(props) {
                     <p className={'mb-0'}>Confirm Marker?</p>
                     <Row>
                         <Col className={'d-flex justify-content-center'}>
-                            <FontAwesomeIcon className={'x-button'} icon={faSquareXmark} show={show}
+                            <FontAwesomeIcon className={'x-button'} icon={faSquareXmark}
                                              onClick={() => setShow(false)}/>
                         </Col>
-
                         <Col className={'d-flex justify-content-center'}>
                             <FontAwesomeIcon className={'check-button'} icon={faSquareCheck}
                                              onClick={() => toPotholeSubmission()}/>
