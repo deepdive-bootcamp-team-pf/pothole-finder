@@ -3,7 +3,7 @@ import {Button, Col, Container, Dropdown, Row} from 'react-bootstrap'
 import './HomeNav.css'
 import {LogInForm} from './LogInForm'
 import {SignUp} from '../SignUp/SignUp'
-import MapFunction, {GetMarker} from "./Map";
+import MapFunction from "./Map";
 import {fetchAuth} from '../../store/auth'
 import {useDispatch, useSelector} from "react-redux";
 import {LogoutComponent} from "../shared/components/Logout";
@@ -12,7 +12,6 @@ import { useNavigate } from "react-router-dom"
 
 export function Home() {
 
-    GetMarker()
     const location = useSelector((state) => state.location ? state.location : {});
     const auth = useSelector(state => state.auth);
     const dispatch = useDispatch()
@@ -86,12 +85,9 @@ export function Home() {
                             <SignUp/>
                         </Col>
                     }
-
                 </Row>
             </Container>
-            <MapFunction show={show}/>
+            <MapFunction show={show} setShow={setShow}/>
         </>
     )
 }
-
-
