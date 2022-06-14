@@ -144,6 +144,7 @@ export default function MapFunction(props) {
                         }}
                     >
                         {popupInfo.potholeDescription}
+
                         {/*<img width="100%" src={popupInfo.photo}/>*/}
                     </Popup>
                 )}
