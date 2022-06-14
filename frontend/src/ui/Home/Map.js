@@ -8,7 +8,7 @@ import pin from "./icons/pin.png"
 import {useDispatch, useSelector} from "react-redux";
 import {setLocation} from '../../store/location'
 import {fetchAllPotholes} from "../../store/potholes";
-import {Col, Row} from "react-bootstrap";
+import {Button, Col, Row} from "react-bootstrap";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faSquareXmark, faSquareCheck} from '@fortawesome/free-solid-svg-icons'
 import {useNavigate} from "react-router-dom";
@@ -144,8 +144,8 @@ export default function MapFunction(props) {
                         }}
                     >
                         {popupInfo.potholeDescription}
-
                         {/*<img width="100%" src={popupInfo.photo}/>*/}
+                        <Button className={'d-flex mt-2 text-center justify-content-center'} size={"sm"} variant={'success'} onClick={''}>Validate Pothole</Button>
                     </Popup>
                 )}
             </Map>
