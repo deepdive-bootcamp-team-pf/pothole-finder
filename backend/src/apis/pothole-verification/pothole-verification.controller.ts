@@ -38,7 +38,7 @@ export async function getPotholeVerificationByPotholeVerificationProfileIdContro
 
 export async function togglePotholeVerificationController (request: Request, response: Response): Promise<Response<string>> {
     try {
-        const { potholeVerificationPotholeId, potholeVerificationPhotoURL } = request.body
+        const { potholeVerificationPotholeId } = request.body
         // @ts-ignore
         const profile = request.session.profile as Profile
         const potholeVerificationProfileId = profile.profileId as string
@@ -47,7 +47,6 @@ export async function togglePotholeVerificationController (request: Request, res
             potholeVerificationPotholeId,
             potholeVerificationProfileId,
             potholeVerificationDate: null,
-            potholeVerificationPhotoURL
         }
 
         let result

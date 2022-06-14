@@ -30,7 +30,6 @@
 ### Pothole Verification
 * potholeVerificationProfileId (foreign key)
 * potholeVerificationPotholeId (foreign key)
-* potholeVerificationPhoto
 * potholeVerificationDateTime
 
 ## Multiplicity

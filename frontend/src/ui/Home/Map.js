@@ -12,6 +12,7 @@ import {Button, Col, Row} from "react-bootstrap";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faSquareXmark, faSquareCheck} from '@fortawesome/free-solid-svg-icons'
 import {useNavigate} from "react-router-dom";
+import {ValidatePothole} from "../PotholeVerification/PotholeVerificationToggle";
 
 export function GetMarker(props) {
     const {show, setShow} = props
@@ -46,36 +47,34 @@ export function GetMarker(props) {
         <>
             {show &&
                 <>
-                <div className={'home-nav position-absolute confirm-marker'}>
-                    <p className={'mb-0'}>Confirm Marker?</p>
-                    <Row>
-                        <Col className={'d-flex justify-content-center'}>
-                            <FontAwesomeIcon className={'x-button'} icon={faSquareXmark}
-                                             onClick={() => setShow(false)}/>
-                        </Col>
-                        <Col className={'d-flex justify-content-center'}>
-                            <FontAwesomeIcon className={'check-button'} icon={faSquareCheck}
-                                             onClick={() => toPotholeSubmission()}/>
-                        </Col>
-                    </Row>
-                </div>
+                    <div className={'home-nav position-absolute confirm-marker'}>
+                        <p className={'mb-0'}>Confirm Marker?</p>
+                        <Row>
+                            <Col className={'d-flex justify-content-center'}>
+                                <FontAwesomeIcon className={'x-button'} icon={faSquareXmark}
+                                                 onClick={() => setShow(false)}/>
+                            </Col>
+                            <Col className={'d-flex justify-content-center'}>
+                                <FontAwesomeIcon className={'check-button'} icon={faSquareCheck}
+                                                 onClick={() => toPotholeSubmission()}/>
+                            </Col>
+                        </Row>
+                    </div>
 
-                <Marker
-                longitude={lng}
-                latitude={lat}
-                anchor="bottom"
-                draggable={true}
-                onDragEnd={dragEnd}
-                //     onClick={e => {
-                //         // If we let the click event propagates to the map, it will immediately close the popup
-                //         // with `closeOnClick: true`
-                //         e.originalEvent.stopPropagation();
-                //         setPopupInfo(potholeInfo);
-                //     }}
-                >
-                <img src={pin} alt={'draggable marker'} style={{width: '80px', height: '80px'}}/>
-                </Marker>
-                    </>
+                    <Marker
+                        longitude={lng}
+                        latitude={lat}
+                        anchor="bottom"
+                        draggable={true}
+                        onDragEnd={dragEnd}
+                        //     onClick={e => {
+                        //         // If we let the click event propagates to the map, it will immediately close the
+                        // popup // with `closeOnClick: true` e.originalEvent.stopPropagation();
+                        // setPopupInfo(potholeInfo); }}
+                    >
+                        <img src={pin} alt={'draggable marker'} style={{width: '80px', height: '80px'}}/>
+                    </Marker>
+                </>
             }
         </>
     )
@@ -145,7 +144,7 @@ export default function MapFunction(props) {
                     >
                         {popupInfo.potholeDescription}
                         {/*<img width="100%" src={popupInfo.photo}/>*/}
-                        <Button className={'d-flex mt-2 text-center justify-content-center'} size={"sm"} variant={'success'} onClick={''}>Validate Pothole</Button>
+                        <ValidatePothole/>
                     </Popup>
                 )}
             </Map>
