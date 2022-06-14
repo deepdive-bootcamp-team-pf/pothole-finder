@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import 'maplibre-gl/dist/maplibre-gl.css'
 import './Map.css'
-import Map, {GeolocateControl, MapProvider, Marker, NavigationControl, Popup, ScaleControl, useMap} from 'react-map-gl'
+import Map, {GeolocateControl, Marker, NavigationControl, Popup, ScaleControl, useMap} from 'react-map-gl'
 import mapLibre from 'maplibre-gl'
 import {Pin} from './Pin'
 import pin from "./icons/pin.png"
@@ -13,7 +13,8 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faSquareXmark, faSquareCheck} from '@fortawesome/free-solid-svg-icons'
 import {useNavigate} from "react-router-dom";
 
-export function GetMarker() {
+export function GetMarker(props) {
+    const {show, setShow} = props
 
     // const {current: value} = useMap()
     // value.flyTo({center: [0,0]})
@@ -37,31 +38,29 @@ export function GetMarker() {
     }
 
     const navigate = useNavigate();
-
     const toPotholeSubmission = () => {
         navigate('pothole-submission-page', {state: {lat: location.lat, lng: location.lng}})
     }
 
-    const removeMarker = () => {
-        navigate('/')
-    }
-
     return (
         <>
-            <div className={'home-nav position-absolute confirm-marker'}>
-                <p className={'mb-0'}>Confirm Marker?</p>
-                <Row>
-                    <Col className={'d-flex justify-content-center'}>
-                        <FontAwesomeIcon className={'x-button'} icon={faSquareXmark} onClick={() => removeMarker()}/>
-                    </Col>
+            {show &&
+                <>
+                <div className={'home-nav position-absolute confirm-marker'}>
+                    <p className={'mb-0'}>Confirm Marker?</p>
+                    <Row>
+                        <Col className={'d-flex justify-content-center'}>
+                            <FontAwesomeIcon className={'x-button'} icon={faSquareXmark}
+                                             onClick={() => setShow(false)}/>
+                        </Col>
+                        <Col className={'d-flex justify-content-center'}>
+                            <FontAwesomeIcon className={'check-button'} icon={faSquareCheck}
+                                             onClick={() => toPotholeSubmission()}/>
+                        </Col>
+                    </Row>
+                </div>
 
-                    <Col className={'d-flex justify-content-center'}>
-                        <FontAwesomeIcon className={'check-button'} icon={faSquareCheck}
-                                         onClick={() => toPotholeSubmission()}/>
-                    </Col>
-                </Row>
-            </div>
-            <Marker
+                <Marker
                 longitude={lng}
                 latitude={lat}
                 anchor="bottom"
@@ -73,15 +72,17 @@ export function GetMarker() {
                 //         e.originalEvent.stopPropagation();
                 //         setPopupInfo(potholeInfo);
                 //     }}
-            >
+                >
                 <img src={pin} alt={'draggable marker'} style={{width: '80px', height: '80px'}}/>
-            </Marker>
+                </Marker>
+                    </>
+            }
         </>
     )
 }
 
 export default function MapFunction(props) {
-    const {show} = props
+    const {show, setShow} = props
 
     const potholes = useSelector(state => state.potholes ? state.potholes : []);
     const dispatch = useDispatch();
@@ -98,6 +99,8 @@ export default function MapFunction(props) {
 
     function success(pos) {
         const crd = pos.coords;
+
+        return [`${crd.latitude}`, `${crd.longitude}`]
     }
 
     function error(err) {
@@ -107,7 +110,6 @@ export default function MapFunction(props) {
     navigator.geolocation.getCurrentPosition(success, error, options);
 
     const [popupInfo, setPopupInfo] = useState(null);
-    console.log(popupInfo)
 
     return (
         <>
@@ -126,7 +128,7 @@ export default function MapFunction(props) {
                                               latitude={pothole.potholeLat}
                                               longitude={pothole.potholeLng}
                                               key={pothole.potholeId}/>)}
-                {show ? <GetMarker/> : null}
+                {show ? <GetMarker show={show} setShow={setShow}/> : null}
 
                 <GeolocateControl position="bottom-left"/>
                 <NavigationControl position="bottom-left"/>
