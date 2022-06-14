@@ -31,6 +31,7 @@ import { useDropzone } from 'react-dropzone';
 
 export function PotholeSubmissionForm(props) {
 
+
     const {photo} = props
 
     const location = useLocation()
@@ -125,6 +126,8 @@ export function PotholeSubmissionForm(props) {
 }
 
 function PotholeSubmissionFormContent(props) {
+
+    const [selectedImage, setSelectedImage] = useState(null)
     const {
         status,
         values,
@@ -208,9 +211,15 @@ function PotholeSubmissionFormContent(props) {
                       handleChange,
                       handleBlur,
                       setFieldValue,
-                      fieldValue: 'potholePhoto'
+                      fieldValue: 'potholePhoto',
+                      setSelectedImage: setSelectedImage
                   }}
                 />
+                <div>
+                  {selectedImage !== null ? <img src={selectedImage}/> : ""}
+                </div>
+
+
 
               <Form.Group className="mb-3" controlId="photoName">
                 <Form.Label>Photo Name</Form.Label>
@@ -246,7 +255,7 @@ function PotholeSubmissionFormContent(props) {
                 </Container>
             </Form>
             <DisplayStatus status={status}/>
-            <FormDebugger {...props} />
+            {/*<FormDebugger {...props} />*/}
         </>
     )
 }
@@ -257,6 +266,12 @@ function ImageDropZone({formikProps}) {
 
         const formData = new FormData()
         formData.append('image', acceptedFiles[0])
+
+        const fileReader = new FileReader()
+        fileReader.readAsDataURL(acceptedFiles[0])
+        fileReader.addEventListener("load", () => {
+        formikProps.setSelectedImage(fileReader.result)
+      })
 
         formikProps.setFieldValue(formikProps.fieldValue, formData)
 
