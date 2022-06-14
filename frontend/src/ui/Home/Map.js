@@ -16,6 +16,9 @@ import {useNavigate} from "react-router-dom";
 export function GetMarker(props) {
     const {show, setShow} = props
 
+    const {current: value} = useMap()
+    value.flyTo({center: [0,0]})
+
     const location = useSelector((state) => state.location ? state.location : {});
     const dispatch = useDispatch()
 
@@ -111,6 +114,7 @@ export default function MapFunction(props) {
     return (
         <>
             <Map
+                id={"currentMap"}
                 mapLib={mapLibre}
                 initialViewState={{
                     latitude: 35.126899,
