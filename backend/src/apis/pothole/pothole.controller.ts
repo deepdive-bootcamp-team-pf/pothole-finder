@@ -8,6 +8,7 @@ import { selectPotholesByPotholeProfileId } from "../../utils/pothole/selectPoth
 import { insertPothole } from '../../utils/pothole/insertPothole'
 import { removePothole } from '../../utils/pothole/removePothole'
 import { updatePothole } from '../../utils/pothole/updatePothole'
+import { v1 as uuid } from 'uuid'
 
 export async function getAllPotholesController(request: Request, response: Response) : Promise<Response> {
     try {
@@ -46,7 +47,7 @@ export async function postPotholeController (request: Request, response: Respons
         const potholeProfileId = profile.profileId as string
 
         const pothole: Pothole = {
-            potholeId: null,
+            potholeId: uuid(),
             potholeProfileId,
             potholeSeverity,
             potholeDate: null,
@@ -56,7 +57,7 @@ export async function postPotholeController (request: Request, response: Respons
         }
         await insertPothole(pothole)
 
-        return response.json({status:200, message: 'Pothole created successfully.', data:null})
+        return response.json({status:200, message: 'Pothole created successfully.', data: pothole.potholeId})
     } catch (error) {
         return response.json({
             status: 500,
