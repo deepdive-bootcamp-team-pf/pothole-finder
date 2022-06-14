@@ -48,7 +48,6 @@ CREATE TABLE potholeVerification(
                                     potholeVerificationPotholeId BINARY(16) NOT NULL,
                                     potholeVerificationProfileId BINARY(16) NOT NULL,
                                     potholeVerificationDate DATE,
-                                    potholeVerificationPhotoURL VARCHAR(255),
                                     INDEX(potholeVerificationPotholeId),
                                     INDEX(potholeVerificationProfileId),
                                     FOREIGN KEY(potholeVerificationPotholeId) REFERENCES pothole(potholeId),

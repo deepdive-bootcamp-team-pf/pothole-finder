@@ -4,7 +4,7 @@ import crying from './icons/crying.png'
 import facepalm from './icons/face-palm.png'
 
 export const Pin = (props) => {
-    const {lat, lng, setPopupInfo, pothole} = props
+    const {setPopupInfo, pothole} = props
 
     switch (pothole.potholeSeverity){
         case '1':

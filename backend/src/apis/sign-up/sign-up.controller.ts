@@ -49,7 +49,7 @@ export async function signupProfileController(request: Request, response: Respon
 
             return response.json({
                 status: 200,
-                message: 'Profile created, check your email for confirmation.',
+                message: 'Profile created.',
                 data: null
             })
         } else {

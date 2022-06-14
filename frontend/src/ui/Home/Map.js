@@ -1,19 +1,23 @@
 import React, {useEffect, useState} from 'react'
 import 'maplibre-gl/dist/maplibre-gl.css'
 import './Map.css'
-import Map, {GeolocateControl, Marker, NavigationControl, Popup, ScaleControl} from 'react-map-gl'
+import Map, {GeolocateControl, Marker, NavigationControl, Popup, ScaleControl, useMap} from 'react-map-gl'
 import mapLibre from 'maplibre-gl'
 import {Pin} from './Pin'
 import pin from "./icons/pin.png"
 import {useDispatch, useSelector} from "react-redux";
 import {setLocation} from '../../store/location'
 import {fetchAllPotholes} from "../../store/potholes";
-import {Button, Col, Container, Dropdown, Row} from "react-bootstrap";
+import {Col, Row} from "react-bootstrap";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faSquareXmark, faSquareCheck} from '@fortawesome/free-solid-svg-icons'
 import {useNavigate} from "react-router-dom";
 
-export function GetMarker() {
+export function GetMarker(props) {
+    const {show, setShow} = props
+
+    // const {current: value} = useMap()
+    // value.flyTo({center: [0,0]})
 
     const location = useSelector((state) => state.location ? state.location : {});
     const dispatch = useDispatch()
@@ -34,30 +38,29 @@ export function GetMarker() {
     }
 
     const navigate = useNavigate();
-
     const toPotholeSubmission = () => {
         navigate('pothole-submission-page', {state: {lat: location.lat, lng: location.lng}})
     }
 
-    const removeMarker = () => {
-        navigate('/')
-    }
-
     return (
         <>
-            <div className={'home-nav position-absolute confirm-marker'}>
-                <p className={'mb-0'}>Confirm Marker?</p>
-                <Row>
-                    <Col className={'d-flex justify-content-center'}>
-                        <FontAwesomeIcon className={'x-button'} icon={faSquareXmark} onClick={() => removeMarker()}/>
-                    </Col>
+            {show &&
+                <>
+                <div className={'home-nav position-absolute confirm-marker'}>
+                    <p className={'mb-0'}>Confirm Marker?</p>
+                    <Row>
+                        <Col className={'d-flex justify-content-center'}>
+                            <FontAwesomeIcon className={'x-button'} icon={faSquareXmark}
+                                             onClick={() => setShow(false)}/>
+                        </Col>
+                        <Col className={'d-flex justify-content-center'}>
+                            <FontAwesomeIcon className={'check-button'} icon={faSquareCheck}
+                                             onClick={() => toPotholeSubmission()}/>
+                        </Col>
+                    </Row>
+                </div>
 
-                    <Col className={'d-flex justify-content-center'}>
-                        <FontAwesomeIcon className={'check-button'} icon={faSquareCheck} onClick={() => toPotholeSubmission()} />
-                    </Col>
-                </Row>
-            </div>
-            <Marker
+                <Marker
                 longitude={lng}
                 latitude={lat}
                 anchor="bottom"
@@ -69,15 +72,17 @@ export function GetMarker() {
                 //         e.originalEvent.stopPropagation();
                 //         setPopupInfo(potholeInfo);
                 //     }}
-            >
+                >
                 <img src={pin} alt={'draggable marker'} style={{width: '80px', height: '80px'}}/>
-            </Marker>
+                </Marker>
+                    </>
+            }
         </>
     )
 }
 
 export default function MapFunction(props) {
-    const {show} = props
+    const {show, setShow} = props
 
     const potholes = useSelector(state => state.potholes ? state.potholes : []);
     const dispatch = useDispatch();
@@ -94,6 +99,8 @@ export default function MapFunction(props) {
 
     function success(pos) {
         const crd = pos.coords;
+
+        return [`${crd.latitude}`, `${crd.longitude}`]
     }
 
     function error(err) {
@@ -107,6 +114,7 @@ export default function MapFunction(props) {
     return (
         <>
             <Map
+                id={"currentMap"}
                 mapLib={mapLibre}
                 initialViewState={{
                     latitude: 35.126899,
@@ -116,10 +124,11 @@ export default function MapFunction(props) {
                 style={{height: '100vh'}}
                 mapStyle="https://api.maptiler.com/maps/streets/style.json?key=D4b2ldjY7geFrPnuBPU8"
             >
-                {potholes.map(pothole => <Pin pothole={pothole} latitude={pothole.potholeLat}
-                                              longitude={pothole.potholeLng} description={pothole.potholeDescription}
+                {potholes.map(pothole => <Pin setPopupInfo={setPopupInfo} pothole={pothole}
+                                              latitude={pothole.potholeLat}
+                                              longitude={pothole.potholeLng}
                                               key={pothole.potholeId}/>)}
-                {show ? <GetMarker/> : null}
+                {show ? <GetMarker show={show} setShow={setShow}/> : null}
 
                 <GeolocateControl position="bottom-left"/>
                 <NavigationControl position="bottom-left"/>
@@ -128,16 +137,14 @@ export default function MapFunction(props) {
                 {popupInfo !== null && (
                     <Popup
                         anchor="top"
-                        longitude={Number(popupInfo.lng)}
-                        latitude={Number(popupInfo.lat)}
+                        longitude={Number(popupInfo.potholeLng)}
+                        latitude={Number(popupInfo.potholeLat)}
                         onClose={() => {
                             setPopupInfo(null)
                         }}
                     >
-                        I Worked
-                        {/*<div>*/}
-                        {/*    {popupInfo.pothole} | {' '}*/}
-                        {/*</div>*/}
+                        {popupInfo.potholeDescription}
+
                         {/*<img width="100%" src={popupInfo.photo}/>*/}
                     </Popup>
                 )}

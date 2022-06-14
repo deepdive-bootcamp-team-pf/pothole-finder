@@ -13,7 +13,6 @@ import facepalm from '../Home/icons/face-palm.png'
 import crying from '../Home/icons/crying.png'
 import bomb from '../Home/icons/bomb.png'
 import './PotholeSubmissionPage.css'
-import {FormDebugger} from "../utils/FormDebugger"
 import * as Yup from 'yup'
 import {httpConfig} from "../utils/httpConfig"
 import {Formik} from 'formik'
@@ -244,10 +243,3 @@ function PotholeSubmissionFormContent(props) {
 //         </Form.Group>
 //     )
 // }
-
-
-
-
-
-
-
