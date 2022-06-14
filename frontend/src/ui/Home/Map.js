@@ -15,8 +15,8 @@ import {useNavigate} from "react-router-dom";
 
 export function GetMarker() {
 
-    const {current: value} = useMap()
-    value.flyTo({center: [0,0]})
+    // const {current: value} = useMap()
+    // value.flyTo({center: [0,0]})
 
     const location = useSelector((state) => state.location ? state.location : {});
     const dispatch = useDispatch()
