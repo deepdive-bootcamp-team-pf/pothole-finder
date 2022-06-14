@@ -129,7 +129,6 @@ function SignUpFormContent(props) {
                 </Row>
                 {/*controlId must match what is passed to the initialValues prop*/}
 
-
                 <Form.Group className="mb-2" controlId="profileEmail">
                     <Form.Label>Email Address</Form.Label>
                     <InputGroup>
