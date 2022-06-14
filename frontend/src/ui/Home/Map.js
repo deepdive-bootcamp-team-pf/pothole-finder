@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import 'maplibre-gl/dist/maplibre-gl.css'
 import './Map.css'
-import Map, {GeolocateControl, Marker, NavigationControl, Popup, ScaleControl} from 'react-map-gl'
+import Map, {GeolocateControl, MapProvider, Marker, NavigationControl, Popup, ScaleControl, useMap} from 'react-map-gl'
 import mapLibre from 'maplibre-gl'
 import {Pin} from './Pin'
 import pin from "./icons/pin.png"
@@ -14,6 +14,9 @@ import {faSquareXmark, faSquareCheck} from '@fortawesome/free-solid-svg-icons'
 import {useNavigate} from "react-router-dom";
 
 export function GetMarker() {
+
+    const {current: value} = useMap()
+    value.flyTo({center: [0,0]})
 
     const location = useSelector((state) => state.location ? state.location : {});
     const dispatch = useDispatch()
@@ -109,6 +112,7 @@ export default function MapFunction(props) {
     return (
         <>
             <Map
+                id={"currentMap"}
                 mapLib={mapLibre}
                 initialViewState={{
                     latitude: 35.126899,
