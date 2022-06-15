@@ -6,7 +6,7 @@
     position: absolute;
     bottom: 8px;
     right: 16px;
-    background: rgba(255,255,255,.5);
+    background: rgba(255,255,255,.75);
     padding: 1.5rem;
     font-weight: bold;
 }
