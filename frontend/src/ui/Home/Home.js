@@ -9,10 +9,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {LogoutComponent} from "../shared/components/Logout";
 import {SignUpModal} from "../SignUp/SignUpModal";
 import {useNavigate} from "react-router-dom"
-import bomb from './icons/bomb.png'
-import crying from './icons/crying.png'
-import facepalm from './icons/face-palm.png'
-import {IconLegend} from "./IconLegend";
+import logo from './icons/pothole-logo.png'
 
 export function Home() {
 
@@ -67,7 +64,9 @@ export function Home() {
                                 </Dropdown.Menu>
                             </Dropdown>}
                     </Col>
-
+<Col className={'mx-auto d-flex justify-content-center'}>
+    <img src={logo} alt="pothole logo" className={'pothole-logo'}/>
+</Col>
                     {auth !== null &&
                         <Col>
                             <LogoutComponent/>
