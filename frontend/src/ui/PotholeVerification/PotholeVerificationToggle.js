@@ -5,7 +5,7 @@ import {httpConfig} from '../utils/httpConfig'
 import {Button, Col, Container, Image, Row} from 'react-bootstrap'
 import unverified from './icons/unverified-icon.png'
 import verified from './icons/verified-icon.png'
-import {fetchPotholeVerificationsByPotholeId} from "../../store/pothole-verifications";
+import {fetchPotholeVerificationsByPotholeId, setNewPotholeVerification} from "../../store/pothole-verifications";
 
 export function ValidatePothole({pothole}) {
 
@@ -23,6 +23,7 @@ export function ValidatePothole({pothole}) {
     const potholeVs = useSelector(state => (state.potholeVerifications ? state.potholeVerifications : []))
 
     const handleSubmit = () => {
+        dispatch(setNewPotholeVerification({potholeVerificationPotholeId: pothole.potholeId, potholeVerificationProfileId: auth.profileId}))
         httpConfig.post('/apis/pothole-verification', {potholeVerificationPotholeId: pothole.potholeId})
             .then(reply => {
                 const {status} = reply
@@ -40,7 +41,7 @@ export function ValidatePothole({pothole}) {
                 <Row>
                     <Col md={6}>
                         <Button className={'mt-3 text-center'} size={"sm"} variant={'success'}
-                                onClick={handleSubmit}>Validate Pothole</Button>
+                                onClick={handleSubmit}>Verify Pothole</Button>
                     </Col>
                     <Col md={6}>
                         {potholeVerificationsPerPothole.length > 0 &&

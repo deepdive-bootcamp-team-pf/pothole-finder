@@ -12,11 +12,15 @@ const slice = createSlice({
         },
         getAllPotholeVerificationsByPotholeId: (potholeVerifications, action) => {
             return action.payload
-        }
+        },
+        setNewPotholeVerification:(potholeVerifications, action) => {
+            potholeVerifications.push(action.payload)
+}
+
     }
 })
 
-export const {getAllPotholeVerifications} = slice.actions
+export const {getAllPotholeVerifications, setNewPotholeVerification} = slice.actions
 
 export const fetchAllPotholeVerifications = () => async (dispatch) => {
     const {data} =  await httpConfig.get("/apis/pothole-verification/");
