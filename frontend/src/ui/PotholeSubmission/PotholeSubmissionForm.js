@@ -20,16 +20,20 @@ import {DisplayStatus} from "../shared/components/display-status/DisplayStatus";
 import {useDispatch, useSelector} from "react-redux";
 import jwtDecode from "jwt-decode";
 import {fetchAuth, getAuth} from "../../store/auth";
-import {useLocation} from "react-router-dom";
-import { useDropzone } from 'react-dropzone';
+import {useLocation, useNavigate} from "react-router-dom";
+import {useDropzone} from 'react-dropzone';
+import {fetchAllPotholes} from "../../store/potholes";
+
 // import { DisplayError } from '../shared/components/display-error/DisplayError';
-
-
-
 
 
 export function PotholeSubmissionForm(props) {
 
+    const navigate = useNavigate();
+
+    const toHomeMap = () => {
+        navigate('/')
+    }
 
     const {photo} = props
 
@@ -47,60 +51,67 @@ export function PotholeSubmissionForm(props) {
         potholeSeverity: Yup.number()
             .min(1, 'Please provide a number larger than one.')
             .required('Pothole severity is required.'),
-        potholePhoto: Yup.mixed(),
-        photoName: Yup.string().max(32, 'Your photo name is too long. It can only be 32 characters.')
+        potholePhoto: Yup.mixed().optional(),
+        photoName: Yup.string().optional().max(32, 'Your photo name is too long. It can only be 32 characters.')
     })
 
 
+    function submitPotholePhoto(values, {resetForm, setStatus}) {
 
-    function submitPotholePhoto (values, { resetForm, setStatus }) {
         // 1. upload pothole
         // 2. upload actual image
         // 3. create photo in database
-    const pothole = {potholeDescription: values.potholeDescription, potholeSeverity: values.potholeSeverity, potholeLat: values.potholeLat, potholeLng: values.potholeLng}
+        const pothole = {
+            potholeDescription: values.potholeDescription,
+            potholeSeverity: values.potholeSeverity,
+            potholeLat: values.potholeLat,
+            potholeLng: values.potholeLng
+        }
 
-            httpConfig.post(`/apis/pothole/`, pothole)
-              .then(reply => {
-                  let { message, type } = reply
+        httpConfig.post(`/apis/pothole/`, pothole)
+            .then(reply => {
+                let {message, type} = reply
+                setStatus({message, type})
 
-                  if (reply.status === 200) {
+                if (reply.status === 200) {
                     if (values.potholePhoto) {
-                      uploadImage(values.potholePhoto, reply.data)
+                        uploadImage(values.potholePhoto, reply.data)
+                    } else {
+                        resetForm()
+                        //useLink or useNavigate (set a timer of a few seconds) "/Map"
                     }
-                    else {
-                      setStatus({ message, type })
-                      resetForm ()
-                    }
-                  }
-              })
+                    dispatch(fetchAllPotholes())
+                    toHomeMap()
+                }
+            })
 
-            function uploadImage(image, potholeId) {
-                httpConfig.post(`/apis/image-upload/`, image)
-                  .then(reply => {
-                        let { message, type } = reply
+        function uploadImage(image, potholeId) {
+            httpConfig.post(`/apis/image-upload/`, image)
+                .then(reply => {
+                        let {message, type} = reply
 
                         if (reply.status === 200) {
-                          let photo = {
-                            photoURL: message,
-                            photoName: values.photoName,
-                            photoPotholeId: potholeId
-                          }
-                          httpConfig.post('/apis/photo/', photo).then(response => {
-                            if (response.status === 200) {
-                              resetForm()
+                            let photo = {
+                                photoURL: message,
+                                photoName: values.photoName,
+                                photoPotholeId: potholeId
                             }
-                            setStatus({
-                              message: response.message,
-                              type: response.type
+                            httpConfig.post('/apis/photo/', photo).then(response => {
+                                if (response.status === 200) {
+                                    resetForm()
+                                }
+                                setStatus({
+                                    message: response.message,
+                                    type: response.type
+                                })
                             })
-                          })
 
                         } else {
-                            setStatus({ message, type })
+                            setStatus({message, type})
                         }
                     }
-                  )
-            }
+                )
+        }
     }
 
     const pothole = {
@@ -140,6 +151,7 @@ function PotholeSubmissionFormContent(props) {
         handleReset,
         setFieldValue
     } = props
+    console.log(status)
 
     const radios = [
         {name: 'Mild ', value: '1', img: facepalm},
@@ -205,43 +217,42 @@ function PotholeSubmissionFormContent(props) {
 
 
                 <ImageDropZone
-                  formikProps={{
-                      values,
-                      handleChange,
-                      handleBlur,
-                      setFieldValue,
-                      fieldValue: 'potholePhoto',
-                      setSelectedImage: setSelectedImage
-                  }}
+                    formikProps={{
+                        values,
+                        handleChange,
+                        handleBlur,
+                        setFieldValue,
+                        fieldValue: 'potholePhoto',
+                        setSelectedImage: setSelectedImage
+                    }}
                 />
                 <div>
-                  {selectedImage !== null ? <img src={selectedImage}/> : ""}
+                    {selectedImage !== null ? <img src={selectedImage}/> : ""}
                 </div>
 
 
-
-              <Form.Group className="mb-3" controlId="photoName">
-                <Form.Label>Photo Name</Form.Label>
-                <InputGroup>
-                  <InputGroup.Text>
-                  </InputGroup.Text>
-                  <FormControl
-                    type="text"
-                    placeholder="Optional name of Photo."
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    value={values.photoName}
-                    name="photoName"
-                  />
-                </InputGroup>
-                {errors.photoName && touched.photoName &&
-                  <>
-                    <div className={'alert alert-danger'}>
-                      {errors.photoName}
-                    </div>
-                  </>
-                }
-              </Form.Group>
+                <Form.Group className="mb-3" controlId="photoName">
+                    <Form.Label>Photo Name</Form.Label>
+                    <InputGroup>
+                        <InputGroup.Text>
+                        </InputGroup.Text>
+                        <FormControl
+                            type="text"
+                            placeholder="Optional name of Photo."
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values.photoName}
+                            name="photoName"
+                        />
+                    </InputGroup>
+                    {errors.photoName && touched.photoName &&
+                        <>
+                            <div className={'alert alert-danger'}>
+                                {errors.photoName}
+                            </div>
+                        </>
+                    }
+                </Form.Group>
                 <br/>
 
                 <Container fluid className="d-flex">
@@ -269,8 +280,8 @@ function ImageDropZone({formikProps}) {
         const fileReader = new FileReader()
         fileReader.readAsDataURL(acceptedFiles[0])
         fileReader.addEventListener("load", () => {
-        formikProps.setSelectedImage(fileReader.result)
-      })
+            formikProps.setSelectedImage(fileReader.result)
+        })
 
         formikProps.setFieldValue(formikProps.fieldValue, formData)
 

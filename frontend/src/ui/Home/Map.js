@@ -143,9 +143,11 @@ export default function MapFunction(props) {
                             setPopupInfo(null)
                         }}
                     >
-                        {popupInfo.potholeDescription}
-
-                        {/*<img width="100%" src={popupInfo.photoURL}/>*/}
+                        <div>
+                            <h3 className={'pothole-description'}>Pothole Description</h3>
+                            <p>{popupInfo.potholeDescription}</p>
+                        </div>
+                        <img width="100%" src={popupInfo.photoURL} className={'popup-image'}/>
                     </Popup>
                 )}
             </Map>
