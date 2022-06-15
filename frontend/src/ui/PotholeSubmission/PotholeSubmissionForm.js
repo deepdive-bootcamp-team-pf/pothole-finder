@@ -55,7 +55,6 @@ export function PotholeSubmissionForm(props) {
         photoName: Yup.string().optional().max(32, 'Your photo name is too long. It can only be 32 characters.')
     })
 
-
     function submitPotholePhoto(values, {resetForm, setStatus}) {
 
         // 1. upload pothole
@@ -80,8 +79,6 @@ export function PotholeSubmissionForm(props) {
                         resetForm()
                         //useLink or useNavigate (set a timer of a few seconds) "/Map"
                     }
-                    dispatch(fetchAllPotholes())
-                    toHomeMap()
                 }
             })
 
@@ -104,8 +101,9 @@ export function PotholeSubmissionForm(props) {
                                     message: response.message,
                                     type: response.type
                                 })
+                                dispatch(fetchAllPotholes())
+                                toHomeMap()
                             })
-
                         } else {
                             setStatus({message, type})
                         }
@@ -164,7 +162,7 @@ function PotholeSubmissionFormContent(props) {
     return (
         <>
             <Form onSubmit={handleSubmit} className={'p-3 form-text'}>
-                <h1 className='title-centering'>Please rate your Pothole</h1>
+                <h1 className='title-centering mb-3'>Please rate your pothole</h1>
                 <Form.Group controlId='potholeSeverity'>
                     <ButtonGroup className="mb-2 d-flex text-center">
                         {radios.map((radio, idx) => (
@@ -189,14 +187,14 @@ function PotholeSubmissionFormContent(props) {
                     </ButtonGroup>
                 </Form.Group>
 
-                <Form.Group className="mb-3" controlId="potholeDescription">
+                <Form.Group className="mt-3 mb-4" controlId="potholeDescription">
                     <Form.Label>Pothole Description</Form.Label>
                     <InputGroup>
                         <InputGroup.Text>
                         </InputGroup.Text>
                         <FormControl
                             type="description"
-                            placeholder="Optional brief description of the pothole. Let users know HOW bad this pothole is."
+                            placeholder="Enter a description here."
                             onChange={handleChange}
                             onBlur={handleBlur}
                             value={values.potholeDescription}
@@ -213,7 +211,6 @@ function PotholeSubmissionFormContent(props) {
                 </Form.Group>
 
                 <h1 className='title-centering'>Add Photo</h1>
-                <p className='text-center text-muted small'>(Adding a photo is optional.)</p>
 
 
                 <ImageDropZone
@@ -238,7 +235,7 @@ function PotholeSubmissionFormContent(props) {
                         </InputGroup.Text>
                         <FormControl
                             type="text"
-                            placeholder="Optional name of Photo."
+                            placeholder="Name of Photo."
                             onChange={handleChange}
                             onBlur={handleBlur}
                             value={values.photoName}
@@ -290,7 +287,6 @@ function ImageDropZone({formikProps}) {
 
     return (
         <Form.Group className={"mb-3"} {...getRootProps()}>
-            <Form.Label>Pothole Photo</Form.Label>
 
             <InputGroup size="lg" className="">
                 {
@@ -302,7 +298,7 @@ function ImageDropZone({formikProps}) {
                         </div>
                     </>
                 }
-                <div className="d-flex flex-fill bg-light justify-content-center align-items-center border rounded">
+                <div className="mt-3 form-control-div mx-auto d-flex bg-light justify-content-center align-items-center border rounded w-50 py-3 px-3">
                     <FormControl
                         aria-label="pothole photo file drag and drop area"
                         aria-describedby="image drag drop area"
@@ -314,8 +310,8 @@ function ImageDropZone({formikProps}) {
                     />
                     {
                         isDragActive ?
-                            <span className="align-items-center">Drop image here</span> :
-                            <span className="align-items-center">Drag and drop image here, or click here to select an image</span>
+                            <span className="align-items-center text-secondary">Drop image here</span> :
+                            <span className="align-items-center text-secondary opacity-25">Drag and drop image, <br/> or click to choose from device.</span>
                     }
                 </div>
             </InputGroup>
