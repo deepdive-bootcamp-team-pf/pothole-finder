@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import 'maplibre-gl/dist/maplibre-gl.css'
 import './Map.css'
-import Map, {GeolocateControl, Marker, NavigationControl, Popup, ScaleControl, useMap} from 'react-map-gl'
+import Map, {GeolocateControl, Marker, NavigationControl, Popup, ScaleControl} from 'react-map-gl'
 import mapLibre from 'maplibre-gl'
 import {Pin} from './Pin'
 import pin from "./icons/pin.png"
@@ -91,7 +91,6 @@ export default function MapFunction(props) {
     };
     useEffect(effects, [dispatch]);
 
-    const potholeVerifications = useSelector(state => state.potholeVerifications ? state.potholeVerifications : []);
     const pveffects = () => {
         dispatch(fetchAllPotholeVerifications());
     };
@@ -149,8 +148,11 @@ export default function MapFunction(props) {
                             setPopupInfo(null)
                         }}
                     >
-                        {popupInfo.potholeDescription}
-                        {/*<img width="100%" src={popupInfo.photo}/>*/}
+                        <div>
+                            <h3 className={'pothole-description'}>Pothole Description</h3>
+                            <p>{popupInfo.potholeDescription}</p>
+                        </div>
+                        <img width="100%" src={popupInfo.photoURL} className={'popup-image'}/>
                         <ValidatePothole pothole={popupInfo}/>
                     </Popup>
                 )}

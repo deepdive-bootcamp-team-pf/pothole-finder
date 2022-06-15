@@ -46,13 +46,14 @@ export async function postPhotoController(request: Request, response: Response) 
             photoPotholeId,
             photoProfileId,
             photoDate: null,
-            photoDescription,
+            photoDescription: null,
             photoName,
             photoURL
         }
         const message = await insertPhoto(photo)
         return response.json({status: 200, data: null, message})
     } catch (error) {
+        console.error(error)
         return response.json({photo: 500, data: null, message: 'Server error. Please try again.'})
     }
 }

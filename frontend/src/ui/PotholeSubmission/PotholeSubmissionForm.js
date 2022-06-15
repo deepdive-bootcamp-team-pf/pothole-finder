@@ -20,10 +20,20 @@ import {DisplayStatus} from "../shared/components/display-status/DisplayStatus";
 import {useDispatch, useSelector} from "react-redux";
 import jwtDecode from "jwt-decode";
 import {fetchAuth, getAuth} from "../../store/auth";
-import {useLocation} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
+import {useDropzone} from 'react-dropzone';
+import {fetchAllPotholes} from "../../store/potholes";
+
+// import { DisplayError } from '../shared/components/display-error/DisplayError';
 
 
 export function PotholeSubmissionForm(props) {
+
+    const navigate = useNavigate();
+
+    const toHomeMap = () => {
+        navigate('/')
+    }
 
     const {photo} = props
 
@@ -40,49 +50,80 @@ export function PotholeSubmissionForm(props) {
             .max(512, 'Pothole description must be less than 512 characters.'),
         potholeSeverity: Yup.number()
             .min(1, 'Please provide a number larger than one.')
-            .required('Pothole severity is required.')
+            .required('Pothole severity is required.'),
+        potholePhoto: Yup.mixed().optional(),
+        photoName: Yup.string().optional().max(32, 'Your photo name is too long. It can only be 32 characters.')
     })
 
-    const handleSubmit = (values, {resetForm, setStatus}) => {
-        httpConfig.post('/apis/pothole', values).then(reply => {
-            const {message, type, status} = reply
-            if (status === 200 && reply.headers["authorization"]) {
-                window.localStorage.removeItem("authorization");
-                window.localStorage.setItem("authorization", reply.headers["authorization"]);
-                resetForm();
-                let jwtToken = jwtDecode(reply.headers["authorization"])
-                dispatch(getAuth(jwtToken))
-                {
-                    resetForm()
-                }
-            }
-            setStatus({message, type})
-        })
-    }
+    function submitPotholePhoto(values, {resetForm, setStatus}) {
 
-    // function submitUpdatedPothole(updatedPothole) {
-    //     httpConfig.post(`/apis/photo-upload/${photo.photoId}`, updatedPothole)
-    //         .then(reply => {
-    //             let {message, type} = reply
-    //
-    //             if (reply.status === 200) {
-    //                 resetForm()
-    //             }
-    //             setStatus({message, type})
-    //         })
-    // }
+        // 1. upload pothole
+        // 2. upload actual image
+        // 3. create photo in database
+        const pothole = {
+            potholeDescription: values.potholeDescription,
+            potholeSeverity: values.potholeSeverity,
+            potholeLat: values.potholeLat,
+            potholeLng: values.potholeLng
+        }
+
+        httpConfig.post(`/apis/pothole/`, pothole)
+            .then(reply => {
+                let {message, type} = reply
+                setStatus({message, type})
+
+                if (reply.status === 200) {
+                    if (values.potholePhoto) {
+                        uploadImage(values.potholePhoto, reply.data)
+                    } else {
+                        resetForm()
+                        //useLink or useNavigate (set a timer of a few seconds) "/Map"
+                    }
+                }
+            })
+
+        function uploadImage(image, potholeId) {
+            httpConfig.post(`/apis/image-upload/`, image)
+                .then(reply => {
+                        let {message, type} = reply
+
+                        if (reply.status === 200) {
+                            let photo = {
+                                photoURL: message,
+                                photoName: values.photoName,
+                                photoPotholeId: potholeId
+                            }
+                            httpConfig.post('/apis/photo/', photo).then(response => {
+                                if (response.status === 200) {
+                                    resetForm()
+                                }
+                                setStatus({
+                                    message: response.message,
+                                    type: response.type
+                                })
+                                dispatch(fetchAllPotholes())
+                                toHomeMap()
+                            })
+                        } else {
+                            setStatus({message, type})
+                        }
+                    }
+                )
+        }
+    }
 
     const pothole = {
         potholeSeverity: '1',
         potholeDescription: '',
         potholeLat: location.state.lat,
-        potholeLng: location.state.lng
+        potholeLng: location.state.lng,
+        photoName: ''
     }
 
     return (
         <>
             <Formik
-                onSubmit={handleSubmit}
+                onSubmit={submitPotholePhoto}
                 initialValues={pothole}
                 validationSchema={validator}
             >
@@ -93,6 +134,8 @@ export function PotholeSubmissionForm(props) {
 }
 
 function PotholeSubmissionFormContent(props) {
+
+    const [selectedImage, setSelectedImage] = useState(null)
     const {
         status,
         values,
@@ -106,6 +149,7 @@ function PotholeSubmissionFormContent(props) {
         handleReset,
         setFieldValue
     } = props
+    console.log(status)
 
     const radios = [
         {name: 'Mild ', value: '1', img: facepalm},
@@ -118,7 +162,7 @@ function PotholeSubmissionFormContent(props) {
     return (
         <>
             <Form onSubmit={handleSubmit} className={'p-3 form-text'}>
-                <h1 className='title-centering'>Please rate your Pothole</h1>
+                <h1 className='title-centering mb-3'>Please rate your pothole</h1>
                 <Form.Group controlId='potholeSeverity'>
                     <ButtonGroup className="mb-2 d-flex text-center">
                         {radios.map((radio, idx) => (
@@ -143,14 +187,14 @@ function PotholeSubmissionFormContent(props) {
                     </ButtonGroup>
                 </Form.Group>
 
-                <Form.Group className="mb-3" controlId="potholeDescription">
+                <Form.Group className="mt-3 mb-4" controlId="potholeDescription">
                     <Form.Label>Pothole Description</Form.Label>
                     <InputGroup>
                         <InputGroup.Text>
                         </InputGroup.Text>
                         <FormControl
                             type="description"
-                            placeholder="Optional brief description of the pothole. Let users know HOW bad this pothole is."
+                            placeholder="Enter a description here."
                             onChange={handleChange}
                             onBlur={handleBlur}
                             value={values.potholeDescription}
@@ -167,20 +211,45 @@ function PotholeSubmissionFormContent(props) {
                 </Form.Group>
 
                 <h1 className='title-centering'>Add Photo</h1>
-                <p className='text-center text-muted small'>(Adding a photo is optional.)</p>
-                <Button className="m-auto d-flex primary" type="addPhoto">
-                    Add Photo</Button>
 
-                {/*<ImageDropZone*/}
-                {/*    formikProps={{*/}
-                {/*        values,*/}
-                {/*        handleChange,*/}
-                {/*        handleBlur,*/}
-                {/*        setFieldValue,*/}
-                {/*        fieldValue: 'profileAvatarUrl'*/}
-                {/*    }}*/}
-                {/*/>*/}
 
+                <ImageDropZone
+                    formikProps={{
+                        values,
+                        handleChange,
+                        handleBlur,
+                        setFieldValue,
+                        fieldValue: 'potholePhoto',
+                        setSelectedImage: setSelectedImage
+                    }}
+                />
+                <div>
+                    {selectedImage !== null ? <img src={selectedImage}/> : ""}
+                </div>
+
+
+                <Form.Group className="mb-3" controlId="photoName">
+                    <Form.Label>Photo Name</Form.Label>
+                    <InputGroup>
+                        <InputGroup.Text>
+                        </InputGroup.Text>
+                        <FormControl
+                            type="text"
+                            placeholder="Name of Photo."
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values.photoName}
+                            name="photoName"
+                        />
+                    </InputGroup>
+                    {errors.photoName && touched.photoName &&
+                        <>
+                            <div className={'alert alert-danger'}>
+                                {errors.photoName}
+                            </div>
+                        </>
+                    }
+                </Form.Group>
                 <br/>
 
                 <Container fluid className="d-flex">
@@ -193,53 +262,67 @@ function PotholeSubmissionFormContent(props) {
                 </Container>
             </Form>
             <DisplayStatus status={status}/>
+            {/*<FormDebugger {...props} />*/}
         </>
     )
 }
 
-// function ImageDropZone({formikProps}) {
-//
-//     const onDrop = React.useCallback(acceptedFiles => {
-//
-//         const formData = new FormData()
-//         formData.append('image', acceptedFiles[0])
-//
-//         formikProps.setFieldValue(formikProps.fieldValue, formData)
-//
-//     }, [formikProps])
-//     const {getRootProps, getInputProps, isDragActive} = useDropzone({onDrop})
-//
-//     return (
-//         <Form.Group className={"mb-3"} {...getRootProps()}>
-//             <Form.Label>User Avatar</Form.Label>
-//
-//             <InputGroup size="lg" className="">
-//                 {
-//                     formikProps.values.profileAvatarUrl &&
-//                     <>
-//                         <div className="bg-transparent m-0">
-//                             <Image fluid={true} height={100} rounded={true} thumbnail={true} width={100}
-//                                    alt="user avatar" src={formikProps.values.profileAvatarUrl}/>
-//                         </div>
-//                     </>
-//                 }
-//                 <div className="d-flex flex-fill bg-light justify-content-center align-items-center border rounded">
-//                     <FormControl
-//                         aria-label="profile avatar file drag and drop area"
-//                         aria-describedby="image drag drop area"
-//                         className="form-control-file"
-//                         accept="image/*"
-//                         onChange={formikProps.handleChange}
-//                         onBlur={formikProps.handleBlur}
-//                         {...getInputProps()}
-//                     />
-//                     {
-//                         isDragActive ?
-//                             <span className="align-items-center">Drop image here</span> :
-//                             <span className="align-items-center">Drag and drop image here, or click here to select an image</span>
-//                     }
-//                 </div>
-//             </InputGroup>
-//         </Form.Group>
-//     )
-// }
+function ImageDropZone({formikProps}) {
+
+    const onDrop = React.useCallback(acceptedFiles => {
+
+        const formData = new FormData()
+        formData.append('image', acceptedFiles[0])
+
+        const fileReader = new FileReader()
+        fileReader.readAsDataURL(acceptedFiles[0])
+        fileReader.addEventListener("load", () => {
+            formikProps.setSelectedImage(fileReader.result)
+        })
+
+        formikProps.setFieldValue(formikProps.fieldValue, formData)
+
+    }, [formikProps])
+    const {getRootProps, getInputProps, isDragActive} = useDropzone({onDrop})
+
+    return (
+        <Form.Group className={"mb-3"} {...getRootProps()}>
+
+            <InputGroup size="lg" className="">
+                {
+                    formikProps.values.potholePhoto &&
+                    <>
+                        <div className="bg-transparent m-0">
+                            <Image fluid={true} height={100} rounded={true} thumbnail={true} width={100}
+                                   alt="pothole photo" src={formikProps.values.potholePhoto}/>
+                        </div>
+                    </>
+                }
+                <div className="mt-3 form-control-div mx-auto d-flex bg-light justify-content-center align-items-center border rounded w-50 py-3 px-3">
+                    <FormControl
+                        aria-label="pothole photo file drag and drop area"
+                        aria-describedby="image drag drop area"
+                        className="form-control-file"
+                        accept="image/*"
+                        onChange={formikProps.handleChange}
+                        onBlur={formikProps.handleBlur}
+                        {...getInputProps()}
+                    />
+                    {
+                        isDragActive ?
+                            <span className="align-items-center text-secondary">Drop image here</span> :
+                            <span className="align-items-center text-secondary opacity-25">Drag and drop image, <br/> or click to choose from device.</span>
+                    }
+                </div>
+            </InputGroup>
+        </Form.Group>
+    )
+}
+
+
+
+
+
+
+
+

@@ -8,7 +8,6 @@ import { v2 as cloudinaryUtils, UploadStream, UploadApiOptions } from 'cloudinar
  * @param {Express.Multer.File} file express request object that contains a file with a buffer
  * @return {string} a string containing a secure_url returned from cloudinaryUtils.
  */
-
 export const uploadToCloudinary = async (file: Express.Multer.File): Promise<string> => {
     cloudinaryUtils.config({
         api_key: process.env.CLOUDINARY_KEY,
