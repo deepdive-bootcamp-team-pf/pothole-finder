@@ -47,7 +47,7 @@ export function Home() {
 
                         {auth !== null &&
                             <Dropdown>
-                                <Dropdown.Toggle variant="primary" id="dropdown-basic" className={'large-button mt-3'}
+                                <Dropdown.Toggle disabled={show} variant="primary" id="dropdown-basic" className={'large-button mt-3'}
                                                  size={'lg'}>
                                     Add Pothole
                                 </Dropdown.Toggle>
@@ -61,7 +61,6 @@ export function Home() {
                                     </Dropdown.Item>
                                 </Dropdown.Menu>
                             </Dropdown>}
-
                     </Col>
 
                     {auth !== null &&
