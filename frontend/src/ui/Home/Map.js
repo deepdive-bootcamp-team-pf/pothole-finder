@@ -106,6 +106,12 @@ export default function MapFunction(props) {
     function success(pos) {
         const crd = pos.coords;
 
+        // Leaving in For Presentation
+        console.log('Your current position is:');
+        console.log(`Latitude : ${crd.latitude}`);
+        console.log(`Longitude: ${crd.longitude}`);
+        console.log(`More or less ${crd.accuracy} meters.`);
+
         return [`${crd.latitude}`, `${crd.longitude}`]
     }
 
