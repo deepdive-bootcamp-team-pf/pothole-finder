@@ -136,6 +136,7 @@ export function PotholeSubmissionForm(props) {
 function PotholeSubmissionFormContent(props) {
 
     const [selectedImage, setSelectedImage] = useState(null)
+
     const {
         status,
         values,
@@ -210,22 +211,22 @@ function PotholeSubmissionFormContent(props) {
                 </Form.Group>
 
                 <h1 className='title-centering'>Add Photo</h1>
+                {selectedImage === null &&
+                    <ImageDropZone
+                      formikProps={{
+                          values,
+                          handleChange,
+                          handleBlur,
+                          setFieldValue,
+                          fieldValue: 'potholePhoto',
+                          setSelectedImage: setSelectedImage
 
-
-                <ImageDropZone
-                    formikProps={{
-                        values,
-                        handleChange,
-                        handleBlur,
-                        setFieldValue,
-                        fieldValue: 'potholePhoto',
-                        setSelectedImage: setSelectedImage
-                    }}
-                />
-                <div>
+                      }}
+                    />
+                }
+                <div className='mx-auto d-flex justify-content-center'>
                     {selectedImage !== null ? <img src={selectedImage}/> : ""}
                 </div>
-
 
                 <Form.Group className="mb-3" controlId="photoName">
                     <Form.Label>Photo Name</Form.Label>
@@ -288,15 +289,7 @@ function ImageDropZone({formikProps}) {
         <Form.Group className={"mb-3"} {...getRootProps()}>
 
             <InputGroup size="lg" className="">
-                {
-                    formikProps.values.potholePhoto &&
-                    <>
-                        <div className="bg-transparent m-0">
-                            <Image fluid={true} height={100} rounded={true} thumbnail={true} width={100}
-                                   alt="pothole photo" src={formikProps.values.potholePhoto}/>
-                        </div>
-                    </>
-                }
+
                 <div className="mt-3 form-control-div mx-auto d-flex bg-light justify-content-center align-items-center border rounded w-50 py-3 px-3">
                     <FormControl
                         aria-label="pothole photo file drag and drop area"
@@ -317,9 +310,6 @@ function ImageDropZone({formikProps}) {
         </Form.Group>
     )
 }
-
-
-
 
 
 
