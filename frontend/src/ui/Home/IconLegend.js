@@ -21,7 +21,7 @@ export function IconLegend() {
                 </Row>
                 <Row>
                     <Col>
-                        <p>Severe = <img src={bomb} alt="severity-1" style={{width: '25px', height: '25px'}}/></p>
+                        <p className={'bomb-p'}>Severe = <img src={bomb} alt="severity-1" style={{width: '25px', height: '25px'}}/></p>
                     </Col>
                 </Row>
             </div>

@@ -4,11 +4,15 @@
 
 .icon-legend {
     position: absolute;
-    bottom: 8px;
+    bottom: 40px;
     right: 16px;
     background: rgba(255,255,255,.75);
     padding: 1.5rem;
     font-weight: bold;
+}
+
+.bomb-p {
+    margin: 0;
 }
 
 .confirm-marker {
@@ -66,6 +70,14 @@ Button {
         padding: .5rem;
         font-size: 80%;
         line-height: 1;
+    }
+
+    .icon-legend {
+        padding: .75rem;
+    }
+
+    .icon-legend p {
+        margin: .15rem;
     }
 
     .dropdown-menu-css {
