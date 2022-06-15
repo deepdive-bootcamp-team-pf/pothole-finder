@@ -62,11 +62,14 @@ Button {
     left: 0;
 }
 
+.sign-up-button {
+    height: 3rem;
+}
+
 
 @media (max-width: 978px) {
     .pothole-logo {
-        width: 5rem;
-        height: 5rem;
+        display: none;
     }
     .large-button {
         margin: 0;

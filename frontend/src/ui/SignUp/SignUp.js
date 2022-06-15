@@ -1,6 +1,7 @@
 import React from 'react';
 import {Button} from "react-bootstrap";
 import {SignUpModal} from "./SignUpModal";
+import '../Home/HomeNav.css'
 
 export function SignUp() {
     const [modalShow, setModalShow] = React.useState(false);

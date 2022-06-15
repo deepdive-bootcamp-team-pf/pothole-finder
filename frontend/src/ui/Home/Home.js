@@ -64,9 +64,9 @@ export function Home() {
                                 </Dropdown.Menu>
                             </Dropdown>}
                     </Col>
-<Col className={'mx-auto d-flex justify-content-center'}>
-    <img src={logo} alt="pothole logo" className={'pothole-logo'}/>
-</Col>
+                    <Col className={'mx-auto d-flex justify-content-center'}>
+                        <img src={logo} alt="pothole logo" className={'pothole-logo'}/>
+                    </Col>
                     {auth !== null &&
                         <Col>
                             <LogoutComponent/>
