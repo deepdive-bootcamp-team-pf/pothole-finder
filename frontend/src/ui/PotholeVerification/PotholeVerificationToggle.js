@@ -32,6 +32,8 @@ export function ValidatePothole({pothole}) {
             })
     }
 
+    const potholeVerificationsPerPothole = potholeVs.filter(item => pothole.potholeId === item.potholeVerificationPotholeId)
+
     return (
         <>
             <Container>
@@ -41,16 +43,16 @@ export function ValidatePothole({pothole}) {
                                 onClick={handleSubmit}>Validate Pothole</Button>
                     </Col>
                     <Col md={6}>
-                        {potholeVs.length > 0 &&
+                        {potholeVerificationsPerPothole.length > 0 &&
                             <>
                                 <Image className={'mt-3 ms-3'} src={verified} width={'60px'} height={'60px'}></Image>
-                                {potholeVs.length}
+                                {potholeVerificationsPerPothole.length}
                             </>
                         }
-                        {potholeVs.length === 0 &&
+                        {potholeVerificationsPerPothole.length === 0 &&
                             <>
                                 <Image className={'mt-3 ms-3'} src={unverified} width={'60px'} height={'60px'}></Image>
-                                {potholeVs.length}
+                                {potholeVerificationsPerPothole.length}
                             </>
                         }
                     </Col>
