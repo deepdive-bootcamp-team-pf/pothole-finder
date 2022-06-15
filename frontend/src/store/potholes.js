@@ -6,12 +6,17 @@ const potholeSlice = createSlice({
     name: 'pothole',
     initialState: [],
     reducers: {
-        setAllPotholes: (potholes,action) => action.payload
+        setAllPotholes: (pothole, action) => {
+            return action.payload
+        },
+        setPotholeByPotholeId: (pothole, action) => {
+            pothole[action.payload.id] = action.payload.data
         }
+    }
 })
 
 // Make our actions callable as function setAllMisquotes
-export const {setAllPotholes} = potholeSlice.actions
+export const {setAllPotholes, setPotholeByPotholeId} = potholeSlice.actions
 
 export default potholeSlice.reducer
 
@@ -19,4 +24,8 @@ export default potholeSlice.reducer
 export const fetchAllPotholes = () => async dispatch => {
     const {data} = await httpConfig('/apis/pothole')
     dispatch(setAllPotholes(data))
+}
+
+export const fetchPotholeByPotholeId = (id) => async (dispatch, getState) => {
+    const pothole = getState().pothole
 }

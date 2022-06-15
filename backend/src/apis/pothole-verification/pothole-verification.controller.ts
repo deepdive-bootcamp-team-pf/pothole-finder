@@ -7,6 +7,7 @@ import { removePotholeVerification } from '../../utils/potholeVerification/remov
 import { selectAllPotholeVerifications } from '../../utils/potholeVerification/selectAllPotholeVerifications'
 import { selectPotholeVerificationByPotholeVerificationId } from '../../utils/potholeVerification/selectPotholeVerificationByPotholeVerificationId'
 import { selectPotholeVerificationsByPotholeVerificationProfileId } from '../../utils/potholeVerification/selectPotholeVerificationsByPotholeVerificationProfileId'
+import { selectPotholeVerificationsByPotholeVerificationPotholeId } from '../../utils/potholeVerification/selectPotholeVerificationsByPotholeVerificationPotholeId'
 
 export async function getAllPotholeVerificationController(request: Request, response: Response): Promise<Response> {
     try {
@@ -36,9 +37,23 @@ export async function getPotholeVerificationByPotholeVerificationProfileIdContro
     }
 }
 
+export async function getPotholeVerificationByPotholeVerificationPotholeIdController(request: Request, response: Response): Promise<Response> {
+    try {
+        const { potholeVerificationPotholeId } = request.params
+        const data = await selectPotholeVerificationsByPotholeVerificationPotholeId(potholeVerificationPotholeId)
+        return response.json({status: 200, message: null, data})
+    } catch (e) {
+        return response.json({
+            status: 500,
+            message: 'Server error verifying pothole, try again later.',
+            data: null
+        })
+    }
+}
+
 export async function togglePotholeVerificationController (request: Request, response: Response): Promise<Response<string>> {
     try {
-        const { potholeVerificationPotholeId, potholeVerificationPhotoURL } = request.body
+        const { potholeVerificationPotholeId } = request.body
         // @ts-ignore
         const profile = request.session.profile as Profile
         const potholeVerificationProfileId = profile.profileId as string
@@ -47,7 +62,6 @@ export async function togglePotholeVerificationController (request: Request, res
             potholeVerificationPotholeId,
             potholeVerificationProfileId,
             potholeVerificationDate: null,
-            potholeVerificationPhotoURL
         }
 
         let result

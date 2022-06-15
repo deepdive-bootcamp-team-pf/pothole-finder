@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import 'maplibre-gl/dist/maplibre-gl.css'
 import './Map.css'
-import Map, {GeolocateControl, Marker, NavigationControl, Popup, ScaleControl, useMap} from 'react-map-gl'
+import Map, {GeolocateControl, Marker, NavigationControl, Popup, ScaleControl} from 'react-map-gl'
 import mapLibre from 'maplibre-gl'
 import {Pin} from './Pin'
 import pin from "./icons/pin.png"
@@ -13,6 +13,8 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faSquareXmark, faSquareCheck} from '@fortawesome/free-solid-svg-icons'
 import {useNavigate} from "react-router-dom";
 import {IconLegend} from "./IconLegend";
+import {ValidatePothole} from "../PotholeVerification/PotholeVerificationToggle";
+import {fetchAllPotholeVerifications} from "../../store/pothole-verifications";
 
 export function GetMarker(props) {
     const {show, setShow} = props
@@ -47,36 +49,34 @@ export function GetMarker(props) {
         <>
             {show &&
                 <>
-                <div className={'home-nav position-absolute confirm-marker'}>
-                    <p className={'mb-0'}>Confirm Marker?</p>
-                    <Row>
-                        <Col className={'d-flex justify-content-center'}>
-                            <FontAwesomeIcon className={'x-button'} icon={faSquareXmark}
-                                             onClick={() => setShow(false)}/>
-                        </Col>
-                        <Col className={'d-flex justify-content-center'}>
-                            <FontAwesomeIcon className={'check-button'} icon={faSquareCheck}
-                                             onClick={() => toPotholeSubmission()}/>
-                        </Col>
-                    </Row>
-                </div>
+                    <div className={'home-nav position-absolute confirm-marker'}>
+                        <p className={'mb-0'}>Confirm Marker?</p>
+                        <Row>
+                            <Col className={'d-flex justify-content-center'}>
+                                <FontAwesomeIcon className={'x-button'} icon={faSquareXmark}
+                                                 onClick={() => setShow(false)}/>
+                            </Col>
+                            <Col className={'d-flex justify-content-center'}>
+                                <FontAwesomeIcon className={'check-button'} icon={faSquareCheck}
+                                                 onClick={() => toPotholeSubmission()}/>
+                            </Col>
+                        </Row>
+                    </div>
 
-                <Marker
-                longitude={lng}
-                latitude={lat}
-                anchor="bottom"
-                draggable={true}
-                onDragEnd={dragEnd}
-                //     onClick={e => {
-                //         // If we let the click event propagates to the map, it will immediately close the popup
-                //         // with `closeOnClick: true`
-                //         e.originalEvent.stopPropagation();
-                //         setPopupInfo(potholeInfo);
-                //     }}
-                >
-                <img src={pin} alt={'draggable marker'} style={{width: '80px', height: '80px'}}/>
-                </Marker>
-                    </>
+                    <Marker
+                        longitude={lng}
+                        latitude={lat}
+                        anchor="bottom"
+                        draggable={true}
+                        onDragEnd={dragEnd}
+                        //     onClick={e => {
+                        //         // If we let the click event propagates to the map, it will immediately close the
+                        // popup // with `closeOnClick: true` e.originalEvent.stopPropagation();
+                        // setPopupInfo(potholeInfo); }}
+                    >
+                        <img src={pin} alt={'draggable marker'} style={{width: '80px', height: '80px'}}/>
+                    </Marker>
+                </>
             }
         </>
     )
@@ -91,6 +91,11 @@ export default function MapFunction(props) {
         dispatch(fetchAllPotholes());
     };
     useEffect(effects, [dispatch]);
+
+    const pveffects = () => {
+        dispatch(fetchAllPotholeVerifications());
+    };
+    useEffect(pveffects, [dispatch]);
 
     const options = {
         enableHighAccuracy: true,
@@ -150,6 +155,7 @@ export default function MapFunction(props) {
                             <p>{popupInfo.potholeDescription}</p>
                         </div>
                         <img width="100%" src={popupInfo.photoURL} className={'popup-image'}/>
+                        <ValidatePothole pothole={popupInfo}/>
                     </Popup>
                 )}
             </Map>
