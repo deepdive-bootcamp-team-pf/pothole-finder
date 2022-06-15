@@ -28,8 +28,4 @@ export const fetchAllPotholes = () => async dispatch => {
 
 export const fetchPotholeByPotholeId = (id) => async (dispatch, getState) => {
     const pothole = getState().pothole
-    if (pothole[id] === undefined) {
-        const {data} = await httpConfig(`apis/pothole/${id}`)
-        dispatch(setPotholeByPotholeId({id, data}))
-    }
 }

@@ -27,7 +27,7 @@ export function ValidatePothole({pothole}) {
             .then(reply => {
                 const {status} = reply
                 if (status === 200) {
-                    console.log(reply)
+                    // console.log(reply)
                 }
             })
     }

@@ -149,7 +149,6 @@ function PotholeSubmissionFormContent(props) {
         handleReset,
         setFieldValue
     } = props
-    console.log(status)
 
     const radios = [
         {name: 'Mild ', value: '1', img: facepalm},
