@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react'
-import {Button, Col, Container, Dropdown, Row} from 'react-bootstrap'
+import {Button, Col, Container, Dropdown, Row, Stack} from 'react-bootstrap'
 import './HomeNav.css'
 import {LogInForm} from './LogInForm'
 import {SignUp} from '../SignUp/SignUp'
@@ -8,7 +8,11 @@ import {fetchAuth} from '../../store/auth'
 import {useDispatch, useSelector} from "react-redux";
 import {LogoutComponent} from "../shared/components/Logout";
 import {SignUpModal} from "../SignUp/SignUpModal";
-import { useNavigate } from "react-router-dom"
+import {useNavigate} from "react-router-dom"
+import bomb from './icons/bomb.png'
+import crying from './icons/crying.png'
+import facepalm from './icons/face-palm.png'
+import {IconLegend} from "./IconLegend";
 
 export function Home() {
 
@@ -47,7 +51,8 @@ export function Home() {
 
                         {auth !== null &&
                             <Dropdown>
-                                <Dropdown.Toggle disabled={show} variant="primary" id="dropdown-basic" className={'large-button mt-3'}
+                                <Dropdown.Toggle disabled={show} variant="primary" id="dropdown-basic"
+                                                 className={'large-button mt-3'}
                                                  size={'lg'}>
                                     Add Pothole
                                 </Dropdown.Toggle>

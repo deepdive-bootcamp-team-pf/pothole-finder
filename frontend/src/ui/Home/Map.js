@@ -12,6 +12,7 @@ import {Col, Row} from "react-bootstrap";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faSquareXmark, faSquareCheck} from '@fortawesome/free-solid-svg-icons'
 import {useNavigate} from "react-router-dom";
+import {IconLegend} from "./IconLegend";
 
 export function GetMarker(props) {
     const {show, setShow} = props
@@ -133,6 +134,7 @@ export default function MapFunction(props) {
                 <GeolocateControl position="bottom-left"/>
                 <NavigationControl position="bottom-left"/>
                 <ScaleControl/>
+                <IconLegend/>
 
                 {popupInfo !== null && (
                     <Popup
