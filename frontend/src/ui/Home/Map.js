@@ -8,11 +8,12 @@ import pin from "./icons/pin.png"
 import {useDispatch, useSelector} from "react-redux";
 import {setLocation} from '../../store/location'
 import {fetchAllPotholes} from "../../store/potholes";
-import {Button, Col, Row} from "react-bootstrap";
+import {Col, Row} from "react-bootstrap";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faSquareXmark, faSquareCheck} from '@fortawesome/free-solid-svg-icons'
 import {useNavigate} from "react-router-dom";
 import {ValidatePothole} from "../PotholeVerification/PotholeVerificationToggle";
+import {fetchAllPotholeVerifications} from "../../store/pothole-verifications";
 
 export function GetMarker(props) {
     const {show, setShow} = props
@@ -90,6 +91,12 @@ export default function MapFunction(props) {
     };
     useEffect(effects, [dispatch]);
 
+    const potholeVerifications = useSelector(state => state.potholeVerifications ? state.potholeVerifications : []);
+    const pveffects = () => {
+        dispatch(fetchAllPotholeVerifications());
+    };
+    useEffect(pveffects, [dispatch]);
+
     const options = {
         enableHighAccuracy: true,
         timeout: 5000,
@@ -144,7 +151,7 @@ export default function MapFunction(props) {
                     >
                         {popupInfo.potholeDescription}
                         {/*<img width="100%" src={popupInfo.photo}/>*/}
-                        <ValidatePothole/>
+                        <ValidatePothole pothole={popupInfo}/>
                     </Popup>
                 )}
             </Map>

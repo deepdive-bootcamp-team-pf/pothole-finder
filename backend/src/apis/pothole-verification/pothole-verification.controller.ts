@@ -7,6 +7,7 @@ import { removePotholeVerification } from '../../utils/potholeVerification/remov
 import { selectAllPotholeVerifications } from '../../utils/potholeVerification/selectAllPotholeVerifications'
 import { selectPotholeVerificationByPotholeVerificationId } from '../../utils/potholeVerification/selectPotholeVerificationByPotholeVerificationId'
 import { selectPotholeVerificationsByPotholeVerificationProfileId } from '../../utils/potholeVerification/selectPotholeVerificationsByPotholeVerificationProfileId'
+import { selectPotholeVerificationsByPotholeVerificationPotholeId } from '../../utils/potholeVerification/selectPotholeVerificationsByPotholeVerificationPotholeId'
 
 export async function getAllPotholeVerificationController(request: Request, response: Response): Promise<Response> {
     try {
@@ -26,6 +27,20 @@ export async function getPotholeVerificationByPotholeVerificationProfileIdContro
     try {
         const { potholeVerificationProfileId } = request.params
         const data = await selectPotholeVerificationsByPotholeVerificationProfileId(potholeVerificationProfileId)
+        return response.json({status: 200, message: null, data})
+    } catch (e) {
+        return response.json({
+            status: 500,
+            message: 'Server error verifying pothole, try again later.',
+            data: null
+        })
+    }
+}
+
+export async function getPotholeVerificationByPotholeVerificationPotholeIdController(request: Request, response: Response): Promise<Response> {
+    try {
+        const { potholeVerificationPotholeId } = request.params
+        const data = await selectPotholeVerificationsByPotholeVerificationPotholeId(potholeVerificationPotholeId)
         return response.json({status: 200, message: null, data})
     } catch (e) {
         return response.json({

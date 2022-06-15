@@ -1,12 +1,13 @@
 import React, {useEffect, useState} from 'react'
 import {useDispatch, useSelector} from 'react-redux'
-import jwtDecode from 'jwt-decode'
-import {fetchAuth, getAuth} from '../../store/auth'
-import {httpConfig} from "../utils/httpConfig";
-import {Button} from "react-bootstrap";
-import {Formik} from "formik";
+import {fetchAuth} from '../../store/auth'
+import {httpConfig} from '../utils/httpConfig'
+import {Button, Col, Container, Image, Row} from 'react-bootstrap'
+import unverified from './icons/unverified-icon.png'
+import verified from './icons/verified-icon.png'
+import {fetchPotholeVerificationsByPotholeId} from "../../store/pothole-verifications";
 
-export function ValidatePothole() {
+export function ValidatePothole({pothole}) {
 
     const auth = useSelector(state => state.auth);
     const dispatch = useDispatch()
@@ -15,32 +16,46 @@ export function ValidatePothole() {
     };
     useEffect(effects, [dispatch]);
 
-    const handleSubmit = (values, {resetForm, setStatus}) => {
-        httpConfig.post('/apis/pothole-verification', values).then(reply => {
-            const {message, type, status} = reply
-            if (status === 200 && reply.headers["authorization"]) {
-                window.localStorage.removeItem("authorization");
-                window.localStorage.setItem("authorization", reply.headers["authorization"]);
-                resetForm();
-                let jwtToken = jwtDecode(reply.headers["authorization"])
-                dispatch(getAuth(jwtToken))
-                {
-                    resetForm()
-                }
-            }
-            setStatus({message, type})
-        })
-    }
+    useEffect(() => {
+        dispatch(fetchPotholeVerificationsByPotholeId())
+    }, [])
 
-    const potholeVerification = {}
+    const potholeVs = useSelector(state => (state.potholeVerifications ? state.potholeVerifications : []))
+
+    const handleSubmit = () => {
+        httpConfig.post('/apis/pothole-verification', {potholeVerificationPotholeId: pothole.potholeId})
+            .then(reply => {
+                const {status} = reply
+                if (status === 200) {
+                    console.log(reply)
+                }
+            })
+    }
 
     return (
         <>
-            <Formik
-                onSubmit={handleSubmit}
-                initialValues={potholeVerification}>
-                <Button className={'d-flex mt-2 text-center justify-content-center'} size={"sm"} variant={'success'} onClick={() => handleSubmit}>Validate Pothole</Button>
-            </Formik>
+            <Container>
+                <Row>
+                    <Col md={6}>
+                        <Button className={'mt-3 text-center'} size={"sm"} variant={'success'}
+                                onClick={handleSubmit}>Validate Pothole</Button>
+                    </Col>
+                    <Col md={6}>
+                        {potholeVs.length > 0 &&
+                            <>
+                                <Image className={'mt-3 ms-3'} src={verified} width={'60px'} height={'60px'}></Image>
+                                {potholeVs.length}
+                            </>
+                        }
+                        {potholeVs.length === 0 &&
+                            <>
+                                <Image className={'mt-3 ms-3'} src={unverified} width={'60px'} height={'60px'}></Image>
+                                {potholeVs.length}
+                            </>
+                        }
+                    </Col>
+                </Row>
+            </Container>
         </>
     )
 }

@@ -1,8 +1,11 @@
 import { Router } from 'express'
 import { check, checkSchema } from 'express-validator'
-import { togglePotholeVerificationController,
+import {
+        togglePotholeVerificationController,
         getAllPotholeVerificationController,
-        getPotholeVerificationByPotholeVerificationProfileIdController } from './pothole-verification.controller'
+        getPotholeVerificationByPotholeVerificationProfileIdController,
+        getPotholeVerificationByPotholeVerificationPotholeIdController
+} from './pothole-verification.controller'
 import { asyncValidatorController } from '../../utils/controllers/asyncValidator.controller'
 import { isLoggedIn } from '../../utils/controllers/isLoggedIn.controller'
 import { potholeVerificationValidator } from "./pothole-verification.validator"
@@ -13,5 +16,8 @@ potholeVerificationRoute.route('/')
     .get(getAllPotholeVerificationController)
     .post(isLoggedIn, asyncValidatorController(checkSchema(potholeVerificationValidator)), togglePotholeVerificationController)
 
-potholeVerificationRoute.route('/:potholeVerificationProfileId')
-    .get(asyncValidatorController([check('potholeVerificationProfileId', 'Enter a valid profile ID for the pothole verification.').isUUID()]), getPotholeVerificationByPotholeVerificationProfileIdController)
+potholeVerificationRoute.route('/PVProf/:potholeVerificationProfileId')
+    .get(asyncValidatorController([check('potholeVerificationProfileId', 'Enter a valid profile ID for the pothole verifications.').isUUID()]), getPotholeVerificationByPotholeVerificationProfileIdController)
+
+potholeVerificationRoute.route('/PVPot/:potholeVerificationPotholeId')
+    .get(asyncValidatorController([check('potholeVerificationPotholeId', 'Enter a valid pothole ID for the pothole verifications.').isUUID()]), getPotholeVerificationByPotholeVerificationPotholeIdController)
