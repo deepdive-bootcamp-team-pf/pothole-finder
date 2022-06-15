@@ -20,6 +20,11 @@
     text-align: center;
 }
 
+.restrain-image {
+    max-height: 600px;
+    max-width: 750px;
+}
+
 .face-palm {
     background-image: url(../Home/icons/face-palm.png);
 }

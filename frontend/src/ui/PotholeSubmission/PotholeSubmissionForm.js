@@ -225,7 +225,7 @@ function PotholeSubmissionFormContent(props) {
                     />
                 }
                 <div className='mx-auto d-flex justify-content-center'>
-                    {selectedImage !== null ? <img src={selectedImage}/> : ""}
+                    {selectedImage !== null ? <img className={'restrain-image'} src={selectedImage}/> : ""}
                 </div>
 
                 <Form.Group className="mb-3" controlId="photoName">
