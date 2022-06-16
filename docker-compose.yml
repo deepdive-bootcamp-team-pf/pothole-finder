@@ -25,5 +25,15 @@ services:
       - compose-lesson:/var/lib/mysql
     ports:
       - 33006:3306
+  app:
+    build: ../pothole-finder/frontend
+    depends_on:
+      - node
+    #    For deploying to server use ports: - 80:80
+    ports:
+      - 80:80
+    volumes:
+      - ./frontend/nginx.conf:/etc/nginx/conf.d/default.conf
+      - ./frontend/public:/usr/share/nginx/html
 volumes:
   compose-lesson:
