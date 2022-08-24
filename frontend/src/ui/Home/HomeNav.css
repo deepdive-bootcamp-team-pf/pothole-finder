@@ -1,144 +1,143 @@
 .home-nav {
-    z-index: 999;
+  z-index: 999;
 }
 
 .pothole-logo {
-    width: 8rem;
-    height: 8rem;
+  width: 8rem;
+  height: 8rem;
 }
 
 .icon-legend {
-    position: absolute;
-    bottom: 40px;
-    right: 16px;
-    background: rgba(255,255,255,.75);
-    padding: 1.5rem;
-    font-weight: bold;
+  position: absolute;
+  bottom: 40px;
+  right: 16px;
+  background: rgba(255, 255, 255, 0.75);
+  padding: 1.5rem;
+  font-weight: bold;
 }
 
 .bomb-p {
-    margin: 0;
+  margin: 0;
 }
 
 .confirm-marker {
-    margin-top: 6rem;
-    margin-left: .8rem;
-    padding: .5rem;
-    border: solid black 1px;
-    background-color: white;
-    border-radius: 10%;
-    font-size: 150%;
+  margin-top: 6rem;
+  margin-left: 0.8rem;
+  padding: 0.5rem;
+  border: solid black 1px;
+  background-color: white;
+  border-radius: 10%;
+  font-size: 150%;
 }
 
 .x-button {
-    font-size: 50px;
-    color: red;
+  font-size: 50px;
+  color: red;
 }
 
 .x-button:hover,
 .x-button:focus {
-    cursor: pointer;
-    color: darkred;
+  cursor: pointer;
+  color: darkred;
 }
 
 .check-button {
-    font-size: 50px;
-    color: green;
+  font-size: 50px;
+  color: green;
 }
 
 .check-button:hover,
 .check-button:focus {
-    cursor: pointer;
-    color: darkgreen;
+  cursor: pointer;
+  color: darkgreen;
 }
 
 Button {
-    box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
 }
 
 .dropdown-menu-css {
-    width: 14rem;
-    right: auto;
-    left: 0;
+  width: 14rem;
+  right: auto;
+  left: 0;
 }
 
 .sign-up-button {
-    height: 3rem;
+  height: 3rem;
 }
 
-
 @media (max-width: 978px) {
-    .pothole-logo {
-        display: none;
-    }
-    .large-button {
-        margin: 0;
-        padding: .75rem;
-        font-size: 80%;
-        line-height: .5;
-    }
+  .pothole-logo {
+    display: none;
+  }
+  .large-button {
+    margin: 0;
+    padding: 0.75rem;
+    font-size: 80%;
+    line-height: 0.5;
+  }
 
-    .sign-up-button {
-        padding: .5rem;
-        font-size: 80%;
-        line-height: 1;
-    }
+  .sign-up-button {
+    padding: 0.5rem;
+    font-size: 80%;
+    line-height: 1;
+  }
 
-    .icon-legend {
-        padding: .75rem;
-    }
+  .icon-legend {
+    padding: 0.75rem;
+  }
 
-    .icon-legend p {
-        margin: .15rem;
-    }
+  .icon-legend p {
+    margin: 0.15rem;
+  }
 
-    .dropdown-menu-css {
-        padding: .75rem;
-        font-size: 80%;
-        width: 8rem;
-    }
+  .dropdown-menu-css {
+    padding: 0.75rem;
+    font-size: 80%;
+    width: 8rem;
+  }
 
-    .login-form-container {
-        padding: 0;
-    }
+  .login-form-container {
+    padding: 0;
+  }
 
-    .login-form input {
-        font-size: 100%;
-    }
+  .login-form input {
+    font-size: 100%;
+  }
 
-    .log-in-btn {
-        font-size: 110%;
-    }
+  .log-in-btn {
+    font-size: 110%;
+  }
 
-    .confirm-marker {
-        margin-top: 4.5rem;
-        margin-left: .8rem;
-        padding: .5rem;
-        border: solid black 1px;
-        background-color: white;
-        border-radius: 10%;
-        font-size: 100%;
-    }
+  .confirm-marker {
+    margin-top: 4.5rem;
+    margin-left: 0.8rem;
+    padding: 0.5rem;
+    border: solid black 1px;
+    background-color: white;
+    border-radius: 10%;
+    font-size: 100%;
+  }
 
-    .x-button {
-        font-size: 25px;
-        color: red;
-    }
+  .x-button {
+    font-size: 25px;
+    color: red;
+  }
 
-    .x-button:hover,
-    .x-button:focus {
-        cursor: pointer;
-        color: #BB2D3B;
-    }
+  .x-button:hover,
+  .x-button:focus {
+    cursor: pointer;
+    color: #bb2d3b;
+  }
 
-    .check-button {
-        font-size: 25px;
-        color: green;
-    }
+  .check-button {
+    font-size: 25px;
+    color: green;
+  }
 
-    .check-button:hover,
-    .check-button:focus {
-        cursor: pointer;
-        color: #006400;
-    }
+  .check-button:hover,
+  .check-button:focus {
+    cursor: pointer;
+    color: #006400;
+  }
 }
