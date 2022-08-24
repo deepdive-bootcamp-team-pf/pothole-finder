@@ -1,22 +1,21 @@
-import 'express-session'
-import { App } from './App'
-import { Profile } from './utils/interfaces/Profile'
+import "express-session";
+import { App } from "./App";
+import { Profile } from "./utils/interfaces/Profile";
 
-declare module 'express-session' {
+declare module "express-session" {
   export interface SessionData {
-    profile: Profile|undefined
-    signature: string|undefined
-    jwt: string|undefined
+    profile: Profile | undefined;
+    signature: string | undefined;
+    jwt: string | undefined;
   }
 }
-// instantiate new app and pass it a port as an argument to start with (4200)
-async function main () {
+async function main() {
   try {
-    const app = new App(4200)
-    await app.listen()
+    const app = new App(4200);
+    await app.listen();
   } catch (e) {
-    console.log(e)
+    console.log(e);
   }
 }
 
-main()
+main();
