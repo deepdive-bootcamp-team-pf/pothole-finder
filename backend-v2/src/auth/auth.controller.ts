@@ -6,18 +6,18 @@ import { CreateAuthDto } from './dto/create-auth.dto';
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  @Post('/signup')
-  create(@Body() createAuthDto: CreateAuthDto) {
-    return this.authService.create(createAuthDto);
-  }
+  // @Post('/signup')
+  // create(@Body() createAuthDto: CreateAuthDto) {
+  //   return this.authService.create(createAuthDto);
+  // }
 
-  @Post('/signin')
-  create(@Body() createAuthDto: CreateAuthDto) {
-    return this.authService.create(createAuthDto);
-  }
+  // @Post('/signin')
+  // create(@Body() createAuthDto: CreateAuthDto) {
+  //   return this.authService.create(createAuthDto);
+  // }
 
-  @Post('/signout')
-  create(@Body() createAuthDto: CreateAuthDto) {
-    return this.authService.create(createAuthDto);
-  }
+  // @Post('/signout')
+  // create(@Body() createAuthDto: CreateAuthDto) {
+  //   return this.authService.create(createAuthDto);
+  // }
 }
