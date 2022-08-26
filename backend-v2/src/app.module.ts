@@ -29,7 +29,5 @@ import { VerificationModule } from './verification/verification.module';
     }),
     TypeOrmExModule.forCustomRepository([PotholeRepository]),
   ],
-  controllers: [],
-  providers: [],
 })
 export class AppModule {}
