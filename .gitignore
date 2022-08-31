@@ -4,6 +4,7 @@
 .idea
 **/.DS_Store
 **/setupProxy.js
+/.vscode
 
 /project.env
 */.pnp
