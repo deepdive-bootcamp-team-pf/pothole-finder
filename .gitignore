@@ -1,7 +1,8 @@
-**/dist
-**/node_modules
+*/src/dist
+*/node_modules
 .idea
 **/.DS_Store
+**/setupProxy.js
 
 /project.env
 */.pnp
@@ -12,7 +13,6 @@
 
 # production
 */build
-**/.vscode
 
 # misc
 */.DS_Store
