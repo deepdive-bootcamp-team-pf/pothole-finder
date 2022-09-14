@@ -12,7 +12,7 @@ export class PotholeRepository extends Repository<Pothole> {
     const query = this.createQueryBuilder('pothole');
 
     if (severity) {
-      query.andWhere('pothole.severity = :severity');
+      query.andWhere('LOWER(pothole.severity) = LOWER(:severity)', {severity: severity});
     }
 
     const potholes = await query.getMany();

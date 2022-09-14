@@ -1,6 +1,6 @@
 import { IsEnum, IsOptional } from "class-validator";
-import { PotholeSeverity } from "../pothole-status.enum";
+import { PotholeSeverity } from "../pothole-severity.enum";
 
 export class GetPotholeFilterDto {
-  @IsOptional() @IsEnum(PotholeSeverity) severity: PotholeSeverity;
+  @IsOptional() severity: PotholeSeverity;
 }
