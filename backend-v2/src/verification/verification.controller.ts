@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Post, Param, Delete } from '@nestjs/common';
 import { VerificationService } from './verification.service';
 
 @Controller('verification')

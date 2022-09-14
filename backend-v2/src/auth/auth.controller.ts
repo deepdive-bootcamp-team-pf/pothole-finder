@@ -1,23 +1,22 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Post, Body } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { CreateAuthDto } from './dto/create-auth.dto';
+import { CreateUserDto } from 'src/user/dto/create-user.dto';
+import { AuthCredentialsDto } from './dto/auth-credentials.dto';
+import { User } from 'src/user/user.entity';
 
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(private authService: AuthService) {}
 
-  // @Post('/signup')
-  // create(@Body() createAuthDto: CreateAuthDto) {
-  //   return this.authService.create(createAuthDto);
-  // }
+  @Post('/signup')
+  async singup(@Body() createUserDto: CreateUserDto): Promise<User> {
+    return this.authService.signup(createUserDto);
+  }
 
-  // @Post('/signin')
-  // create(@Body() createAuthDto: CreateAuthDto) {
-  //   return this.authService.create(createAuthDto);
-  // }
-
-  // @Post('/signout')
-  // create(@Body() createAuthDto: CreateAuthDto) {
-  //   return this.authService.create(createAuthDto);
-  // }
+  @Post('/signin')
+  create(
+    @Body() authCredentialsDto: AuthCredentialsDto,
+  ): Promise<{ accessToken: string }> {
+    return this.authService.signin(authCredentialsDto);
+  }
 }

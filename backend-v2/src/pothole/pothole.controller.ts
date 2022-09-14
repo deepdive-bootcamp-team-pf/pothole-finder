@@ -25,7 +25,7 @@ export class PotholeController {
   }
 
   @Patch('/:id')
-  update(@Param('id') id: string, @Body() updatePotholeDto: UpdatePotholeDto) {
+  update(@Param('id') id: string, @Body() updatePotholeDto: UpdatePotholeDto): Promise<Pothole> {
     return this.potholeService.updatePothole(id, updatePotholeDto);
   }
 

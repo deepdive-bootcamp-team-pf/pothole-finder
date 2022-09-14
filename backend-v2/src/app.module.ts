@@ -5,6 +5,7 @@ import { AuthModule } from './auth/auth.module';
 import { TypeOrmExModule } from './database/typeorm-ex.module';
 import { PotholeModule } from './pothole/pothole.module';
 import { PotholeRepository } from './pothole/pothole.repository';
+import { UserRepository } from './user/user.repository';
 import { VerificationModule } from './verification/verification.module';
 
 @Module({
@@ -12,22 +13,25 @@ import { VerificationModule } from './verification/verification.module';
     AuthModule,
     PotholeModule,
     VerificationModule,
-    ConfigModule.forRoot({ isGlobal: true }),
+    ConfigModule.forRoot({
+      isGlobal: true,
+      cache: true,
+    }),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => ({
         type: 'mysql',
-        host: configService.get('MYSQL_HOST'),
-        port: configService.get('MYSQL_PORT'),
-        username: configService.get('MYSQL_USER'),
-        password: configService.get('MYSQL_PASSWORD'),
-        database: configService.get('MYSQL_DATABASE'),
+        host: configService.get('DB_HOST'),
+        port: configService.get('DB_PORT'),
+        username: configService.get('DB_USER'),
+        password: configService.get('DB_PASSWORD'),
+        database: configService.get('DB_NAME'),
         entities: [__dirname + '/**/*.entity{.ts,.js}'],
         synchronize: true,
       }),
     }),
-    TypeOrmExModule.forCustomRepository([PotholeRepository]),
+    TypeOrmExModule.forCustomRepository([PotholeRepository, UserRepository]),
   ],
 })
 export class AppModule {}
