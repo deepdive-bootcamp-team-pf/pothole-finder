@@ -15,6 +15,7 @@ import { VerificationModule } from './verification/verification.module';
     VerificationModule,
     ConfigModule.forRoot({
       isGlobal: true,
+      envFilePath: ['../dev.env'],
       cache: true,
     }),
     TypeOrmModule.forRootAsync({
