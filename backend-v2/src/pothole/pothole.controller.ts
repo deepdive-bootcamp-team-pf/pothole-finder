@@ -25,12 +25,12 @@ export class PotholeController {
   }
 
   @Patch('/:id')
-  update(@Param('id') id: string, @Body() updatePotholeDto: UpdatePotholeDto): Promise<Pothole> {
+  updatePothole(@Param('id') id: string, @Body() updatePotholeDto: UpdatePotholeDto): Promise<Pothole> {
     return this.potholeService.updatePothole(id, updatePotholeDto);
   }
 
   @Delete('/:id')
-  remove(@Param('id') id: string) {
+  deletePothole(@Param('id') id: string) {
     return this.potholeService.deletePothole(id);
   }
 }

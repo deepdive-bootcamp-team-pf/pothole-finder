@@ -5,6 +5,7 @@ import { AuthModule } from './auth/auth.module';
 import { TypeOrmExModule } from './database/typeorm-ex.module';
 import { PotholeModule } from './pothole/pothole.module';
 import { PotholeRepository } from './pothole/pothole.repository';
+import { UserModule } from './user/user.module';
 import { UserRepository } from './user/user.repository';
 import { VerificationModule } from './verification/verification.module';
 
@@ -12,6 +13,7 @@ import { VerificationModule } from './verification/verification.module';
   imports: [
     AuthModule,
     PotholeModule,
+    UserModule,
     VerificationModule,
     ConfigModule.forRoot({
       isGlobal: true,

@@ -1,7 +1,4 @@
-import {
-  HttpException,
-  HttpStatus,
-} from '@nestjs/common';
+import { HttpException, HttpStatus } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { CustomRepository } from 'src/database/typeorm-ex.decorator';
@@ -10,6 +7,20 @@ import { User } from './user.entity';
 
 @CustomRepository(User)
 export class UserRepository extends Repository<User> {
+  async getUsers(): Promise<User[]> {
+    const query = this.createQueryBuilder('user');
+    const users = await query.getMany();
+    const pubUserList = [];
+    users.forEach((user) => {
+      pubUserList.push({
+        id: user.id,
+        email: user.email,
+        username: user.username,
+      });
+    });
+    return pubUserList;
+  }
+
   async createUser(createUserDto: CreateUserDto): Promise<User> {
     const { username, password, email } = createUserDto;
 
@@ -33,8 +44,8 @@ export class UserRepository extends Repository<User> {
   async checkUserExistence(createUserDto: CreateUserDto): Promise<User> {
     const { email, username } = createUserDto;
 
-    const existingEmail = await this.findOne({where:{email}})
-    const existingUsername = await this.findOne({where:{username}})
+    const existingEmail = await this.findOne({ where: { email } });
+    const existingUsername = await this.findOne({ where: { username } });
 
     let property;
 
@@ -44,9 +55,7 @@ export class UserRepository extends Repository<User> {
         'User with the same ' + property + ' already exists.',
         HttpStatus.CONFLICT,
       );
-    }
-
-    else if (existingUsername != null) {
+    } else if (existingUsername != null) {
       property = 'username';
       throw new HttpException(
         'User with the same ' + property + ' already exists.',
