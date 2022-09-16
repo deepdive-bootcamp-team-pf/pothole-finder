@@ -15,7 +15,7 @@ import { TypeOrmExModule } from 'src/database/typeorm-ex.module';
     JwtModule.registerAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
-      useFactory: async (configService: ConfigService) => ({
+      useFactory: (configService: ConfigService) => ({
         secret: configService.get('JWT_SECRET_KEY'),
         signOptions: { expiresIn: configService.get('JWT_EXPIRATION') },
       }),

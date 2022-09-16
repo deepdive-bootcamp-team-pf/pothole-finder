@@ -10,7 +10,7 @@ import { JwtPayload } from './jwt-payload.interface';
 export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor(
     private usersRepository: UserRepository,
-    private configService: ConfigService,
+    configService: ConfigService,
   ) {
     super({
       secretOrKey: configService.get('JWT_SECRET_KEY'),
@@ -19,6 +19,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   }
 
   async validate(payload: JwtPayload): Promise<User>{
+    console.log('this is a test')
     const { username } = payload;
     const user = await this.usersRepository.findOne({
       where: {
