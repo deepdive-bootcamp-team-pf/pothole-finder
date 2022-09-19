@@ -6,7 +6,11 @@ import { Verification } from './verification.entity';
 
 @CustomRepository(Verification)
 export class VerificationsRepository extends Repository<Verification> {
-  async createverification(): Promise<Verification> {
+  async getVerifications(): Promise<Verification[]> {
+    const
+  }
+
+  async verify(): Promise<Verification> {
     const verification = this.create({
       id: UUID(),
       status: VerificationStatus.VERIFIED,

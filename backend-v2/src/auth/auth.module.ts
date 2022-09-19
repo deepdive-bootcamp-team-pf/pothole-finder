@@ -7,6 +7,7 @@ import { PassportModule } from '@nestjs/passport';
 import { UserRepository } from 'src/user/user.repository';
 import { JwtStrategy } from './jwt.strategy';
 import { TypeOrmExModule } from 'src/database/typeorm-ex.module';
+import { UserModule } from 'src/user/user.module';
 
 @Module({
   imports: [
@@ -16,12 +17,12 @@ import { TypeOrmExModule } from 'src/database/typeorm-ex.module';
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => ({
-        secret: configService.get('JWT_SECRET_KEY'),
+        secret: configService.get('JWT_SECRET'),
         signOptions: { expiresIn: configService.get('JWT_EXPIRATION') },
       }),
     }),
   ],
-  exports: [JwtStrategy, PassportModule],
+  exports: [AuthService, JwtStrategy, PassportModule],
   controllers: [AuthController],
   providers: [AuthService, JwtStrategy],
 })
